@@ -4,6 +4,7 @@ package com.ukha.attend.login.controller;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,9 @@ public class LoginUserController {
 	// 로그인 체크
 	@RequestMapping(value = "/login/userLogin.do", method = {RequestMethod.POST})
 	@ResponseBody
-	public String userLogin(HttpServletRequest request){ 
+	public String userLogin(HttpServletRequest request, HttpServletResponse response){ 
 		
-		String result = loginService.loginCheck(request);
+		String result = loginService.loginCheck(request, response);
 				
 		return result;
 	}

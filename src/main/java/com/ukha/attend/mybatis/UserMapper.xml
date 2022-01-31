@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userDao">
+
+	<!-- 로그인체크 -->
+	<select id="loginSelect" resultType="userDto" parameterType="String" >
+		SELECT 
+			pw,
+			pwd_fail_num
+		FROM 
+			GOD_PEOPLE_INFO
+		WHERE
+			id = #{inputId}
+	</select>
+	
+	<!-- 비밀번호 오류횟수 증가 -->
+	<update id="incrementPwdFailNum" parameterType="String">
+		UPDATE
+			GOD_PEOPLE_INFO
+		SET 
+			PWD_FAIL_NUM = PWD_FAIL_NUM + 1
+		WHERE
+			ID = #{inputId}
+	</update>
+</mapper>

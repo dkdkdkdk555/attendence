@@ -3,7 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<typeAliases>
+		<typeAlias type="com.ukha.attend.login.dto.GPIDto" alias="userDto"/>
+	</typeAliases>
 	<mappers>
 		<mapper resource="com/ukha/attend/mybatis/TestMapper.xml"/>
+		<mapper resource="com/ukha/attend/mybatis/UserMapper.xml"/>
 	</mappers>
 </configuration>

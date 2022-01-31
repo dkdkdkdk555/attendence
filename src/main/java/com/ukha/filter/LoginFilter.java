@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/private/*") // Web.xml 에 정의해둔 filter를 어노테이션으로 매핑
+@WebFilter("/user/*") // Web.xml 에 정의해둔 filter를 어노테이션으로 매핑
 public class LoginFilter implements Filter {
 
 	private String path;// init파람	

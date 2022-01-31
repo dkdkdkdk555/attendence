@@ -1,0 +1,31 @@
+@charset "UTF-8";
+.back-drop{
+	display: none; /*일단 숨겨 놓는다.*/
+	
+	/*화면 전체를 투명도가 있는 회색으로 덮기*/
+	text-align: center;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background-color:#cecece;
+	z-index:10000; /*back-drop이 차지하는 영역(이정도면 전체 덮어버려서 ui 안눌림)*/
+	opacity:0.5; /*투명도*/
+}
+
+.back-drop img{
+	width: 50px;
+	/*rotateAnimation이라는 키프레임을 2초동안 일정한 비율로 무한 반복하기*/
+	transition: rotateAnimation 2s ease-out infinite;
+
+	
+}
+
+ @keyframes rotateAnimation{
+ 	0%{
+ 		transform: rotate(0deg);
+ 	}
+ 	100%{
+ 		transform: rotate(360deg);
+ 	}
+ }

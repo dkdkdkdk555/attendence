@@ -1,6 +1,7 @@
 package com.ukha.attend.login.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,6 @@ public class LoginUserServiceImpl implements LoginUserService{
 		
 		String inputId = request.getParameter("loginId");
 		String inputPw = request.getParameter("loginPassword");
-//		String autoLoginCheck = request.getParameter("autoLoginCheck");
 						
 		GPIDto userDto = new GPIDto();
 		
@@ -50,16 +50,6 @@ public class LoginUserServiceImpl implements LoginUserService{
 			        // "USER"로 sessionVO를 세션에 바인딩한다.
 			        httpSession.setAttribute("id", inputId); // *만약 다른정보가 필요하면 HashMap으로 넣자*
 			        
-//			        if("true".equals(autoLoginCheck)){ // 자동로그인 설정 되어있으면 쿠키에 반영구 저장_따로 로그아웃을 하지않는이상 보존
-//			        	
-//			        	Cookie cook = new Cookie("savedId", inputId);
-//			        	
-//			        	cook.setMaxAge(60);
-//			        	
-//			        	response.addCookie(cook);
-//			        	
-//			        }
-			        
 					return "SUCCESS";
 					
 				} else { // 불일치시 
@@ -75,6 +65,23 @@ public class LoginUserServiceImpl implements LoginUserService{
 			e.printStackTrace();
 			return "ERROR";
 		}
+	}
+
+	@Override
+	public List<GPIDto> searchUser(GPIDto dto) {
+		
+		List<GPIDto> result = userDao.selectUser(dto);
+		
+		
+		return result;
+	}
+
+	@Override
+	public String testChurchCode(String code) {
+		
+		String result = userDao.testChurchCode(code);
+		
+		return result;
 	}
 
 }

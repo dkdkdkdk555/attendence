@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.ukha.attend.login.dto.GPIDto" alias="userDto"/>
+		<typeAlias type="com.ukha.attend.login.dto.GPIDto" alias="GPIDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/ukha/attend/mybatis/TestMapper.xml"/>

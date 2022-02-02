@@ -1,5 +1,7 @@
 package com.ukha.attend.login.dao;
 
+import java.util.List;
+
 import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
@@ -35,6 +37,20 @@ public class UserDaoImpl implements UserDao{
 		int n = session.update("userDao.incrementPwdFailNum", inputId);
 
 		return n;
+	}
+
+	@Override
+	public String testChurchCode(String code) {
+		String result = session.selectOne("userDao.testChurchCode", code);
+		return result;
+	}
+
+	@Override
+	public List<GPIDto> selectUser(GPIDto dto) {
+		
+		List<GPIDto> result = session.selectList("userDao.selectUser", dto);
+		
+		return result;
 	}
 
 }

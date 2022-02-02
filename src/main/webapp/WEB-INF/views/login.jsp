@@ -55,70 +55,6 @@
 		margin:0px;
 	}
 	
-	/*
-		모달창
-	*/
-	.background {
-	  position: fixed;
-	  top: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 100vh;
-	  background-color: rgba(0, 0, 0, 0.3);
-	  /*z-index: 1000;*/
-	  
-	  /* 숨기기 */
-  	  z-index: -1;
-  	  opacity: 0;
-	}
-	
-	.window {
-	  position: relative;
-	  width: 100%;
-	  height: 100%;
-	}
-	
-	.popup {
-	  position: absolute;
-	  top: 50%;
-	  left: 50%;
-	  transform: translate(-50%, -40%);
-	  background-color: #ffffff;
-	  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-	  border-radius: 25px;
-	  
-	  /* 임시 지정 */
-	  width: 300px;
-	  height: 200px;
-	}
-	
-	.show .popup {
-	  transform: translate(-50%, -50%);
-	  transition: all .5s;
-	}
-	
-	.show {
-	  opacity: 1;
-	  z-index: 1000;
-	  transition: all .5s;
-	}
-	
-	.content{
-		display:flex;
-		flex-direction:column;
-		margin:50px 40px;
-		height: 70%;
-		align-items: center;
-	}
-	
-	#confirmBtn{
-		position: absolute;
-		top: 70%;
-		background-color:#ffffff;
-		border-color:#ffffff;
-		color: #0f87ff;
-	}
-
 </style>
 </head>
 <body>
@@ -140,20 +76,10 @@
 		  <button type="button" id="submitBtn" class="btn btn-primary">로그인</button>
 		</form>
 	</div>
-	<div class="container" style="margin-top:15px;">
+	<div class="container" id="signUp" style="margin-top:15px;">
 		<h4>회원가입</h4>
 	</div>
-	
-	<div class="background">
-	  <div class="window">
-	    <div class="popup">
-	    	<div class="content">
-	    		<p id="alertMsg" style="margin:0px;"></p>
-	    		<button type="button" id="confirmBtn" class="btn btn-primary">확인</button>
-	    	</div>
-	    </div>
-	  </div>
-	</div>
+	<jsp:include page="include/info_modal.jsp"></jsp:include>
 </body>
 <script>
 	
@@ -198,6 +124,7 @@
 						show("아이디와 비밀번호가 불일치합니다.");
 						break;
 					case "OVERPWDFAIL" :
+						// 알림창
 						show("비밀번호 오류 횟수 초과로 계정이 잠겼습니다. 관리자한테 문의하세요.");
 						break;
 					case "ERROR" :
@@ -245,20 +172,10 @@
 	    return result; //키값과 일치하는 쿠키가 없다면 null을 리턴
 	}
 	
-	// 모달열기
-	function show(msg) {
-	  $('.background').attr('class', 'background show');
-	  $('#alertMsg').text(msg);
-	}
-	
-	$('#confirmBtn').on('click',function(){
-		close();
+	// 회원가입 페이지로 이동
+	$('#signUp').on('click', function(){
+		location.href = "${pageContext.request.contextPath }/signup.do";
 	});
-	
-	// 모달닫기
-	function close() {
-	  $('.background').attr('class', 'background');
-	}
 	
 </script>
 </html>

@@ -3,7 +3,7 @@
 <mapper namespace="userDao">
 
 	<!-- 로그인체크 -->
-	<select id="loginSelect" resultType="userDto" parameterType="String" >
+	<select id="loginSelect" resultType="GPIDto" parameterType="String" >
 		SELECT 
 			pw,
 			pwd_fail_num
@@ -22,4 +22,34 @@
 		WHERE
 			ID = #{inputId}
 	</update>
+	
+	<!-- 교인검색 -->
+	<select id="selectUser" parameterType="GPIDto" resultType="GPIDto">
+		SELECT 
+			GOD_PEOPLE_NAME,
+			BIRTHDAY
+		FROM
+			GOD_PEOPLE_INFO
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND GOD_PEOPLE_NAME = 
+<!-- 			<![CDATA['%]]> -->
+				#{god_people_name}
+<!-- 			<![CDATA[%']]> -->
+			AND ID IS NULL
+			AND PW IS NULL
+	</select>
+	
+	<!-- 교회코드 유효성 검사 -->
+	<select id="testChurchCode" parameterType="String" resultType="String">
+		SELECT 
+			CASE 
+				WHEN CHURCH_CODE IS NULL THEN 'N'
+				ELSE 'Y'
+				END
+		FROM
+			CHURCH_INFO
+		WHERE 
+			CHURCH_CODE = #{code}; 
+	</select>
 </mapper>

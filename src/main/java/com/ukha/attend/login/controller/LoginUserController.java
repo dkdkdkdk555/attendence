@@ -82,4 +82,15 @@ public class LoginUserController {
 		
 		return result;
 	}
+	
+	// 아디디 중복검사
+	@RequestMapping(value = "/signup/idDuplicateTest.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String idDuplicateTestDo(String id){ 
+		
+		String result = loginService.testDuplicateId(id);
+		
+		return result;
+	}
+	
 }

@@ -18,4 +18,7 @@ public interface UserDao {
 	
 	// 교인 검색
 	public List<GPIDto> selectUser(GPIDto dto);
+	
+	// 아이디 중복검사
+	public String testDuplicateId(String id);
 }

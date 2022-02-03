@@ -53,4 +53,12 @@ public class UserDaoImpl implements UserDao{
 		return result;
 	}
 
+	@Override
+	public String testDuplicateId(String id) {
+		
+		String result = session.selectOne("userDao.testDuplicateId", id);
+		
+		return result;
+	}
+
 }

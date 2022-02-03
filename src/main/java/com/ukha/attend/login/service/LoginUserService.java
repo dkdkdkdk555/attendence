@@ -18,4 +18,7 @@ public interface LoginUserService {
 	
 	//교회코드테스트
 	public String testChurchCode(String code);
+	
+	//아이디 중복검사
+	public String testDuplicateId(String id);
 }

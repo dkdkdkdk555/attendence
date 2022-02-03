@@ -46,10 +46,23 @@
 			CASE 
 				WHEN CHURCH_CODE IS NULL THEN 'N'
 				ELSE 'Y'
-				END
+			END
 		FROM
 			CHURCH_INFO
 		WHERE 
 			CHURCH_CODE = #{code}; 
+	</select>
+	
+	<!-- 아이디 중복검사 -->
+	<select id="testDuplicateId" parameterType="String" resultType="String">
+		SELECT
+			CASE
+				WHEN ID IS NULL THEN 'N'
+				ELSE 'Y'
+			END
+		FROM 
+			GOD_PEOPLE_INFO
+		WHERE 
+			ID = #{id}
 	</select>
 </mapper>

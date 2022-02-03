@@ -83,5 +83,13 @@ public class LoginUserServiceImpl implements LoginUserService{
 		
 		return result;
 	}
+	
+	@Override
+	public String testDuplicateId(String id) {
+
+		String result = userDao.testDuplicateId(id);
+			
+		return result;
+	}
 
 }

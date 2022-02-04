@@ -8,7 +8,3 @@ function show(msg) {
 function closer() {
   $('.background').attr('class', 'background');
 }
-
-//$('#confirmBtn').on('click',function(){
-//	closer();
-//});

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ukha.attend.login.dao.UserDao;
@@ -20,12 +22,16 @@ public class LoginUserServiceImpl implements LoginUserService{
 	@Autowired
 	private UserDao userDao;
 	
+	//비밀번호 암복호화
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	
 	// 로그인 체크
 	@Override
 	public String loginCheck(HttpServletRequest request, HttpServletResponse response) {
 		
 		String inputId = request.getParameter("loginId");
 		String inputPw = request.getParameter("loginPassword");
+		
 						
 		GPIDto userDto = new GPIDto();
 		
@@ -37,12 +43,15 @@ public class LoginUserServiceImpl implements LoginUserService{
 				String encPw = userDto.getPw();
 				int pwd_fail_num = userDto.getPwd_fail_num();
 				
+				// 비밀번호 일치여부
+				boolean isEqual = BCrypt.checkpw(inputPw, encPw);
+				
 				if(pwd_fail_num > 5){ // db 오류횟수가 5회 이상이라면
 					return "OVERPWDFAIL";
 				}
 				
-				// 파람으로 넘어온 pw와 비교 --> 현재 디코딩 과정 생략
-				if(inputPw.equals(encPw)){
+				// 일치한다면
+				if(isEqual){
 					
 					/* 세션에 로그인정보 저장 */
 					// 세션을 가져온다. (가져올 세션이 없다면 생성한다.)		
@@ -66,7 +75,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 			return "ERROR";
 		}
 	}
-
+	//교인검색
 	@Override
 	public List<GPIDto> searchUser(GPIDto dto) {
 		
@@ -75,7 +84,7 @@ public class LoginUserServiceImpl implements LoginUserService{
 		
 		return result;
 	}
-
+	//교회코드검사
 	@Override
 	public String testChurchCode(String code) {
 		
@@ -83,12 +92,40 @@ public class LoginUserServiceImpl implements LoginUserService{
 		
 		return result;
 	}
-	
+	//아이디중복검사
 	@Override
 	public String testDuplicateId(String id) {
 
 		String result = userDao.testDuplicateId(id);
 			
+		return result;
+	}
+	//회원가입
+	@Override
+	public String signup(GPIDto dto) {
+		
+		String result = "";
+		
+		String encPw = encoder.encode(dto.getPw());
+		
+		System.out.println(encPw);
+		
+		dto.setPw(encPw);
+		
+		try {
+			int n = userDao.signup(dto);
+			if(n>0){
+				result = "SUCCESS";
+			} else {
+				result = "FAIL";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			result = "ERROR";
+		}
+		
+		
 		return result;
 	}
 

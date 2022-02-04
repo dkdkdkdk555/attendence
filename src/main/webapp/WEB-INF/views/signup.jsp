@@ -297,12 +297,58 @@
 		
 		if(church_code_valid & cell_valid & id_valid & pw_valid & pw_confirm_valid){
 			doSignUp();
+		} else {
+			show('가입조건을 모두 입력해주세요.');
 		}
 	});
 	
 	// 회원가입
 	function doSignUp(){
-		alert('성공!!!');
+		
+		let churchCode = $('#inputChurchCode').val();
+		let cellNo = $('#cellNoInput').val();
+		let idIn = $('#idInput').val();
+		let pwIn = $('#pwInput').val();
+		
+		let userSearchData = $('#userSearchDataList').val();
+		let arr = userSearchData.split(" ");
+		
+		let name = arr[0];
+		let birth = arr[1];
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath }/signup/signup.do",
+			method:"POST",
+			data:{
+				church_code : churchCode,
+				cell_no : cellNo,
+				id : idIn,
+				pw : pwIn,
+				god_people_name : name,
+				birthday : birth
+			}, // 컨트롤러에서 리턴타입이 String일때 ajax에서 dataType을 json으로 해주면안됨 그래서 생략
+			success:function(response) {
+				
+				switch(response){
+					case "SUCCESS":
+						show("회원가입을 축하드립니다!!");
+						
+						// 확인누르면 로그인페이지로 이동
+						$('#confirmBtn').on('click',function(){
+							location.href = "${pageContext.request.contextPath }/home.do";
+						});
+						break;
+					case "FAIL":
+						show("일치하는 인적사항이 \n없습니다. 교인검색을 확인해주세요");
+						break;
+					case "ERROR":
+						show("시스템오류입니다. \n관리자에게 문의하세요.");
+						break;
+				}
+				
+			}
+		});
+		
 	}
 	
 </script>

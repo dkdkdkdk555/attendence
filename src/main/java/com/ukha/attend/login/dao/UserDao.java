@@ -21,4 +21,7 @@ public interface UserDao {
 	
 	// 아이디 중복검사
 	public String testDuplicateId(String id);
+	
+	// 회원가입
+	public int signup(GPIDto dto);
 }

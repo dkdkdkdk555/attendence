@@ -21,4 +21,7 @@ public interface LoginUserService {
 	
 	//아이디 중복검사
 	public String testDuplicateId(String id);
+	
+	//회원가입
+	public String signup(GPIDto dto);
 }

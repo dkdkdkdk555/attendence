@@ -60,5 +60,13 @@ public class UserDaoImpl implements UserDao{
 		
 		return result;
 	}
+	
+	@Override
+	public int signup(GPIDto dto) {
+		
+		int result = session.update("userDao.signup", dto);
+		
+		return result;
+	}
 
 }

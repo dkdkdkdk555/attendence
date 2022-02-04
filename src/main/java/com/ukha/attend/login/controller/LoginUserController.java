@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -83,7 +84,7 @@ public class LoginUserController {
 		return result;
 	}
 	
-	// 아디디 중복검사
+	// 아이디 중복검사
 	@RequestMapping(value = "/signup/idDuplicateTest.do", method = {RequestMethod.POST})
 	@ResponseBody
 	public String idDuplicateTestDo(String id){ 
@@ -92,5 +93,16 @@ public class LoginUserController {
 		
 		return result;
 	}
+	
+	// 회원가입
+	@RequestMapping(value = "/signup/signup.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String signupDo(@ModelAttribute("dto") GPIDto dto ){ 
+		
+		String result = loginService.signup(dto);
+		
+		return result;
+	}
+	
 	
 }

@@ -1,12 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<jsp:include page="../include/resource.jsp"></jsp:include>
+<meta content="text/html; charset=UTF-8">
+<title>main.do</title>
+<style>
+	body{
+		background-color: #F0F5F5; 		
+	}
+
+</style>
 </head>
 <body>
-	<h1>메인화면입니다.</h1>
+	<div class="main_header">
+		<p>출결관리</p>
+		<i class="material-icons">more_horiz</i><!-- 개인메뉴 버튼 -->
+	</div>
+
+	<jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 </html>

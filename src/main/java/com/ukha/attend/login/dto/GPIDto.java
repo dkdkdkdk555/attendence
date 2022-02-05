@@ -37,7 +37,7 @@ public class GPIDto {
 //	`newpp_reg_date` DATE NULL DEFAULT NULL COMMENT '새신자등록일',
 	private String newpp_reg_date;
 //	`volun_part_code` VARCHAR(20) NULL DEFAULT NULL COMMENT '봉사부서코드',
-	private String volun_part_code;
+	private String volun_part_name;
 //	`volun_part_sell` VARCHAR(20) NULL DEFAULT NULL COMMENT '봉사부서셀 또는 역할',
 	private String volun_part_sell;
 //	`img_path` VARCHAR(40) NULL DEFAULT NULL COMMENT '교인사진경로',
@@ -155,11 +155,12 @@ public class GPIDto {
 	public void setNewpp_reg_date(String newpp_reg_date) {
 		this.newpp_reg_date = newpp_reg_date;
 	}
-	public String getVolun_part_code() {
-		return volun_part_code;
+	
+	public String getVolun_part_name() {
+		return volun_part_name;
 	}
-	public void setVolun_part_code(String volun_part_code) {
-		this.volun_part_code = volun_part_code;
+	public void setVolun_part_name(String volun_part_name) {
+		this.volun_part_name = volun_part_name;
 	}
 	public String getVolun_part_sell() {
 		return volun_part_sell;

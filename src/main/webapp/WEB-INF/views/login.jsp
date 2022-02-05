@@ -16,7 +16,7 @@
 	.container{
 		display: flex;
 		flex-direction: column;
-		width: 90%;
+		width: 95%;
 		margin-top: 30px;
 		background-color: #FFFFFF;
 		border-radius: 25px;	

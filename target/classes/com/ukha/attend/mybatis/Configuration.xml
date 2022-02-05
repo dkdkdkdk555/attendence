@@ -5,9 +5,12 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.ukha.attend.login.dto.GPIDto" alias="GPIDto"/>
+		<typeAlias type="com.ukha.attend.main.dto.ChurchDto" alias="ChurchDto"/>
+		<typeAlias type="com.ukha.attend.main.dto.PartDto" alias="PartDto"/>
+		<typeAlias type="com.ukha.attend.main.dto.SellDto" alias="SellDto"/>
 	</typeAliases>
 	<mappers>
-		<mapper resource="com/ukha/attend/mybatis/TestMapper.xml"/>
+		<mapper resource="com/ukha/attend/mybatis/MainMapper.xml"/>
 		<mapper resource="com/ukha/attend/mybatis/UserMapper.xml"/>
 	</mappers>
 </configuration>

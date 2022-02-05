@@ -12,3 +12,7 @@ target/classes/com/ukha/attend/HomeController.class
 target/m2e-wtp/web-resources/META-INF/maven/com.ukha/attend/pom.properties
 *.properties
 'classes/'
+target/classes/com/ukha/attend/mybatis/TestMapper.xml
+target/classes/com/ukha/attend/mybatis/UserMapper.xml
+target/classes/com/ukha/attend/mybatis/Configuration.xml
+target/m2e-wtp/web-resources/META-INF/maven/com.ukha/attend/pom.properties

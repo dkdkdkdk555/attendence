@@ -112,8 +112,8 @@
  						if(checked == true) {
  							setAutoLogin(id, pw);
  						}
- 						// 메인페이지 이동
- 						location.href = "${pageContext.request.contextPath }/user/main.do";
+ 						// 메인페이지 이동 <- id가 정상으로 응답받은거니까 안전함
+ 						location.href = "${pageContext.request.contextPath }/user/main.do?id=" + id ;
  						break;
  					case "NOTEXIST" :
  						// 알림창

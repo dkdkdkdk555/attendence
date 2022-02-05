@@ -65,4 +65,18 @@
 		WHERE 
 			ID = #{id}
 	</select>
+	
+	<!-- 회원가입 -->
+	<update id="signup" parameterType="GPIDto">
+		UPDATE
+			GOD_PEOPLE_INFO
+		SET
+			ID = #{id}
+			,PW = #{pw}
+			,CELL_NO = #{cell_no}
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND BIRTHDAY = #{birthday}
+	</update>
 </mapper>

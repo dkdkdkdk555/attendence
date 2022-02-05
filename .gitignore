@@ -11,3 +11,4 @@ target/classes/com/ukha/attend/HomeController.class
 target/classes/com/ukha/attend/HomeController.class
 target/m2e-wtp/web-resources/META-INF/maven/com.ukha/attend/pom.properties
 *.properties
+'target/classes'

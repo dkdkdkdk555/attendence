@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mainDao">
+	
+	<!-- 소속정보 및 권한 얻기 -->
+	<select id="getUserBelongInfo" resultType="GPIDto" parameterType="String">
+		SELECT
+			CHURCH_CODE,
+			GOD_PEOPLE_NAME,
+			PART_NAME,
+			SELL_NAME,
+			ACCESS_LEVEL,
+			VOLUN_PART_NAME,
+			VOLUN_PART_SELL,
+			ID
+		FROM
+			GOD_PEOPLE_INFO
+		WHERE
+			ID = #{id}
+	</select>
+	
+	<!-- 교회정보겟 -->
+	<select id="getChurchInfo" resultType="ChurchDto" parameterType="String">
+		SELECT 
+			CHURCH_NAME,
+			CHURCH_IMG_PATH
+		FROM
+			CHURCH_INFO
+		WHERE 
+			CHURCH_CODE = #{code}
+	</select>
+	
+	<!-- 소속부서 셀정보겟 -->
+	<select id="getSellList" resultType="List" parameterType="GPIDto">
+		SELECT
+			PART_NAME,
+			SELL_NAME,
+			SELL_IMG_PATH
+		FROM
+			SELL_INFO
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+	</select>
+	
+	<!-- 봉사부서 셀정보겟 -->
+	<select id="getVolunSellList" resultType="List" parameterType="GPIDto">
+		SELECT
+			PART_NAME,
+			SELL_NAME,
+			SELL_IMG_PATH
+		FROM
+			SELL_INFO
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{volun_part_name}
+	</select>
+</mapper>

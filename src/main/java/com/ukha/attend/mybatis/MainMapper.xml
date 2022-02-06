@@ -4,7 +4,7 @@
 	
 	<!-- 소속정보 및 권한 얻기 -->
 	<select id="getUserBelongInfo" resultType="GPIDto" parameterType="String">
-		SELECT
+		SELECT /* 소속정보 및 권한 얻기  */
 			CHURCH_CODE,
 			GOD_PEOPLE_NAME,
 			PART_NAME,
@@ -21,7 +21,7 @@
 	
 	<!-- 교회정보겟 -->
 	<select id="getChurchInfo" resultType="ChurchDto" parameterType="String">
-		SELECT 
+		SELECT /* 교회정보 셀렉트 */
 			CHURCH_NAME,
 			CHURCH_IMG_PATH
 		FROM
@@ -32,7 +32,7 @@
 	
 	<!-- 소속부서 셀정보겟 -->
 	<select id="getSellList" resultType="List" parameterType="GPIDto">
-		SELECT
+		SELECT /* 소속부서 셀리스트 셀렉트*/
 			PART_NAME,
 			SELL_NAME,
 			SELL_IMG_PATH
@@ -45,7 +45,7 @@
 	
 	<!-- 봉사부서 셀정보겟 -->
 	<select id="getVolunSellList" resultType="List" parameterType="GPIDto">
-		SELECT
+		SELECT /* 봉사부서 셀리스트 셀렉트 */
 			PART_NAME,
 			SELL_NAME,
 			SELL_IMG_PATH

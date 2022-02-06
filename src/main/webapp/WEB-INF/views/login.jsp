@@ -11,6 +11,7 @@
 	
 	body{
 		background-color: #F0F5F5; 		
+		font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 	}
 
 	.container{

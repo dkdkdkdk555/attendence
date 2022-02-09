@@ -45,6 +45,7 @@ public class MainController { // 메인화면(출석부목록화면) 컨트롤�
 		mView.addObject("sellList", sellList);
 		mView.addObject("volunSellList", volunSellList);
 		
+		
 		mView.setViewName("user/main");
 		
 		return mView;

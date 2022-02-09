@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%--부트스트랩, 제이쿼리등을 로드하기 위해_2021.04.07 --%>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/imgLiquid.js"></script>
 <!-- 안내창 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/info_modal.css"/>
 <script src="${pageContext.request.contextPath }/resources/js/info_modal.js"></script>

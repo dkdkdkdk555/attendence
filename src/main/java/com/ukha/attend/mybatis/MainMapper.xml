@@ -31,7 +31,7 @@
 	</select>
 	
 	<!-- 소속부서 셀정보겟 -->
-	<select id="getSellList" resultType="List" parameterType="GPIDto">
+	<select id="getSellList" resultType="SellDto" parameterType="GPIDto">
 		SELECT /* 소속부서 셀리스트 셀렉트*/
 			PART_NAME,
 			SELL_NAME,
@@ -44,7 +44,7 @@
 	</select>
 	
 	<!-- 봉사부서 셀정보겟 -->
-	<select id="getVolunSellList" resultType="List" parameterType="GPIDto">
+	<select id="getVolunSellList" resultType="SellDto" parameterType="GPIDto">
 		SELECT /* 봉사부서 셀리스트 셀렉트 */
 			PART_NAME,
 			SELL_NAME,

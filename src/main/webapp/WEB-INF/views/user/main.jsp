@@ -102,6 +102,26 @@
 </style>
 </head>
 <body>
+	
+	<!-- 셀리스트 -->
+	<c:if test="${not empty sellList }">
+		<div id="sell_list">
+		<c:forEach items="${sellList }" varStatus="status" var="tmp">
+			<input type="hidden" value="${tmp.sell_name }" id="box${status.index }"/>
+			<input type="hidden" value="${tmp.sell_img_path }" id="img_${status.index }"/>
+		</c:forEach>
+		</div>
+	</c:if>
+	<!-- 봉사셀리스트 -->
+	<c:if test="${not empty volunSellList }">
+		<div id="volunsell_list">
+		<c:forEach items="${volunSellList }" varStatus="status" var="tmp">
+			<input type="hidden" value="${tmp.sell_name }" id="vbox${status.index }"/>
+			<input type="hidden" value="${tmp.sell_img_path }" id="vimg_${status.index }"/>
+		</c:forEach>
+		</div>
+	</c:if>
+
 	<div class="main_header">
 		<h5 id="main_text">부서정보</h5>
 		<i class="material-icons" id="personal_btn">more_horiz</i><!-- 개인메뉴 버튼 -->
@@ -138,19 +158,58 @@
 </body>
 <script>
 
+	$(document).ready(function(){
+		$("#belong_part").trigger("click");//트리거로 강제 클릭
+	});
+	
+	// 케러셀 세팅
+	function setCarousel(id){
+		
+		// 선택시마다 클리어
+		$('.cards__container').empty();
+		
+		let cnt = 0;
+		let idnm = "";
+		let imgidnm = "";
+		
+		if(id == "belong_part"){ // 소속부서
+			cnt = $('#sell_list').children().length / 2;
+			idnm = "box";
+			imgidnm = "img_";
+		}else { // 봉사부서
+			cnt = $('#volunsell_list').children().length / 2;
+			idnm = "vbox";
+			imgidnm = "vimg_";
+		}
+		
+		console.log(cnt);
+		
+		for(let i=0; i<cnt; i++){
+			if(i<5){
+				$('.cards__container').append($('<li class="box" id="' + idnm + i  + '">' + $("#"+ idnm + i).val() + '</li>'));
+			}else {
+				$('.cards__container').append($('<li class="box box--hide" id="' + idnm + i  + '">' + $("#"+ idnm + i).val() + '</li>'));
+			}
+		}	
+	}
+
 	// 부서선택
 	$(".part_nav").children("li").on("click", function(){
 		//우선 모든 카테고리에 적용된 활성화 효과 지우기
 		$('li').css('border-bottom', 'none');
 		//클릭한 자식요소 li의 아이디 가져오기
-		id = $(this).attr('id');
+		let id = $(this).attr('id');
 		//선택한 카테고리에 활성화 밑줄 효과 주기 
 		$("#"+id).css('border-bottom', '3px solid #8080ff');
+		
+		// 케러셀 세팅
+		setCarousel(id);
+		
 	});
 	
 	
 	// 케러셀
-	function shiftLeft() {
+	$('.cards__container').on("scroll", function() {
 		const boxes = document.querySelectorAll(".box");
 		const tmpNode = boxes[0];
 		boxes[0].className = "box move-out-from-left";
@@ -166,7 +225,7 @@
 		    boxes[0].remove();
 		    document.querySelector(".cards__container").appendChild(tmpNode);
 		}, 500);
-	}
+	});
 	
 	function shiftRight() {
 	const boxes = document.querySelectorAll(".box");

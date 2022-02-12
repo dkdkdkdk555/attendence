@@ -55,4 +55,42 @@
 			CHURCH_CODE = #{church_code}
 			AND PART_NAME = #{volun_part_name}
 	</select>
+	
+	<!-- id의 셀정보 겟 -->
+	<select id="getSellInfo" resultType="SellDto" parameterType="String">
+		SELECT /* id의 셀정보 셀렉트*/
+			SI.SELL_NAME,
+			SI.SELL_LEADER_NAME,
+			SI.SELL_IMG_PATH,
+			SI.PART_NAME
+		FROM
+			SELL_INFO SI,
+			GOD_PEOPLE_INFO GPI
+		WHERE
+			SI.CHURCH_CODE = GPI.CHURCH_CODE
+			AND GPI.ID = #{id}
+			AND SI.SELL_NAME = #{sell}
+			AND SI.PART_NAME = #{part}
+	</select>
+	
+	<!-- 셀원목록 -->
+	<select id="getSellPeopleList" resultType="GPIDto" parameterType="String">
+		SELECT /*셀원목록*/
+			GOD_PEOPLE_NAME,
+			BIRTHDAY
+		FROM
+			GOD_PEOPLE_INFO
+		WHERE
+			PART_NAME = #{part}
+			AND SELL_NAME = #{sell}
+			AND CHURCH_CODE = ( 
+				SELECT
+					CHURCH_CODE
+				FROM
+					GOD_PEOPLE_INFO
+				WHERE 
+					ID = #{id}
+			)
+	</select>
+	
 </mapper>

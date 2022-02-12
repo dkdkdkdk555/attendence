@@ -55,12 +55,21 @@ public class MainController { // 메인화면(출석부목록화면) 컨트롤�
 	// 출석페이지 이동
 	@RequestMapping(value="/user/attend.do", method = {RequestMethod.GET} )
 	public ModelAndView attendInit(HttpServletRequest request, ModelAndView mView){
-		mView.addObject("id", request.getParameter("id"));
+		
+		String id = request.getParameter("id");
+		String sell = request.getParameter("sell");
+		String part = request.getParameter("part");
+		
+		// 셀정보 가져오기 
+		SellDto sellInfo = mainService.getSellInfo(id, sell, part);
+		mView.addObject("sellInfo", sellInfo);
+		// 셀원목록 가져오기
+		List<GPIDto> sellPeopleList = mainService.getSellPeopleList(id, sell, part);
+		mView.addObject("peopleList", sellPeopleList);
 		mView.addObject("auth", request.getParameter("auth"));
-		mView.addObject("sell", request.getParameter("sell"));
 		
 		mView.setViewName("user/attend");
 		
 		return mView;
-	}
+	}	
 }

@@ -2,6 +2,8 @@ package com.ukha.attend.main.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +40,21 @@ public class MainServiceImpl implements MainService {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public SellDto getSellInfo(String id, String sell, String part) {
+		
+		SellDto sellDto = maindao.getSellInfo(id, sell, part);
+		
+		return sellDto;
+	}
+	
+	@Override
+	public List<GPIDto> getSellPeopleList(String id, String sell, String part) {
+		
+		List<GPIDto> gpiDto = maindao.getSellPeopleList(id, sell, part);
+
+		return gpiDto;
 	}
 }

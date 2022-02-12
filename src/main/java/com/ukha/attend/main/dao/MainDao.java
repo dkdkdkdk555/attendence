@@ -15,4 +15,9 @@ public interface MainDao {
 	public List<SellDto> getSellList(GPIDto dto);
 	
 	public List<SellDto> getVolunSellList(GPIDto dto);
+	
+	public SellDto getSellInfo(String id, String sell, String part);
+	
+	public List<GPIDto> getSellPeopleList(String id, String sell, String part);
+
 }

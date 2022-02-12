@@ -10,7 +10,6 @@
 <body>
 	<h1>출석페이지입니다.</h1>
 	<p>${id }</p>
-	<p>${auth }</p>
-	<p>${sell }</p>
+
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.ukha.attend.main.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,29 @@ public class MainDaoImpl implements MainDao{
 	@Override
 	public List<SellDto> getVolunSellList(GPIDto dto) {
 		return session.selectList("mainDao.getVolunSellList", dto);
+	}
+
+	@Override
+	public SellDto getSellInfo(String id, String sell, String part) {
+		
+		HashMap<String, String> param = new HashMap<>();
+		
+		param.put("id", id);
+		param.put("sell", sell);
+		param.put("part", part);
+
+		return session.selectOne("mainDao.getSellInfo", param);
+	}
+	
+	@Override
+	public List<GPIDto> getSellPeopleList(String id, String sell, String part) {
+		
+		HashMap<String, String> param = new HashMap<>();
+		
+		param.put("id", id);
+		param.put("sell", sell);
+		param.put("part", part);
+
+		return session.selectList("mainDao.getSellPeopleList", param);
 	}
 }

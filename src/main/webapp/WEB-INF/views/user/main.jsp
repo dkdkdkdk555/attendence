@@ -11,7 +11,17 @@
 	body{
 		background-color: #F0F5F5; 		
 		font-family: 'Spoqa Han Sans Neo', 'sans-serif';	
+		overflow-x: hidden;
 	}
+	
+	/* 드래그시 영역선택되는거 색 안보이게*/
+	::selection {
+
+		color:none;
+		background:none;
+		
+	}
+	
 	
 	/* 헤더 */
 	.main_header{
@@ -103,6 +113,13 @@
 </head>
 <body>
 	
+	<!-- 소속정보 및 권한 -->
+	<input type="hidden" value="${gpiDto.god_people_name }" id="user_name"  />
+	<input type="hidden" value="${gpiDto.access_level }" id="user_authority"  />
+	<input type="hidden" value="${gpiDto.sell_name }" id="user_sell"  />
+	<input type="hidden" value="${gpiDto.volun_part_sell }" id="user_volun_sell"  />
+	<input type="hidden" value="${gpiDto.id }" id="user_id"  />
+		
 	<!-- 셀리스트 -->
 	<c:if test="${not empty sellList }">
 		<div id="sell_list">
@@ -185,10 +202,11 @@
 		console.log(cnt);
 		
 		for(let i=0; i<cnt; i++){
+			let sellNm = $("#"+ idnm + i).val();
 			if(i<5){
-				$('.cards__container').append($('<li class="box" id="' + idnm + i  + '">' + $("#"+ idnm + i).val() + '</li>'));
+				$('.cards__container').append($('<li onClick="javascript:movePage(this);" class="box" id="' + idnm + i  + '">' + sellNm + '</li>'));
 			}else {
-				$('.cards__container').append($('<li class="box box--hide" id="' + idnm + i  + '">' + $("#"+ idnm + i).val() + '</li>'));
+				$('.cards__container').append($('<li onClick="javascript:movePage(this);" class="box box--hide" id="' + idnm + i  + '">' + sellNm + '</li>'));
 			}
 		}	
 	}
@@ -206,10 +224,44 @@
 		setCarousel(id);
 		
 	});
+		
+	// 출석부 접근
+	function movePage(obj){
+		let clickSellName = obj.textContent;
+		let auth = $('#user_authority').val();
+		let userId = $('#user_id').val();
+		if(auth == null || auth == ""){ // 권한이 없으면  자신의 소속셀 또는 봉사셀만 접근할 수 있다.
+			if(clickSellName == $('#user_sell').val() || clickSellName == $('#user_volun_sell').val()){
+				// 셀이름, 아이디, 권한 던져서 출석 페이지 접근
+				location.href = "${pageContext.request.contextPath }/user/attend.do?id=" + userId + "&auth=" + auth + "&sell=" + clickSellName;
+			}
+		} else { // 셀장 권한 이나 임원권한이면 모든 출석부에 접근이 가능하다.
+			location.href = "${pageContext.request.contextPath }/user/attend.do?id=" + userId + "&auth=" + auth + "&sell=" + clickSellName;
+		}
+	}
+	
+	
+	//캐러셀 넘기기 리스너
+	let mouseX = '';
+		
+	$('.cards__container').on('mousedown',function(event){
+		eventObj = event;
+// 		console.log('x좌표 :' + event.clientX + ',  y좌표 :' + event.clientY);
+		mouseX = event.clientX;
+	});
+	
+	$('.cards__container').on('drag',function(event){
+		if(mouseX < 200){
+			rightScroll();
+		} else if (mouseX > 325){
+			leftScroll();
+		}
+		
+	});
 	
 	
 	// 케러셀
-	$('.cards__container').on("scroll", function() {
+	function leftScroll() {
 		const boxes = document.querySelectorAll(".box");
 		const tmpNode = boxes[0];
 		boxes[0].className = "box move-out-from-left";
@@ -225,9 +277,9 @@
 		    boxes[0].remove();
 		    document.querySelector(".cards__container").appendChild(tmpNode);
 		}, 500);
-	});
+	}
 	
-	function shiftRight() {
+	function rightScroll() {
 	const boxes = document.querySelectorAll(".box");
 	boxes[4].className = "box move-out-from-right";
 	setTimeout(function() {

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ukha.attend.login.dto.GPIDto;
@@ -47,6 +48,18 @@ public class MainController { // 메인화면(출석부목록화면) 컨트롤�
 		
 		
 		mView.setViewName("user/main");
+		
+		return mView;
+	}
+	
+	// 출석페이지 이동
+	@RequestMapping(value="/user/attend.do", method = {RequestMethod.GET} )
+	public ModelAndView attendInit(HttpServletRequest request, ModelAndView mView){
+		mView.addObject("id", request.getParameter("id"));
+		mView.addObject("auth", request.getParameter("auth"));
+		mView.addObject("sell", request.getParameter("sell"));
+		
+		mView.setViewName("user/attend");
 		
 		return mView;
 	}

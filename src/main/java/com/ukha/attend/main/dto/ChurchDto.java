@@ -16,6 +16,24 @@ public class ChurchDto {
 //	`church_img_path` VARCHAR(20) NULL DEFAULT NULL,
 	private String church_img_path;
 	
+	//권한
+	private String auth_name;
+	private String auth_code;
+	
+	public String getAuth_name() {
+		return auth_name;
+	}
+	public void setAuth_name(String auth_name) {
+		this.auth_name = auth_name;
+	}
+	public String getAuth_code() {
+		return auth_code;
+	}
+	public void setAuth_code(String auth_code) {
+		this.auth_code = auth_code;
+	}
+	
+	
 	public String getChurch_name() {
 		return church_name;
 	}

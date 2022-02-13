@@ -77,7 +77,9 @@
 	<select id="getSellPeopleList" resultType="GPIDto" parameterType="String">
 		SELECT /*셀원목록*/
 			GOD_PEOPLE_NAME,
-			BIRTHDAY
+			BIRTHDAY,
+			IMG_PATH,
+			GENDER
 		FROM
 			GOD_PEOPLE_INFO
 		WHERE

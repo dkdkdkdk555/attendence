@@ -52,7 +52,17 @@ public class GPIDto {
 	private String etc;
 //	`pwd_fail_num` SMALLINT(1) UNSIGNED ZEROFILL NOT NULL DEFAULT '0' COMMENT '비밀번호오류횟수',
 	private int pwd_fail_num;
+//	성별
+	private String gender; 
 	
+	
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	public String getChurch_code() {
 		return church_code;
 	}

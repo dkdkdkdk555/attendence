@@ -188,9 +188,42 @@
 		background-color: #909090;
 		width: 100%;
 	}
+	
+	/*교인검색창*/
+	.userAddForm{
+		display:none; /* 셀원 추가 버튼누르면 -> flex */
+		flex-direction:row;
+		justify-content: space-around;
+		padding:10px 0;
+		border : 2px solid #000000;
+	}
+	
+	/* 검색 버튼 */
+	#searchLogo{
+		display:inline;
+		height:35px;
+		width:15px;
+ 	 	padding-top: 8px;
+ 	 	padding-left: 5px;
+	}
+	
+	/* 검색결과를 ajax로 받는창 */
+	#searchResultDiv{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		width:70%;
+	}
+	
+
 </style>
 </head>
 <body>
+
+	<!-- hidden -->
+	<input type="hidden" value="${sellInfo.church_code }" id="church_code"/>
+	<input type="hidden" value="${sellInfo.part_name }" id="part_name"/>
+	
 	<div class="main_header">
 		<h5 id="main_text">셀 관리</h5>
 		<i class="material-icons" id="personal_btn">more_horiz</i><!-- 개인메뉴 버튼 -->
@@ -254,8 +287,16 @@
 		</c:forEach>
 		</div>
 		<div class="list_foot"> <!-- 셀원 추가 버튼 잇는곳 -->
-			<img src="../../resources/svg/add.png" alt="" />
+			<img src="../../resources/svg/add.png" onclick="javascript:showUserSearchDiv();" alt="" />
 			<p>셀원 추가하기</p>
+		</div>
+		<div class="userAddForm">
+			<i class="material-icons" id="searchLogo">search</i>
+	  		<div id="searchResultDiv">
+	  			<input class="form-control" list="userList" id="userSearchDataList" placeholder="이름으로 검색">
+	  			<datalist id="userList"></datalist>
+	  		</div>
+	  		<button type="button" id="userAddBtn" class="btn btn-success">추가</button>
 		</div>
 		<div class="confirm">
 			<button type="button" id="confirm_btn" class="btn">저장하기</button>
@@ -281,6 +322,68 @@
 		$("#"+id).css('border-bottom', '2px solid #404040').css('color', '#404040');
 	});
 	
+	$('#sbt').on('click',function(){
+		showUserSearchDiv();
+	});
+	
+	
+	//교인검색폼 보이기
+	function showUserSearchDiv(){
+		
+		// 권한검증
+		
+		
+		let attr = $('.userAddForm').css('display');
+		
+		if(attr == 'none'){
+			$('.userAddForm').css('display', 'flex');
+		} else if(attr == 'flex'){
+			$('.userAddForm').css('display', 'none');
+		}
+	}
+	
+	//교인 검색
+	$('#userSearchDataList').on('keyup',function(){
+		
+		$('#userList').empty(); 
+		
+		let churchCode = $('#church_code').val();
+		let typingContent = $('#userSearchDataList').val();
+		
+		// 이미 소속되어 있는 셀이 없어야함 , 해당 셀의 부서와 같은 부서여야함 -> 그래서 컨트롤러 새로 만드는거다.
+		$.ajax({
+			url:"${pageContext.request.contextPath }/attend/searchForAddUser.do",
+			method:"POST",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		    dataType : "json",
+			data:{
+				church_code : churchCode,
+				god_people_name : typingContent
+				
+			}, 
+			success:function(response) {
+				response.forEach(function(value, index){ //  object에서 값 꺼내올때 -> object["key"]
+					$('#userList').append($('<option value="' + value["god_people_name"] + ' ' + value["birthday"] + '"> </option>'));					
+				});
+			}
+		});
+	});
+	
+	//셀원추가하기
+	$('#userAddBtn').on('click',function(){
+		
+		// 파라미터 : 교회코드, 부서, 셀, 이름, 생년월일
+		let church_code = $('#church_code').val();
+		let part_name = $('#part_name').val();
+		let sell = $('#sell_comment').children('h4').val();
+		
+		let userSearchData = $('#userSearchDataList').val();
+		let arr = userSearchData.split(" ");
+		
+		let name = arr[0];
+		let birth = arr[1];
+		
+	});
 	
 </script>
 </html>

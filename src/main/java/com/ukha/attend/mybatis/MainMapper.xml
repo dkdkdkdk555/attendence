@@ -96,4 +96,42 @@
 			)
 	</select>
 	
+	<!-- 셀원추가시 교인검색 -->
+	<select id="getNoSellPeople" resultType="GPIDto" parameterType="String">
+		SELECT /*셀인원으로 추가할 수 있는 사람 목록*/
+			GOD_PEOPLE_NAME,
+			BIRTHDAY
+		FROM
+			GOD_PEOPLE_INFO
+		WHERE 
+			CHURCH_CODE = #{church_code}
+			AND GOD_PEOPLE_NAME 
+				= #{god_people_name}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME IS NULL
+	</select>
+	
+	<!-- 셀원추가 -->
+	<update id="addSellPeople" parameterType="GPIDto">
+		UPDATE /*셀원추가*/
+			GOD_PEOPLE_INFO
+		SET
+			SELL_NAME = #{sell_name}
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND BIRTHDAY = #{birthday}
+	</update>
+	
+	<!-- 로그인 유저 정보 -->
+	<select id="selectLoginUserInfo" resultType="String" parameterType="String">
+		SELECT
+			GOD_PEOPLE_NAME
+		FROM 
+			GOD_PEOPLE_INFO
+		WHERE 
+			ID = #{id}
+	</select>
+	
 </mapper>

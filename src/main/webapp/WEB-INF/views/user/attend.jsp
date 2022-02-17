@@ -223,6 +223,8 @@
 	<!-- hidden -->
 	<input type="hidden" value="${sellInfo.church_code }" id="church_code"/>
 	<input type="hidden" value="${sellInfo.part_name }" id="part_name"/>
+	<input type="hidden" value="${auth }" id="login_user_auth"/>
+	<input type="hidden" value="${login_user_name }" id="login_user_name"/>
 	
 	<div class="main_header">
 		<h5 id="main_text">셀 관리</h5>
@@ -249,7 +251,7 @@
 		</c:choose>
 		<div id="sell_comment">
 			<h4>${sellInfo.sell_name }</h4>
-			<p>${sellInfo.sell_leader_name }</p>
+			<p id="sell_leader_name">${sellInfo.sell_leader_name }</p>
 		</div>	
 	</div>
 	<!-- 셀원목록 섹션 -->
@@ -306,6 +308,8 @@
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 <script>
+
+	let login_user_id = getCookie('savedId'); // 무쓸모_220217
 	
 	$(document).ready(function(){
 		$("#check").trigger("click");//트리거로 강제 클릭
@@ -329,16 +333,32 @@
 	
 	//교인검색폼 보이기
 	function showUserSearchDiv(){
+
+		let isAllow = false;
 		
 		// 권한검증
+		let login_user_auth = $('#login_user_auth').val();
+		let sell_leader_name = $('#sell_leader_name').text();
+		let login_user_name = $('#login_user_name').val();
+				
+		// 00(임원)이거나  01(셀장)이면서 자신의 셀일 경우 
+		if(login_user_auth == '00' || (login_user_auth == '01' && login_user_name == sell_leader_name)){
+			isAllow = true;
+		} else { // 권한이 없는 경우
+			show('권한이 없습니다.');
+		}
 		
-		
-		let attr = $('.userAddForm').css('display');
-		
-		if(attr == 'none'){
-			$('.userAddForm').css('display', 'flex');
-		} else if(attr == 'flex'){
-			$('.userAddForm').css('display', 'none');
+		if(isAllow){
+			// 보이는 상태 -> 감추기, 감춰진 상태 -> 보이기
+			let attr = $('.userAddForm').css('display');
+			
+			if(attr == 'none'){
+				$('.userAddForm').css('display', 'flex');
+			} else if(attr == 'flex'){
+				$('.userAddForm').css('display', 'none');
+			}	
+		} else {
+			
 		}
 	}
 	
@@ -348,6 +368,7 @@
 		$('#userList').empty(); 
 		
 		let churchCode = $('#church_code').val();
+		let partName = $('#part_name').val();
 		let typingContent = $('#userSearchDataList').val();
 		
 		// 이미 소속되어 있는 셀이 없어야함 , 해당 셀의 부서와 같은 부서여야함 -> 그래서 컨트롤러 새로 만드는거다.
@@ -358,6 +379,7 @@
 		    dataType : "json",
 			data:{
 				church_code : churchCode,
+				part_name : partName,
 				god_people_name : typingContent
 				
 			}, 
@@ -373,8 +395,8 @@
 	$('#userAddBtn').on('click',function(){
 		
 		// 파라미터 : 교회코드, 부서, 셀, 이름, 생년월일
-		let church_code = $('#church_code').val();
-		let part_name = $('#part_name').val();
+		let churchCode = $('#church_code').val();
+		let partName = $('#part_name').val();
 		let sell = $('#sell_comment').children('h4').val();
 		
 		let userSearchData = $('#userSearchDataList').val();
@@ -383,7 +405,46 @@
 		let name = arr[0];
 		let birth = arr[1];
 		
+		// 추가하기
+		$.ajax({
+			url:"${pageContext.request.contextPath }/attend/addSellPeople.do",
+			method:"POST",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		    dataType : "json",
+			data:{
+				church_code : churchCode,
+				part_name : partName,
+				god_people_name : name,
+				sell_name : sell,
+				birthday : birth
+			}, 
+			success:function(response) {
+				if(response == "SUCCESS"){  // 성공이면 페이지 새로고침
+					location.reload();
+				} else { // 실패면
+					show('검색된 교인정보를 확인해주세요.');
+				}
+			}
+		});
 	});
+	
+	//쿠키 가져오는 메소드___ 무쓸모 220217
+	function getCookie(key) {
+		let result = null;
+		let cookie = document.cookie.split(';');// 쿠키 문자열을 ';'를 기준으로 나누고 배열을 리턴 
+	    cookie.some(function(item){ // cookie 배열을 가지고 some의 테스트 함수를 실행시켜 하나의 엘리먼트라도 true면은 true를 리턴하는 메소드 .some() (근데 여기선 걍 배열 요소들 가지고 함수 실행만)
+	      
+	        item = item.replace(' ', '');// 공백을 제거
+	 
+	        let dic = item.split('=');// 각 인덱스를 '='기준으로 또 나눔
+	 
+	        if (key === dic[0]) { // = 의 좌측이 전달받은 key 와 같다면
+	            result = dic[1]; // 결과로 value를 담고 (쿠키값 얻어내기)
+	            return true;    // getCookie메소드를 종료
+	        }
+	    });
+	    return result; //키값과 일치하는 쿠키가 없다면 null을 리턴
+	}
 	
 </script>
 </html>

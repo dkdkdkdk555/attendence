@@ -65,4 +65,22 @@ public class MainDaoImpl implements MainDao{
 
 		return session.selectList("mainDao.getSellPeopleList", param);
 	}
+
+	@Override
+	public List<GPIDto> selectUser(GPIDto dto) {
+
+		List<GPIDto> result = session.selectList("mainDao.getNoSellPeople", dto);
+		
+		return result;
+	}
+	
+	@Override
+	public int addSellPeople(GPIDto dto) {
+		return session.update("mainDao.addSellPeople", dto);
+	}
+	
+	@Override
+	public String loginUserInfo(String id) {
+		return session.selectOne("mainDao.selectLoginUserInfo", id);
+	}
 }

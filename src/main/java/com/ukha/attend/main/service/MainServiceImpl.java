@@ -57,4 +57,34 @@ public class MainServiceImpl implements MainService {
 
 		return gpiDto;
 	}
+
+	@Override
+	public List<GPIDto> searchUser(GPIDto dto) {
+
+		List<GPIDto> result = maindao.selectUser(dto);
+		
+		return result;
+	}
+	
+	@Override
+	public String addSellPeople(GPIDto dto) {
+		
+		String result = "";
+
+		int n = maindao.addSellPeople(dto);
+		
+		if(n > 0){
+			result = "SUCCESS"; 
+		} else {
+			result = "FAIL";
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public String loginUserInfo(String id) {
+		
+		return maindao.loginUserInfo(id);
+	}
 }

@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ukha.attend.login.dto.GPIDto;
@@ -17,7 +19,7 @@ import com.ukha.attend.main.dto.SellDto;
 import com.ukha.attend.main.service.MainService;
 
 @Controller
-public class MainController { // 메인화면(출석부목록화면) 컨트롤러
+public class MainController { // 메인화면(출석부목록화면) 및 출석페이지의 컨트롤러
 	
 	@Autowired
 	private MainService mainService;
@@ -60,6 +62,9 @@ public class MainController { // 메인화면(출석부목록화면) 컨트롤�
 		String sell = request.getParameter("sell");
 		String part = request.getParameter("part");
 		
+		// 로그인 유저의 아이디 
+		mView.addObject("login_user_name", mainService.loginUserInfo(id));
+		
 		// 셀정보 가져오기 
 		SellDto sellInfo = mainService.getSellInfo(id, sell, part);
 		mView.addObject("sellInfo", sellInfo);
@@ -71,5 +76,22 @@ public class MainController { // 메인화면(출석부목록화면) 컨트롤�
 		mView.setViewName("user/attend");
 		
 		return mView;
-	}	
+	}
+	
+	// 교인검색
+	@RequestMapping(value = "/attend/searchForAddUser.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public List<GPIDto> godPeopleSearchDo(@ModelAttribute("dto") GPIDto dto){ 
+		
+		List<GPIDto> list = mainService.searchUser(dto);
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "/attend/addSellPeople.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String addSellPeople(@ModelAttribute("dto") GPIDto dto){ 
+		
+		return mainService.addSellPeople(dto);
+	}
 }

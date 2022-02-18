@@ -239,7 +239,6 @@
 		</nav>	
 	</div>
 	<!-- 셀 설명 섹션 -->
-	<div>	
 	<div class="sell_info_container">
 		<c:choose>
 			<c:when test="${not empty sellInfo.sell_img_path }">
@@ -397,7 +396,7 @@
 		// 파라미터 : 교회코드, 부서, 셀, 이름, 생년월일
 		let churchCode = $('#church_code').val();
 		let partName = $('#part_name').val();
-		let sell = $('#sell_comment').children('h4').val();
+		let sell = $('#sell_comment').children('h4').text();
 		
 		let userSearchData = $('#userSearchDataList').val();
 		let arr = userSearchData.split(" ");
@@ -410,7 +409,6 @@
 			url:"${pageContext.request.contextPath }/attend/addSellPeople.do",
 			method:"POST",
 			contentType : "application/x-www-form-urlencoded; charset=utf-8",
-		    dataType : "json",
 			data:{
 				church_code : churchCode,
 				part_name : partName,
@@ -420,13 +418,14 @@
 			}, 
 			success:function(response) {
 				if(response == "SUCCESS"){  // 성공이면 페이지 새로고침
-					location.reload();
+					window.location.reload();
 				} else { // 실패면
 					show('검색된 교인정보를 확인해주세요.');
 				}
 			}
 		});
 	});
+	
 	
 	//쿠키 가져오는 메소드___ 무쓸모 220217
 	function getCookie(key) {

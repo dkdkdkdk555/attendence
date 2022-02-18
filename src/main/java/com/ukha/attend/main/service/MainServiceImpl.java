@@ -79,6 +79,8 @@ public class MainServiceImpl implements MainService {
 			result = "FAIL";
 		}
 		
+		System.out.println(result);
+		
 		return result;
 	}
 	

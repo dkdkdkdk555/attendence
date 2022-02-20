@@ -187,6 +187,8 @@
 	#confirm_btn{
 		background-color: #909090;
 		width: 100%;
+		disabled:true;
+		
 	}
 	
 	/*교인검색창*/
@@ -225,6 +227,7 @@
 	<input type="hidden" value="${sellInfo.part_name }" id="part_name"/>
 	<input type="hidden" value="${auth }" id="login_user_auth"/>
 	<input type="hidden" value="${login_user_name }" id="login_user_name"/>
+	<input type="hidden" value="${sellInfo.att_day_of_week }" id="att_day"/><!-- 셀의 출석 요일 -->
 	
 	<div class="main_header">
 		<h5 id="main_text">셀 관리</h5>
@@ -257,11 +260,11 @@
 	<div class="people_list">
 		<div class="list_head">
 			<p>셀원</p>
-			<p>출석하기</p>		
+			<p id="list_head_text">출석하기</p>		
 		</div>
 		<div class="list_body">
 		<c:forEach items="${peopleList }" varStatus="status" var="tmp">
-			<div class="people">
+			<div class="people" id="people${status.index }">
 			<c:choose>
 				<c:when test="${not empty tmp.img_path }">
 				<img src="" alt="" /><!-- 이미지 있으면 -->
@@ -278,11 +281,11 @@
 				</c:otherwise>
 			</c:choose>
 				<p>${tmp.god_people_name }</p>
-				<input type="hidden" value="${tmp.birthday }" />
+				<input type="hidden" value="${tmp.birthday }"/>
 				<div class="buttons">
-					<button type="button" class="btn btn-outline-secondary">✔</button>
-					<button type="button" class="btn btn-outline-warning">✔</button>
-					<button type="button" class="btn btn-outline-success">✔</button>
+					<button type="button" class="btn btn-outline-secondary">✔</button><!-- 결석 -->
+					<button type="button" class="btn btn-outline-warning">✔</button><!-- 지각 -->
+					<button type="button" class="btn btn-outline-success">✔</button><!-- 출석 -->
 				</div>
 			</div>	
 		</c:forEach>
@@ -300,19 +303,37 @@
 	  		<button type="button" id="userAddBtn" class="btn btn-success">추가</button>
 		</div>
 		<div class="confirm">
-			<button type="button" id="confirm_btn" class="btn">저장하기</button>
+			<button type="button" onclick="javascript:attend();" id="confirm_btn" class="btn">저장하기</button>
 		</div>
 	</div>
 	
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 <script>
-
-	let login_user_id = getCookie('savedId'); // 무쓸모_220217
 	
 	$(document).ready(function(){
 		$("#check").trigger("click");//트리거로 강제 클릭
+		calculateDay();
 	});
+	
+	//출석요일 계산
+	function calculateDay(){
+		
+		let week = ['일', '월', '화', '수', '목', '금', '토'];
+		
+		let today = new Date().getDay();
+		let dayOfWeek = week[today];
+		
+		let sellAttDay = $('#att_day').val();
+		
+		console.log(dayOfWeek + '*' + sellAttDay);
+		
+		if(dayOfWeek != sellAttDay){ // 출석요일이 아닌 요일에 접속시 모든 출석관련 버튼들을 보여주지 않는다. 
+			$('.buttons').css('display', 'none'); 
+			$('.confirm').css('display', 'none');
+			$('#list_head_text').css('display', 'none');
+		};
+	}
 	
 	//부서선택
 	$(".menu_nav").children("li").on("click", function(){
@@ -426,24 +447,99 @@
 		});
 	});
 	
+	// 누르면 누른버튼 확정표시
+	$('.buttons').children('.btn').on('click',function(){
+		// 이미 선택된거는 또 선택 안되게
+		if($(this).attr('class').split('-').length == 2){
+			return;
+		}
+				
+		// 나머지 것들은 다 색 돌려놓기
+		let thisEle = $(this).siblings(); // 형제요소를 배열로 리턴
+		for(let i=0; i<thisEle.length; i++){
+			let siblebtn = $(thisEle[i]).attr('class').split('-');
+			if(siblebtn.length == 2){ // 이미 눌린 버튼이라면
+				let btnType = siblebtn[1];
+				$(thisEle[i]).attr('class', 'btn btn-outline-'+ btnType);
+				$(thisEle[i]).attr('name', '');
+			}
+		}
+		
+		// 버튼색깔바뀐
+		let eleClass = $(this).attr('class').split('-');
+		let btnType = eleClass[2];
+		$(this).attr('class', 'btn btn-' + btnType);
+		$(this).attr('name', 'clicked');
+		
+		// 모든 셀원별 출석버튼을 눌러야 저장하기버튼이 활성화된다.
+		let people = $('.people').length;
+		let clickedBtn = $('button[name=clicked]').length;
+		if(people == clickedBtn){ // 인원수만큼 클릭했으면
+			// 저장하기 버튼 활성화 
+			$('#confirm_btn').css('color', '#ffffff');
+			$('#confirm_btn').css('background-color', '#0f87ff');
+			$('#confirm_btn').css('disabled', 'false');
+		} 
+	});
 	
-	//쿠키 가져오는 메소드___ 무쓸모 220217
-	function getCookie(key) {
-		let result = null;
-		let cookie = document.cookie.split(';');// 쿠키 문자열을 ';'를 기준으로 나누고 배열을 리턴 
-	    cookie.some(function(item){ // cookie 배열을 가지고 some의 테스트 함수를 실행시켜 하나의 엘리먼트라도 true면은 true를 리턴하는 메소드 .some() (근데 여기선 걍 배열 요소들 가지고 함수 실행만)
-	      
-	        item = item.replace(' ', '');// 공백을 제거
-	 
-	        let dic = item.split('=');// 각 인덱스를 '='기준으로 또 나눔
-	 
-	        if (key === dic[0]) { // = 의 좌측이 전달받은 key 와 같다면
-	            result = dic[1]; // 결과로 value를 담고 (쿠키값 얻어내기)
-	            return true;    // getCookie메소드를 종료
-	        }
-	    });
-	    return result; //키값과 일치하는 쿠키가 없다면 null을 리턴
+	// 출석하기 ㄱㄱ
+	function attend(){
+		
+		let list = [];
+		
+		let church_code = $('#church_code').val();
+		let part_name = $('#part_name').val();
+		let sell_name = $('#sell_comment').children('h4').text();
+		let worship_date = getCurrentDate().toString();
+		
+		let size = $('.people').length;
+		// 반복문 돌며 map 객체 만들고 list에 집어넣기
+		for(let i=0;i<size;i++){
+			
+			let choicebtn = $('#people' + i).children('.buttons').children('button[name=clicked]').attr('class');
+			
+			let btnType = choicebtn.split('-');
+			
+			if(btnType[1] == 'success' || btnType[1] == 'warning'){ // 결석은 데이터를 생성하지 않음
+			// 만약 지각을 관리한다고 하면 지각 로직은 따로 만들자
+				let map = new Map();
+			
+				map.set('god_people_name', $('#people' + i).children('p').text());
+				map.set('god_peoople_birthday', $('#people' + i).children('input').val());
+				map.set('church_code', church_code);
+				map.set('part_name', part_name);
+				map.set('sell_name', sell_name);
+				map.set('worship_date', worship_date);
+				
+				list.push(map);
+			}
+		}
+				
+		$.ajax({
+			url:"${pageContext.request.contextPath }/attend/attendTry.do",
+			method:"POST",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			data:list, 
+			success:function(response) {
+				
+			}
+		});
 	}
 	
+
+    function getCurrentDate()
+    {
+        var date = new Date();
+        var year = date.getFullYear().toString();
+
+        var month = date.getMonth() + 1;
+        month = month < 10 ? '0' + month.toString() : month.toString();
+
+        var day = date.getDate();
+        day = day < 10 ? '0' + day.toString() : day.toString();
+
+        return year + month + day ;
+    }
+
 </script>
 </html>

@@ -15,7 +15,17 @@ public class SellDto {
 	private String sell_leader_name;
 //	`sell_leader_birthday` DATE NOT NULL,
 	private String sell_leader_birthday;
+//	셀 출석 요일
+	private String att_day_of_week;
 	
+	
+	
+	public String getAtt_day_of_week() {
+		return att_day_of_week;
+	}
+	public void setAtt_day_of_week(String att_day_of_week) {
+		this.att_day_of_week = att_day_of_week;
+	}
 	public String getChurch_code() {
 		return church_code;
 	}

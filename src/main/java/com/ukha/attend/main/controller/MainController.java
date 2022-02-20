@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.main.dto.SellDto;
 import com.ukha.attend.main.service.MainService;
@@ -88,10 +89,20 @@ public class MainController { // 메인화면(출석부목록화면) 및 출석�
 		return list;
 	}
 	
+	// 교인추가
 	@RequestMapping(value = "/attend/addSellPeople.do", method = {RequestMethod.POST})
 	@ResponseBody
 	public String addSellPeople(@ModelAttribute("dto") GPIDto dto){ 
 		
 		return mainService.addSellPeople(dto);
+	}
+	
+	// 출석하기
+	@RequestMapping(value = "/attend/attendTry.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String doAttend(@ModelAttribute("dto") AttendHistDto dto){ 
+		//날짜형식 잘 갖춰서 넣자
+		//중복출석 안되도록 하자(넘어온날짜로 해당셀 출석있는지 검증 
+		return "";
 	}
 }

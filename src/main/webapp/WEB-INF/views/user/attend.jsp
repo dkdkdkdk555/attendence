@@ -485,7 +485,7 @@
 	// 출석하기 ㄱㄱ
 	function attend(){
 		
-		let list = [];
+		let list = new Array();
 		
 		let church_code = $('#church_code').val();
 		let part_name = $('#part_name').val();
@@ -502,29 +502,29 @@
 			
 			if(btnType[1] == 'success' || btnType[1] == 'warning'){ // 결석은 데이터를 생성하지 않음
 			// 만약 지각을 관리한다고 하면 지각 로직은 따로 만들자
-				let map = new Map();
+				let data = new Object();
 			
-				map.set('god_people_name', $('#people' + i).children('p').text());
-				map.set('god_peoople_birthday', $('#people' + i).children('input').val());
-				map.set('church_code', church_code);
-				map.set('part_name', part_name);
-				map.set('sell_name', sell_name);
-				map.set('worship_date', worship_date);
+				data.god_people_name = $('#people' + i).children('p').text();
+				data.god_people_birthday = $('#people' + i).children('input').val();
+				data.church_code = church_code;
+				data.part_name = part_name;
+				data.sell_name = sell_name;
+				data.worship_date = worship_date;
 				
-				list.push(map);
+				list.push(data);
 			}
 		}
-				
+		
 		$.ajax({
 			url:"${pageContext.request.contextPath }/attend/attendTry.do",
 			method:"POST",
-			contentType : "application/x-www-form-urlencoded; charset=utf-8",
-			data:list, 
+			contentType : "application/json; charset=utf-8",
+			data : JSON.stringify(list),
 			success:function(response) {
 				
 			}
 		});
-	}
+	} // 출석완료후 지금 눌러진 
 	
 
     function getCurrentDate()

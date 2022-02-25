@@ -2,7 +2,9 @@ package com.ukha.attend.main.dao;
 
 import java.util.List;
 
+
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.main.dto.SellDto;
 
@@ -25,5 +27,7 @@ public interface MainDao {
 	public int addSellPeople(GPIDto dto);
 	//출석페이지 - 로그인유저정보
 	public String loginUserInfo(String id);
+	//출석페이지 - 중복출석검사
+	public int examDupliAttend(AttendHistDto dto);
 
 }

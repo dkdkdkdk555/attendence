@@ -1,5 +1,6 @@
 package com.ukha.attend.main.dto;
 
+
 public class AttendHistDto { // 출석기록 테이블 dto
 //	`church_code` CHAR(10) NOT NULL,
 	private String church_code;
@@ -15,6 +16,7 @@ public class AttendHistDto { // 출석기록 테이블 dto
 	private String god_people_birthday;
 //	`late_yn` CHAR(1) NULL DEFAULT NULL COMMENT '지각여부',
 	private String late_yn;
+	
 	public String getChurch_code() {
 		return church_code;
 	}

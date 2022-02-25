@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.main.dto.SellDto;
 
@@ -25,4 +26,6 @@ public interface MainService {
 	public String addSellPeople(GPIDto dto);
 	//출석페이지 - 로그인 유저의 정보
 	public String loginUserInfo(String id);
+	//출석페이지 - 중복검사
+	public int examDuplAttend(AttendHistDto dto);
 }

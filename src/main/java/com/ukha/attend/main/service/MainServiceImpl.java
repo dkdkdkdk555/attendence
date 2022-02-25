@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ukha.attend.login.dto.GPIDto;
 import com.ukha.attend.main.dao.MainDao;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.main.dto.SellDto;
 
@@ -88,5 +89,10 @@ public class MainServiceImpl implements MainService {
 	public String loginUserInfo(String id) {
 		
 		return maindao.loginUserInfo(id);
+	}
+	
+	@Override
+	public int examDuplAttend(AttendHistDto dto) {
+		return maindao.examDupliAttend(dto);
 	}
 }

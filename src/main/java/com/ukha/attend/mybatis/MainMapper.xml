@@ -135,4 +135,16 @@
 			ID = #{id}
 	</select>
 	
+	<!-- 중복출석 검사시 -->
+	<select id="examinDupliAttend" parameterType="AttendHistDto" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			ATTEND_HIST
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND WORSHIP_DATE = #{worship_date}
+	</select>
 </mapper>

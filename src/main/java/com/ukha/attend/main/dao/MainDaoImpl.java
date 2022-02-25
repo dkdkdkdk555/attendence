@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.main.dto.SellDto;
 
@@ -82,5 +83,10 @@ public class MainDaoImpl implements MainDao{
 	@Override
 	public String loginUserInfo(String id) {
 		return session.selectOne("mainDao.selectLoginUserInfo", id);
+	}
+
+	@Override
+	public int examDupliAttend(AttendHistDto dto) {
+		return session.selectOne("mainDao.examinDupliAttend", dto);
 	}
 }

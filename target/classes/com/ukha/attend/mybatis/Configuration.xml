@@ -8,6 +8,7 @@
 		<typeAlias type="com.ukha.attend.main.dto.ChurchDto" alias="ChurchDto"/>
 		<typeAlias type="com.ukha.attend.main.dto.PartDto" alias="PartDto"/>
 		<typeAlias type="com.ukha.attend.main.dto.SellDto" alias="SellDto"/>
+		<typeAlias type="com.ukha.attend.main.dto.AttendHistDto" alias="AttendHistDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/ukha/attend/mybatis/MainMapper.xml"/>

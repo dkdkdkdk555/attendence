@@ -1,0 +1,130 @@
+	/*셀정보 섹션*/
+	.sell_info_container{
+		display: flex;
+		background-color: #FFFFFF;
+		margin-top: 2%;
+		align-items: center;
+		border-radius: 10px;
+		position: relative;
+		margin-left:2%;
+		margin-right:2%;
+	}
+	
+	.sell_info_container img{
+		width:90px;
+		height: 90px;
+		margin:4% 4%;
+	}
+	
+	#sell_comment{
+		margin-top: 4%;
+		margin-left: 10px;
+	}
+	
+	/* 셀원 목록 섹션 */
+	.people_list{
+		display:flex;
+		background-color: #FFFFFF;
+		margin-top:2%;
+		flex-direction:column;
+	}
+	
+	.list_head{
+		display:flex;
+		justify-content:space-between;
+		margin: 6 8%;
+		font-size: 18px;
+	}
+	
+	.list_body{
+		display: flex;
+		flex-direction:column;
+	}
+	
+	.list_body p{
+		margin:5 3%;
+		font-size:17px;
+	}
+	
+	.people{
+		display:flex;
+		align-items:center;
+		margin-top:10px;
+	}
+	
+	.list_body img{
+		width:60px;
+		height:60px;
+		margin-left: 5.4%;
+	}
+	
+	.list_foot{
+		display:flex;
+		align-items: center;
+	}
+	
+	.list_foot p{
+		margin:5 1.5%;
+		font-size:17px;
+	}
+	
+	.list_foot img{
+		width:75px;
+		height:75px;
+		margin-left: 4.2%;
+		padding:0;
+		margin-top:3px;
+	}
+	
+	.buttons .btn{
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+/* 		font-size: 12px; */
+	}
+	
+	.buttons{
+		position:absolute;
+		right:5%;
+	}
+	
+	.confirm{
+		position:relative;
+ 		margin:0 10%;
+		padding:15 0;
+		
+	}
+	
+	#confirm_btn{
+		background-color: #909090;
+		width: 100%;
+		disabled:true;
+		
+	}
+	
+	/*교인검색창*/
+	.userAddForm{
+		display:none; /* 셀원 추가 버튼누르면 -> flex */
+		flex-direction:row;
+		justify-content: space-around;
+		padding:10px 0;
+		border : 2px solid #000000;
+	}
+	
+	/* 검색 버튼 */
+	#searchLogo{
+		display:inline;
+		height:35px;
+		width:15px;
+ 	 	padding-top: 8px;
+ 	 	padding-left: 5px;
+	}
+	
+	/* 검색결과를 ajax로 받는창 */
+	#searchResultDiv{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		width:70%;
+	}
+	

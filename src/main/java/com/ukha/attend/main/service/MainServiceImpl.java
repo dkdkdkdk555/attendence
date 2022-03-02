@@ -95,4 +95,15 @@ public class MainServiceImpl implements MainService {
 	public int examDuplAttend(AttendHistDto dto) {
 		return maindao.examDupliAttend(dto);
 	}
+	
+	@Override
+	public int insertAttendHist(List<AttendHistDto> list) {
+		
+		int result = 0;
+		for( AttendHistDto dto :  list ){
+			result += maindao.insertAttendHist(dto);
+		}
+		
+		return result;
+	}
 }

@@ -28,4 +28,6 @@ public interface MainService {
 	public String loginUserInfo(String id);
 	//출석페이지 - 중복검사
 	public int examDuplAttend(AttendHistDto dto);
+	//출석페이지 - 출석처리
+	public int insertAttendHist(List<AttendHistDto> list);
 }

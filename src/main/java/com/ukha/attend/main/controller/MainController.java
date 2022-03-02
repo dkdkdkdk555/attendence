@@ -103,26 +103,21 @@ public class MainController { // 메인화면(출석부목록화면) 및 출석�
 	@ResponseBody
 	public String doAttend(@RequestBody List<AttendHistDto> list){ 
 		
-		//널인경우(올 미출석인경우) 
-		if(list == null){
-			return "SUCCESS";
-		}
-		
-		//중복출석 인지 검사
 		try {
+			//중복출석 인지 검사
 			int n = mainService.examDuplAttend(list.get(0));
 			if(n>0){ // 이미 해당날짜에 출석한 셀원이 있으면 중복출석으로 간주
 				return "DUPLI";
 			}
+			// 출석처리
+			int m = mainService.insertAttendHist(list);
+			if(m == list.size()){
+				return "SUCCESS";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} /*
-		 	사실 dto를 하나씩 검사하여 이미 있으면 -> update, 없으면 -> insert 하는 식으로
-		 	개발해야한다고 생각되나 자주 없을 경우이기고 수정은 관리자 페이지에서도 가능하니 일단은 이렇게  
-		*/
-		// 출석
+		}
 		
-		
-		return "";
+		return "FAIL";
 	}
 }

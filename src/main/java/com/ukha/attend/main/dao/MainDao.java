@@ -29,5 +29,6 @@ public interface MainDao {
 	public String loginUserInfo(String id);
 	//출석페이지 - 중복출석검사
 	public int examDupliAttend(AttendHistDto dto);
-
+	//출석페이지 - 출석하기
+	public int insertAttendHist(AttendHistDto dto);
 }

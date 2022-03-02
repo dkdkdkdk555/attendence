@@ -89,4 +89,9 @@ public class MainDaoImpl implements MainDao{
 	public int examDupliAttend(AttendHistDto dto) {
 		return session.selectOne("mainDao.examinDupliAttend", dto);
 	}
+	
+	@Override
+	public int insertAttendHist(AttendHistDto dto) {
+		return session.insert("mainDao.insertAttendHist", dto);
+	}
 }

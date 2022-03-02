@@ -6,219 +6,9 @@
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <meta content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=0.07, maximum-scale=5.0, user-scalable=0" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/userCommon.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/attend.css">
 <title>attend.do</title>
-<style>
-	body{
-		background-color: #F0F5F5; 		
-		font-family: 'Spoqa Han Sans Neo', 'sans-serif';	
-		overflow-x: hidden;
-	}
-	
-	/* 드래그시 영역선택되는거 색 안보이게*/
-	::selection {
-
-		color:none;
-		background:none;
-		
-	}
-	
-	/* 헤더 */
-	.main_header{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: #FFFFFF;
-		height: 7%;
-		display:sticy;
-	}
-	
-	#main_text{
-		position:absolute;
-		flex-grow:1;
-		text-align:center;
-		margin-top:auto;
-		margin-bottom:auto;	
-
-	}
-	
-	#personal_btn{
-		position:absolute;
-		right:5%;
-		font-size:30px;
-		color: #808080;
-		
-	}
-	
-	/* 메뉴 nav */
-	
-	.menu{
-		display:flex;
-		background-color: #FFFFFF;
-		margin-top: 0.3%;
-		flex-direction: column;
-	}
-	
-	.menu_nav{
-		display:flex;
-		width: 100%;
-		height: 50px;
-		overflow-x:auto; /*기본 스크롤 상태*/
-		padding-left:0px;
-		padding-right:0px;
-/* 		border-bottom: 5.5px solid #e6e6e6; */
-		background-color:white;
-		margin-color:white;
-		text-align:center;
-		
-	}
-
-	.menu_nav::-webkit-scrollbar{ /*스크롤 기능은 유지하면서 스크를바는 없애기*/
-		display:none;
-	}
-	
-	.menu_li{
-		display:inline-block;
-		flex-grow:1;
-		list-style:none;
-		margin:5 auto 0 auto;
-		font-size: 17px;
-		color:#808080;
-		font-weight:bold;
-		
-	}
-	
-	/*셀정보 섹션*/
-	.sell_info_container{
-		display: flex;
-		background-color: #FFFFFF;
-		margin-top: 2%;
-		align-items: center;
-		border-radius: 10px;
-		position: relative;
-		margin-left:2%;
-		margin-right:2%;
-	}
-	
-	.sell_info_container img{
-		width:90px;
-		height: 90px;
-		margin:4% 4%;
-	}
-	
-	#sell_comment{
-		margin-top: 4%;
-		margin-left: 10px;
-	}
-	
-	/* 셀원 목록 섹션 */
-	.people_list{
-		display:flex;
-		background-color: #FFFFFF;
-		margin-top:2%;
-		flex-direction:column;
-	}
-	
-	.list_head{
-		display:flex;
-		justify-content:space-between;
-		margin: 6 8%;
-		font-size: 18px;
-	}
-	
-	.list_body{
-		display: flex;
-		flex-direction:column;
-	}
-	
-	.list_body p{
-		margin:5 3%;
-		font-size:17px;
-	}
-	
-	.people{
-		display:flex;
-		align-items:center;
-		margin-top:10px;
-	}
-	
-	.list_body img{
-		width:60px;
-		height:60px;
-		margin-left: 5.4%;
-	}
-	
-	.list_foot{
-		display:flex;
-		align-items: center;
-	}
-	
-	.list_foot p{
-		margin:5 1.5%;
-		font-size:17px;
-	}
-	
-	.list_foot img{
-		width:75px;
-		height:75px;
-		margin-left: 4.2%;
-		padding:0;
-		margin-top:3px;
-	}
-	
-	.buttons .btn{
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-/* 		font-size: 12px; */
-	}
-	
-	.buttons{
-		position:absolute;
-		right:5%;
-	}
-	
-	.confirm{
-		position:relative;
- 		margin:0 10%;
-		padding:15 0;
-		
-	}
-	
-	#confirm_btn{
-		background-color: #909090;
-		width: 100%;
-		disabled:true;
-		
-	}
-	
-	/*교인검색창*/
-	.userAddForm{
-		display:none; /* 셀원 추가 버튼누르면 -> flex */
-		flex-direction:row;
-		justify-content: space-around;
-		padding:10px 0;
-		border : 2px solid #000000;
-	}
-	
-	/* 검색 버튼 */
-	#searchLogo{
-		display:inline;
-		height:35px;
-		width:15px;
- 	 	padding-top: 8px;
- 	 	padding-left: 5px;
-	}
-	
-	/* 검색결과를 ajax로 받는창 */
-	#searchResultDiv{
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
-		width:70%;
-	}
-	
-
-</style>
 </head>
 <body>
 
@@ -515,16 +305,31 @@
 			}
 		}
 		
+		if(list == null){ // 모두 결석인 경우
+			show('출석한 인원이 없습니다.');
+			return;
+		}
+		
 		$.ajax({
 			url:"${pageContext.request.contextPath }/attend/attendTry.do",
 			method:"POST",
 			contentType : "application/json; charset=utf-8",
 			data : JSON.stringify(list),
 			success:function(response) {
-				
+				switch(response){
+					case "DUPLI":
+						show('이미 출석 하였습니다.');
+						break;
+					case "SUCCESS":
+						show('출석을 완료하였습니다.');
+						break;
+					case "FAIL":
+						show('출석을 실패하였습니다. 관리자에게 문의하세요.');
+						break;
+				}
 			}
 		});
-	} // 출석완료후 지금 눌러진 
+	}
 	
 
     function getCurrentDate()

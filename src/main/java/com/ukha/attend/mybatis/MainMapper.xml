@@ -145,6 +145,29 @@
 			CHURCH_CODE = #{church_code}
 			AND PART_NAME = #{part_name}
 			AND SELL_NAME = #{sell_name}
-			AND WORSHIP_DATE = #{worship_date}
+			AND WORSHIP_DATE = #{worship_date}<!-- 오늘 날짜로 출석이력이 하나라도 있는가  -->
 	</select>
+	
+	<!-- 출석처리 -->
+	<insert id="insertAttendHist" parameterType="AttendHistDto">
+		INSERT INTO
+		ATTEND_HIST
+			(
+			 CHURCH_CODE,
+			 PART_NAME,
+			 SELL_NAME,
+			 WORSHIP_DATE,
+			 GOD_PEOPLE_NAME,
+			 GOD_PEOPLE_BIRTHDAY
+			)
+		VALUES
+			(
+			 #{church_code},
+			 #{part_name},
+			 #{sell_name},
+			 #{worship_date},
+			 #{god_people_name},
+			 #{god_people_birthday}
+			)			
+	</insert>
 </mapper>

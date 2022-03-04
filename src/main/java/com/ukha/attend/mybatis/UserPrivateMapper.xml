@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userPrivateDao">
+	
+	<select id="getSellPeoplePrivateData" parameterType="GPIDto" resultType="GPIDto">
+		SELECT
+			*
+		FROM
+			GOD_PEOPLE_INFO
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND BIRTHDAY = #{birthday}
+	</select>
+
+</mapper>

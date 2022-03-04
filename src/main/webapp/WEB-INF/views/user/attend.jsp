@@ -57,15 +57,15 @@
 			<div class="people" id="people${status.index }">
 			<c:choose>
 				<c:when test="${not empty tmp.img_path }">
-				<img src="" alt="" /><!-- 이미지 있으면 -->
+				<img src="" alt="" class="sellPeopleImg"/><!-- 이미지 있으면 -->
 				</c:when>
 				<c:otherwise>
 					<c:choose>
 						<c:when test="${tmp.gender eq 'M'}">
-						<img alt="" src="../../resources/svg/man.png">
+						<img alt="" class="sellPeopleImg" src="../../resources/svg/man.png">
 						</c:when>
 						<c:otherwise>
-						<img alt="" src="../../resources/svg/woman.png">
+						<img alt="" class="sellPeopleImg" src="../../resources/svg/woman.png">
 						</c:otherwise>
 					</c:choose>
 				</c:otherwise>
@@ -125,7 +125,7 @@
 		};
 	}
 	
-	//부서선택
+	//상단탭선택
 	$(".menu_nav").children("li").on("click", function(){
 		//우선 모든 카테고리에 적용된 활성화 효과 지우기
 		$('li').css('border-bottom', 'none').css('color', '#808080');
@@ -172,13 +172,15 @@
 		}
 	}
 	
+	
+	let churchCode = $('#church_code').val();
+	let partName = $('#part_name').val();
+	
 	//교인 검색
 	$('#userSearchDataList').on('keyup',function(){
 		
 		$('#userList').empty(); 
 		
-		let churchCode = $('#church_code').val();
-		let partName = $('#part_name').val();
 		let typingContent = $('#userSearchDataList').val();
 		
 		// 이미 소속되어 있는 셀이 없어야함 , 해당 셀의 부서와 같은 부서여야함 -> 그래서 컨트롤러 새로 만드는거다.
@@ -201,14 +203,12 @@
 		});
 	});
 	
+	let sell_name = $('#sell_comment').children('h4').text();
+	
 	//셀원추가하기
 	$('#userAddBtn').on('click',function(){
 		
 		// 파라미터 : 교회코드, 부서, 셀, 이름, 생년월일
-		let churchCode = $('#church_code').val();
-		let partName = $('#part_name').val();
-		let sell = $('#sell_comment').children('h4').text();
-		
 		let userSearchData = $('#userSearchDataList').val();
 		let arr = userSearchData.split(" ");
 		
@@ -224,7 +224,7 @@
 				church_code : churchCode,
 				part_name : partName,
 				god_people_name : name,
-				sell_name : sell,
+				sell_name : sell_name,
 				birthday : birth
 			}, 
 			success:function(response) {
@@ -277,9 +277,6 @@
 		
 		let list = new Array();
 		
-		let church_code = $('#church_code').val();
-		let part_name = $('#part_name').val();
-		let sell_name = $('#sell_comment').children('h4').text();
 		let worship_date = getCurrentDate().toString();
 		
 		let size = $('.people').length;
@@ -330,6 +327,35 @@
 			}
 		});
 	}
+	
+	
+	// 셀원 이미지 클릭 리스너 -> 셀원정보페이지로 이동
+	$('.sellPeopleImg').on('click',function(){
+		
+		let isAllow = false;
+		
+		let god_people_name = $(this).siblings('p').text();
+		let birthday = $(this).siblings('input').val();
+		
+		// 권한검증
+		let login_user_auth = $('#login_user_auth').val();
+		let sell_leader_name = $('#sell_leader_name').text();
+		let login_user_name = $('#login_user_name').val();
+				
+		// 00(임원)이거나  01(셀장)이면서 자신의 셀이거나 자기자신인 경우
+		if(login_user_auth == '00' || 
+				(login_user_auth == '01' && login_user_name == sell_leader_name) || 
+					login_user_name == god_people_name){
+			isAllow = true;
+		} else { // 권한이 없는 경우
+			show('권한이 없습니다.');
+		}
+		
+		if(isAllow){
+			location.href = "${pageContext.request.contextPath }/user/user_private.do?god_people_name=" + god_people_name + "&birthday=" + birthday + "&church_code=" + churchCode + "&part_name=" + partName + "&sell_name=" + sell_name;  
+		}
+		
+	});
 	
 
     function getCurrentDate()

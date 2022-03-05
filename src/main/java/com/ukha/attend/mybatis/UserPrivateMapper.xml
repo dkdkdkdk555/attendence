@@ -15,4 +15,13 @@
 			AND BIRTHDAY = #{birthday}
 	</select>
 
+	<select id="getChurchInfoStandard" parameterType="String" resultType="ChurchDto">
+		SELECT
+			LONGTERM_ABSENT_STANDARD,
+			NEWPP_TERM_STANDARD
+		FROM
+			CHURCH_INFO
+		WHERE
+			CHURCH_CODE = #{code}
+	</select>
 </mapper>

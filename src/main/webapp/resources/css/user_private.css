@@ -1,0 +1,54 @@
+.profile_section{
+	background-color:#E0ECF8;
+	display:flex;
+	flex-direction: column;
+	height:35%;
+}
+
+.image_section{
+	
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	height: 86%;
+}
+
+.peopleImg{
+	width: 140px;
+	height: 140px;
+	
+}
+
+.private_section{
+	height: 100%;
+	background-color: #FFFFFF;
+}
+
+.badge_section{
+	display:flex;
+	flex-direction:row;
+}
+
+#isNew{
+	margin-left:10px;
+}
+
+#isLongtermNo{
+	margin-left:10px;
+}
+
+.inputdiv{
+	margin-bottom: 8px;
+	color: #7E878B;
+	font-size: 14px;
+}
+
+.inputdiv input{
+  	border: none;
+ 	border-bottom: 1px solid #CCC;
+}
+
+input:focus {
+	border: none;	
+}
+}

@@ -2,7 +2,7 @@
 	background-color:#E0ECF8;
 	display:flex;
 	flex-direction: column;
-	height:35%;
+	height:28%;
 }
 
 .image_section{
@@ -38,7 +38,7 @@
 }
 
 .inputdiv{
-	margin-bottom: 8px;
+	margin:15px 15px;
 	color: #7E878B;
 	font-size: 14px;
 }
@@ -46,9 +46,23 @@
 .inputdiv input{
   	border: none;
  	border-bottom: 1px solid #CCC;
+ 	margin-bottom: 12px;
 }
 
-input:focus {
-	border: none;	
+textarea{
+	margin-bottom: 12px;
 }
+
+.update_attend{
+	display:flex;
+	flex-direction: column;
+	justify-content:center;
+	align-items:center;
+	width:85%;
+	padding:5px;
+	padding-bottom:9px;
+	margin:10px auto;
+	border:1px solid #CCC;
+	border-radius: 20px;
 }
+

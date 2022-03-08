@@ -17,23 +17,26 @@ import com.ukha.attend.user.service.UserPrivateServiceImpl;
 public class UserController {
 	
 	@Autowired
-	private UserPrivateSerivce userPrivateSerivce;
+	private UserPrivateSerivce userPrivateService;
 	
 	@RequestMapping("/user/user_private.do")
-	public ModelAndView userPirvateInit(ModelAndView mView, @ModelAttribute("dto") GPIDto dto){
+	public ModelAndView userPirvateInit(ModelAndView mView, @ModelAttribute("dto") GPIDto parameter){
 		
 		// GPI 데이터 가져오기
-		GPIDto data = userPrivateSerivce.getSellPeoplePrivateData(dto);
-		mView.addObject("dto", data);
+		GPIDto dto = userPrivateService.getSellPeoplePrivateData(parameter);
+		mView.addObject("dto", dto);
 		
 		/*
 		    	새신자 여부 및 장기결석 여부
 		 */
 		// data에서 churchcode 추출 - 해당 교회의 새신자기준 및 장기결석자기준 칼럼에서 횟수 추출
-		ChurchDto churchDto = userPrivateSerivce.getBadgeStandard(data.getChurch_code());
+		ChurchDto churchDto = userPrivateService.getBadgeStandard(dto.getChurch_code());
 		// 새신자인지 장기결석자인지 계산
-		Map<String,String> calResult = userPrivateSerivce.calculateToStand(churchDto, data);
-		mView.addObject("isCalResult", calResult);		
+		Map<String,String> calResult = userPrivateService.calculateToStand(churchDto, dto);
+		mView.addObject("isCalResult", calResult);	
+		// 최근출석일로 최근출석이력 가져오기
+		String attendHist = userPrivateService.getAttendHist(dto);
+		mView.addObject("attendHist", attendHist);
 		
 		mView.setViewName("user/user_private");
 		

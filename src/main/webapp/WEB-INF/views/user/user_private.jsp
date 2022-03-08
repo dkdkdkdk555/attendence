@@ -49,15 +49,17 @@
 			</c:if>
 		</div>
 	</div>
+	<input type="hidden" id="attendValue" value="${attendHist }">
 	<!-- 나머지 개인정보가 들어가는 영역 -->
 	<div class="private_section">
 	  <div class="update_attend"><!-- 최근 -> 최근날짜로 변경하기 -->
 		<label class="" style="margin-bottom:7px;">최근 출석 수정</label>
 		<div class="buttons">
-					<button type="button" class="btn btn-outline-secondary">✔</button><!-- 결석 -->
-					<button type="button" class="btn btn-outline-warning">✔</button><!-- 지각 -->
-					<button type="button" class="btn btn-outline-success">✔</button><!-- 출석 -->
+			<button type="button" id="secondary" class="btn btn-outline-secondary">✔</button><!-- 결석 -->
+			<button type="button" id="warning" class="btn btn-outline-warning">✔</button><!-- 지각 -->
+			<button type="button" id="success" class="btn btn-outline-success">✔</button><!-- 출석 -->
 		</div>
+		<button type="button" id="submit" class="btn btn-outline-primary">수정하기</button>
 	  </div>
 	  <div class="inputdiv">
 	    <label class="form-label" style="margin-bottom:0px;">이름</label>
@@ -96,6 +98,13 @@
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 <script>
+
+	$(document).ready(function(){
+		let attVal = $('#attendValue').val();
+		$("#" + attVal ).trigger("click");
+	});
+
+	// 출석버튼 선택시 
 	$('.buttons').children('.btn').on('click',function(){
 		// 이미 선택된거는 또 선택 안되게
 		if($(this).attr('class').split('-').length == 2){
@@ -119,6 +128,8 @@
 		$(this).attr('class', 'btn btn-' + btnType);
 		$(this).attr('name', 'clicked');
 	});
+	
+	//출석수정
 	
 </script>
 </html>

@@ -13,4 +13,6 @@ public interface UserPrivateSerivce {
 	public ChurchDto getBadgeStandard(String code);
 	// 새신자이거나 장기결석자인지 계산
 	public Map<String, String> calculateToStand(ChurchDto dto, GPIDto data);
+	// 최근출석이력 가져오기
+	public String getAttendHist(GPIDto dto); 
 }

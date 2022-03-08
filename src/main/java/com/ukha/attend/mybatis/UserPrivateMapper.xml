@@ -24,4 +24,18 @@
 		WHERE
 			CHURCH_CODE = #{code}
 	</select>
+	
+	<select id="getAttendHist" parameterType="GPIDto" resultType="AttendHistDto">
+		SELECT
+			*
+		FROM
+			ATTEND_HIST
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND BIRTHDAY = #{birthday}
+			AND WORSHIP_DATE = #{last_attend_date}
+	</select>
 </mapper>

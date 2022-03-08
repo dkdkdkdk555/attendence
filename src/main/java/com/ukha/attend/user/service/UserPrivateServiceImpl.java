@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.user.dao.UserPrivateDao;
 
@@ -109,6 +110,33 @@ public class UserPrivateServiceImpl implements UserPrivateSerivce{
 		map.put("isLongAbsent", isLongAbsent);
 		
 		return map;
+	}
+	
+	
+	@Override
+	public String getAttendHist(GPIDto dto) {
+		
+		String result = "";
+		
+		AttendHistDto attendHist = new AttendHistDto();
+		
+		try {
+			attendHist = usrPrivateDao.getAttendHist(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(attendHist == null) {
+			result = "secondary"; // 결석 (기록이 없음)
+		} else{
+			if("Y".equals(attendHist.getLate_yn())){
+				result = "warning"; // 지각
+			} else {
+				result = "success"; // 출석
+			}
+		}
+		
+		return result;
 	}
 
 }

@@ -66,3 +66,20 @@ textarea{
 	border-radius: 20px;
 }
 
+.confirm{
+		position:relative;
+ 		margin:0 10%;
+		padding:15 0;
+		
+}
+
+.buttons{
+	margin-bottom: 10px;
+}
+
+#confirm_btn{
+	background-color: #0f87ff;
+	color: #ffffff;
+	width: 100%;
+	disabled:true;
+}

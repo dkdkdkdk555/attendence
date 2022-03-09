@@ -17,6 +17,27 @@ public class AttendHistDto { // 출석기록 테이블 dto
 //	`late_yn` CHAR(1) NULL DEFAULT NULL COMMENT '지각여부',
 	private String late_yn;
 	
+	// db칼럼에는 존재하지 않지만 출석수정시 출석정보 값 구분위해 추가 1 
+	private String attend_value;
+	
+	// db칼럼에는 존재하지 않지만 출석수정시 출석정보 값 구분위해 추가 1 
+	private String recent_attend_value;
+	
+	
+	
+	
+	public String getRecent_attend_value() {
+		return recent_attend_value;
+	}
+	public void setRecent_attend_value(String recent_attend_value) {
+		this.recent_attend_value = recent_attend_value;
+	}
+	public String getAttend_value() {
+		return attend_value;
+	}
+	public void setAttend_value(String attend_value) {
+		this.attend_value = attend_value;
+	}
 	public String getChurch_code() {
 		return church_code;
 	}

@@ -35,7 +35,99 @@
 			AND PART_NAME = #{part_name}
 			AND SELL_NAME = #{sell_name}
 			AND GOD_PEOPLE_NAME = #{god_people_name}
-			AND BIRTHDAY = #{birthday}
+			AND GOD_PEOPLE_BIRTHDAY = #{birthday}
 			AND WORSHIP_DATE = #{last_attend_date}
 	</select>
+	
+	<delete id="deleteAttendHistRow" parameterType="AttendHistDto">
+		DELETE FROM /* 셀원출결수정 - 결석처리 */
+			ATTEND_HIST
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND GOD_PEOPLE_BIRTHDAY = #{god_people_birthday}
+			AND WORSHIP_DATE = #{worship_date}
+	</delete>
+	
+<!-- 	<update id="updateGPILastAttendDate" parameterType="AttendHistDto"> -->
+<!-- 		UPDATE -->
+<!-- 			GOD_PEOPLE_INFO -->
+<!-- 		SET -->
+<!-- 			LAST_ATTEND_DATE = ( -->
+<!-- 				SELECT  -->
+<!-- 					WORSHIP_DATE -->
+<!-- 				FROM  -->
+<!-- 					ATTEND_HIST -->
+<!-- 				WHERE -->
+<!-- 					CHURCH_CODE = #{church_code} -->
+<!-- 					AND PART_NAME = #{part_name} -->
+<!-- 					AND SELL_NAME = #{sell_name} -->
+<!-- 					AND GOD_PEOPLE_NAME = #{god_people_name} -->
+<!-- 					AND GOD_PEOPLE_BIRTHDAY = #{god_people_birthday} -->
+<!-- 			) -->
+<!-- 		WHERE -->
+<!-- 			CHURCH_CODE = #{church_code} -->
+<!-- 			AND PART_NAME = #{part_name} -->
+<!-- 			AND SELL_NAME = #{sell_name} -->
+<!-- 			AND GOD_PEOPLE_NAME = #{god_people_name} -->
+<!-- 			AND BIRTHDAY = #{god_people_birthday} -->
+<!-- 	</update> -->
+	
+	<insert id="insertAttendHistRow" parameterType="AttendHistDto">
+		INSERT INTO 
+		ATTEND_HIST
+			(
+			 CHURCH_CODE,
+			 PART_NAME,
+			 SELL_NAME,
+			 WORSHIP_DATE,
+			 GOD_PEOPLE_NAME,
+			 GOD_PEOPLE_BIRTHDAY
+			 <if test="late_yn != null or late_yn != ''">
+				,LATE_YN
+			 </if>
+			)
+		VALUES
+			(
+			 #{church_code},
+			 #{part_name},
+			 #{sell_name},
+			 #{worship_date},
+			 #{god_people_name},
+			 #{god_people_birthday}
+			 <if test="late_yn != null or late_yn != ''">
+			 	,#{late_yn}
+			 </if>
+			)
+	</insert>
+	
+	<update id="updateAttendHistRow" parameterType="AttendHistDto">
+		UPDATE 
+			ATTEND_HIST
+		SET 
+			LATE_YN = #{late_yn}
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND GOD_PEOPLE_BIRTHDAY = #{god_people_birthday}
+			AND WORSHIP_DATE = #{worship_date}
+	</update>
+	
+	<update id="updateSellPeopleInfo" parameterType="GPIDto">
+		UPDATE
+			GOD_PEOPLE_INFO
+		SET
+			PRAYER_TOPIC = #{prayer_topic},
+			ADDRESS = #{address}
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND GOD_PEOPLE_NAME = #{god_people_name}
+			AND BIRTHDAY = #{birthday}
+	</update>
 </mapper>

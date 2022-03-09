@@ -120,12 +120,13 @@ public class UserPrivateServiceImpl implements UserPrivateSerivce{
 		
 		AttendHistDto attendHist = new AttendHistDto();
 		
+		System.out.println(dto);
+		
 		try {
 			attendHist = usrPrivateDao.getAttendHist(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		if(attendHist == null) {
 			result = "secondary"; // 결석 (기록이 없음)
 		} else{
@@ -137,6 +138,103 @@ public class UserPrivateServiceImpl implements UserPrivateSerivce{
 		}
 		
 		return result;
+	}
+
+	@Override // 결석처리
+	public String secondaryLogic(AttendHistDto dto) {
+		
+		String result = "";
+		
+		// 프론트에서 막아지니 secondary가 들어올 순 없다 그래서 걍 삭제하면됨
+		try {
+			int n = usrPrivateDao.deleteAttendHist(dto);
+			if(n==1){
+				result = "SUCCESS";
+			} else {
+				result = "FAIL";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "ERROR";
+		}
+
+		return result;
+	}
+
+	@Override // 지각처리
+	public String warningLogic(AttendHistDto dto) {
+		// 최근 출석 내용에 따른 분기
+		String recent_attend_value = dto.getRecent_attend_value();
+		
+		String result = "";
+		int n = 0;
+		
+		dto.setLate_yn("Y");
+		try {
+			if("secondary".equals(recent_attend_value)){ // 기존 출결이 결석이었다면
+				// 지각여부가 Y인 데이터 생성
+				n = usrPrivateDao.insertAttendHist(dto);
+			} else if("success".equals(recent_attend_value)){ // 기존 출결이 출석이었다면
+				// 지각여부를 Y로 업데이트
+				n = usrPrivateDao.updateAttendHist(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "ERROR";
+		}
+		
+		if(n==1){
+			result = "SUCCESS";
+		} else {
+			result = "FAIL";
+		}
+		
+		return result;
+	}
+
+	@Override // 출석처리
+	public String successLogic(AttendHistDto dto) {
+		// 최근 출석 내용에 따른 분기
+		String recent_attend_value = dto.getRecent_attend_value();
+		
+		String result = "";
+		int n = 0;
+		
+		try {
+			if("secondary".equals(recent_attend_value)){ // 기존 출결이 결석이었다면
+				// row 생성
+				n = usrPrivateDao.insertAttendHist(dto);
+			} else if("warning".equals(recent_attend_value)){ // 기존 출결이 지각이었다면
+				// 지각여부를 N으로 업데이트
+				dto.setLate_yn("N");
+				n = usrPrivateDao.updateAttendHist(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "ERROR";
+		}
+		
+		if(n==1){
+			result = "SUCCESS";
+		} else {
+			result = "FAIL";
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int updateSellPPInfo(GPIDto dto) {
+
+		int n = 0;
+		try {
+			n = usrPrivateDao.updateSellPPInfo(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			n = 12;
+		}
+		
+		return n;
 	}
 
 }

@@ -49,7 +49,14 @@
 			</c:if>
 		</div>
 	</div>
+	<!-- hidden 셀원 정보 -->
 	<input type="hidden" id="attendValue" value="${attendHist }">
+	<input type="hidden" id="church_code" value="${dto.church_code }">
+	<input type="hidden" id="part_name" value="${dto.part_name }">
+	<input type="hidden" id="sell_name" value="${dto.sell_name }">
+	<input type="hidden" id="prayer_topic" value="${dto.prayer_topic }">
+	<input type="hidden" id="address" value="${dto.address }">
+	
 	<!-- 나머지 개인정보가 들어가는 영역 -->
 	<div class="private_section">
 	  <div class="update_attend"><!-- 최근 -> 최근날짜로 변경하기 -->
@@ -74,19 +81,14 @@
 	    	<label class="form-label" style="margin-bottom:0px;">봉사부서</label><!-- 부서랑 셀 같이 드렁감 -->
 	    	<input type="text" class="form-control" id="sell_pp_volun" value="${dto.volun_part_name } - ${dto.volun_part_sell}" readonly>
 	    </c:if>
-	    <label class="form-label" style="margin-bottom:0px;">세례여부</label>
-	    <c:choose>
-	    	<c:when test="${dto.baptism_yn eq true}">
-	    		<input type="text" class="form-control" id="sell_pp_bapt" value="Y">
-	    	</c:when>
-	    	<c:otherwise>
-	    		<input type="text" class="form-control" id="sell_pp_bapt" value="N">
-	    	</c:otherwise>
-	    </c:choose>
+	    <c:if test="${dto.baptism_yn eq true}">
+	    	<label class="form-label" style="margin-bottom:0px;">세례여부</label>
+		    <input type="text" class="form-control" id="sell_pp_bapt" value="Y" readonly>
+	    </c:if>
 	    <label class="form-label" style="margin-bottom:0px;">기도제목</label>
 	    <textarea class="form-control" placeholder="" id="sell_pp_pray">${dto.prayer_topic }</textarea>
 	    <label class="form-label" style="margin-bottom:0px;">마지막 출석일</label>
-	    <input type="text" class="form-control" id="sell_pp_lastattd" value=${dto.last_attend_date } readonly>
+	    <input type="text" class="form-control" id="sell_pp_lastattd" value="${dto.last_attend_date }" readonly>
 	    <label class="form-label" style="margin-bottom:0px;">새신자 등록일</label>
 	    <input type="text" class="form-control" id="sell_pp_reg" value="${dto.newpp_reg_date }" readonly>
 		<div class="confirm"><!-- 셀원정보 수정 저장 -->
@@ -98,6 +100,13 @@
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 <script>
+
+	let churchCode = $('#church_code').val();
+	let partName = $('#part_name').val();
+	let sellName = $('#sell_name').val();
+	let ppName = $('#sell_pp_name').val();
+	let ppBirth = $('#sell_pp_birth').val();
+	
 
 	$(document).ready(function(){
 		let attVal = $('#attendValue').val();
@@ -130,6 +139,93 @@
 	});
 	
 	//출석수정
+	$('#submit').on('click',function(){
+				
+		let recentAttend = $('#attendValue').val();
+		let clickedBtn = $('.buttons').children('button[name=clicked]').attr('id');
+		let worshipDate = $('#sell_pp_lastattd').val();
+		
+		// 최근출석내용과 같은걸 눌렀럿다면 수정 불가
+		if(recentAttend == clickedBtn){ 
+			return;
+		}
+		
+		// 수정하기
+		$.ajax({
+			url:"${pageContext.request.contextPath }/user/updateRecentAttend.do",
+			method:"POST",
+			data : {
+				recent_attend_value : recentAttend,
+				attend_value : clickedBtn,
+				church_code : churchCode,
+				part_name : partName,
+				sell_name : sellName,
+				worship_date : worshipDate,
+				god_people_name : ppName,
+				god_people_birthday : ppBirth
+			},
+			success:function(response) {
+				switch(response){
+					case "SUCCESS":
+						window.location.reload();
+						break;
+					case "FAIL":
+						show('출석 수정에 실패하였습니다. 다시 시도하여 주세요.');
+						break;
+					case "ERROR":
+						show('시스템 오류입니다. 관리자에게 문의하세요.');
+						break;
+				}
+			}
+		});
+	});
 	
+	// 셀원정보 수정
+	$('#confirm_btn').on('click', function(){
+		// 바뀐값이 있는지 검사
+		let prayer_setting_value = $('#prayer_topic').val();
+		let address_setting_value = $('#address').val();
+		
+		let pray_chv = $('#sell_pp_pray').val();
+		let addr_chv = $('#sell_pp_addr').val();
+		
+		let isUpdateOkay = false;
+		
+		if(prayer_setting_value != pray_chv || address_setting_value != addr_chv){
+			isUpdateOkay = true;
+		}
+		
+		if(isUpdateOkay){
+			$.ajax({
+				url:"${pageContext.request.contextPath }/user/updateSellPeopleInfo.do",
+				method:"POST",
+				data : {
+					church_code : churchCode,
+					part_name : partName,
+					sell_name : sellName,
+					god_people_name : ppName,
+					birthday : ppBirth,
+					prayer_topic : pray_chv,
+					address : addr_chv
+				},
+				success:function(response) {
+					switch(response){
+						case "SUCCESS":
+							window.location.reload();
+							break;
+						case "FAIL":
+							show('정보 수정에 실패하였습니다.');
+							break;
+						case "ERROR":
+							show('시스템 오류입니다. 관리자에게 문의하세요.');
+							break;
+					}
+				}
+			});
+		} else {
+			show('수정된 값이 없습니다.');
+		}
+		
+	});
 </script>
 </html>

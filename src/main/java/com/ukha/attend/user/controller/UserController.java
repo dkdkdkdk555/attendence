@@ -1,17 +1,20 @@
 package com.ukha.attend.user.controller;
 
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 import com.ukha.attend.user.service.UserPrivateSerivce;
-import com.ukha.attend.user.service.UserPrivateServiceImpl;
 
 @Controller
 public class UserController {
@@ -33,13 +36,58 @@ public class UserController {
 		ChurchDto churchDto = userPrivateService.getBadgeStandard(dto.getChurch_code());
 		// 새신자인지 장기결석자인지 계산
 		Map<String,String> calResult = userPrivateService.calculateToStand(churchDto, dto);
-		mView.addObject("isCalResult", calResult);	
-		// 최근출석일로 최근출석이력 가져오기
+		mView.addObject("isCalResult", calResult);
+		
+		/*
+		  		최근출석일로 최근출석이력 가져오기
+		 */
 		String attendHist = userPrivateService.getAttendHist(dto);
 		mView.addObject("attendHist", attendHist);
 		
 		mView.setViewName("user/user_private");
 		
 		return mView;
+	}
+	
+	@RequestMapping(value = "/user/updateRecentAttend.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String updateRecentAttend(@ModelAttribute("dto") AttendHistDto parameter){
+		
+		String result = "";
+		
+		// 출석유형에 따른 분기
+		String attendType = parameter.getAttend_value();
+		switch(attendType){
+			case "secondary": // row select -> row 삭제
+				result = userPrivateService.secondaryLogic(parameter);
+				break;
+			case "warning": // row select -> 지각여부를 "Y"로 업데이트 or row 생성
+				result = userPrivateService.warningLogic(parameter);
+				break;
+			case "success": // row select -> row 생성 or 지각여부  "N"처리
+				result = userPrivateService.successLogic(parameter);
+				break;
+		}
+		
+		return result; 
+	}
+	
+	@RequestMapping(value = "/user/updateSellPeopleInfo.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String updateSellPeopleInfo(@ModelAttribute("dto") GPIDto parameter){
+		
+		String result = "";
+		
+		int n = userPrivateService.updateSellPPInfo(parameter);
+		
+		if(n==1){
+			result = "SUCCESS";
+		} else if(n==12){
+			result = "ERROR";
+		} else{
+			result = "FAIL";
+		}
+		
+		return result; 
 	}
 }

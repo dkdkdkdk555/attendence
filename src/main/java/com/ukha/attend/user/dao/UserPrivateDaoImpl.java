@@ -30,4 +30,23 @@ public class UserPrivateDaoImpl implements UserPrivateDao {
 		return session.selectOne("userPrivateDao.getAttendHist", dto);
 	}
 
+	@Override
+	public int deleteAttendHist(AttendHistDto dto) {
+		return session.delete("userPrivateDao.deleteAttendHistRow", dto);
+	}
+
+	@Override
+	public int insertAttendHist(AttendHistDto dto) {
+		return session.insert("userPrivateDao.insertAttendHistRow", dto);
+	}
+
+	@Override
+	public int updateAttendHist(AttendHistDto dto) {
+		return session.update("userPrivateDao.updateAttendHistRow", dto);
+	}
+
+	@Override
+	public int updateSellPPInfo(GPIDto dto) {
+		return session.update("userPrivateDao.updateSellPeopleInfo", dto);
+	}
 }

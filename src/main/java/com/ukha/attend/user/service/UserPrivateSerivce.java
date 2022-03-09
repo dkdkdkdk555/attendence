@@ -3,6 +3,7 @@ package com.ukha.attend.user.service;
 import java.util.Map;
 
 import com.ukha.attend.login.dto.GPIDto;
+import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.main.dto.ChurchDto;
 
 public interface UserPrivateSerivce {
@@ -15,4 +16,12 @@ public interface UserPrivateSerivce {
 	public Map<String, String> calculateToStand(ChurchDto dto, GPIDto data);
 	// 최근출석이력 가져오기
 	public String getAttendHist(GPIDto dto); 
+	// 출석유형 분기 - 결석
+	public String secondaryLogic(AttendHistDto dto);
+	// 출석유형 분기 - 지각
+	public String warningLogic(AttendHistDto dto);
+	// 출석유형 분기 - 출석
+	public String successLogic(AttendHistDto dto);
+	// 셀원정보 수정
+	public int updateSellPPInfo(GPIDto dto);
 }

@@ -12,4 +12,12 @@ public interface UserPrivateDao {
 	public ChurchDto getChurchStandard(String code);
 	// 출석기록 가져오기
 	public AttendHistDto getAttendHist(GPIDto dto);
+	// 셀원출결수정 - 결석처리
+	public int deleteAttendHist(AttendHistDto dto);
+	// 셀원출결수정 - 지각 또는 출석처리 (데이터 생성)
+	public int insertAttendHist(AttendHistDto dto);
+	// 셀원출결수정 - 지각 또는 출석처리 (데이터 수정)
+	public int updateAttendHist(AttendHistDto dto);
+	// 셀원 정보 수정
+	public int updateSellPPInfo(GPIDto dto);
 }

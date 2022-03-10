@@ -170,4 +170,16 @@
 			 #{god_people_birthday}
 			)			
 	</insert>
+	
+	<!-- 최근출석일 업데이트 -->
+	<update id="updateLastAttend" parameterType="GPIDto">
+		UPDATE
+			GOD_PEOPLE_INFO
+		SET
+			LAST_ATTEND_DATE = #{last_attend_date}
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+	</update>
 </mapper>

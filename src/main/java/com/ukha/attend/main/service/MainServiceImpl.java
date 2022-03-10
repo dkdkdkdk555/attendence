@@ -106,4 +106,17 @@ public class MainServiceImpl implements MainService {
 		
 		return result;
 	}
+
+	@Override
+	public int updateLastAttend(GPIDto dto) {
+		
+		int result = 0;
+		try {
+			result = maindao.updateLastAttend(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

@@ -30,4 +30,6 @@ public interface MainService {
 	public int examDuplAttend(AttendHistDto dto);
 	//출석페이지 - 출석처리
 	public int insertAttendHist(List<AttendHistDto> list);
+	//출석페이지 - 최근출석일 업데이트 (모든 셀원 일괄)
+	public int updateLastAttend(GPIDto dto);
 }

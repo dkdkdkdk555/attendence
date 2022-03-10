@@ -120,4 +120,13 @@ public class MainController { // 메인화면(출석부목록화면) 및 출석�
 		
 		return "FAIL";
 	}
+	
+	@RequestMapping(value = "/attend/lastAttendUpdate.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public int doLastAttendUpdate(@ModelAttribute("dto") GPIDto dto){
+		
+		int n = mainService.updateLastAttend(dto);
+		
+		return n;
+	}
 }

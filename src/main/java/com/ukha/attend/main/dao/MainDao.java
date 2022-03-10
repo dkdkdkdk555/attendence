@@ -31,4 +31,6 @@ public interface MainDao {
 	public int examDupliAttend(AttendHistDto dto);
 	//출석페이지 - 출석하기
 	public int insertAttendHist(AttendHistDto dto);
+	//출석페이지 - 최근출석일 업데이트
+	public int updateLastAttend(GPIDto dto);
 }

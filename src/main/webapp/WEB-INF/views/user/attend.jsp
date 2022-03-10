@@ -293,14 +293,32 @@
 			
 				data.god_people_name = $('#people' + i).children('p').text();
 				data.god_people_birthday = $('#people' + i).children('input').val();
-				data.church_code = church_code;
-				data.part_name = part_name;
+				data.church_code = churchCode;
+				data.part_name = partName;
 				data.sell_name = sell_name;
 				data.worship_date = worship_date;
 				
 				list.push(data);
 			}
 		}
+			
+		// 셀원들의 최근 출석일만 업데이트 해준다. 
+		$.ajax({
+			url:"${pageContext.request.contextPath }/attend/lastAttendUpdate.do",
+			method:"POST",
+			data : { // 교회코드, 부서이름, 셀이름, 예배일
+				church_code : churchCode,
+				part_name : partName,
+				sell_name : sell_name,
+				last_attend_date : worship_date
+			},
+			success:function(response) {
+				if(response != size){ // 모든 셀인원의 최근출석일이 업데이트 됬으면
+					show('오류가 발생했습니다. [error:not match GPIDto updated count with front row count.]');
+					return;
+				} 
+			}
+		});
 		
 		if(list == null){ // 모두 결석인 경우
 			show('출석한 인원이 없습니다.');

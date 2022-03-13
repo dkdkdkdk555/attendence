@@ -25,10 +25,10 @@
 	</div>
 	<div class="menu">
 		<nav class="menu_nav">
-			<li class="menu_li" id="check">출석체크</li>
+			<li class="menu_li" id="attend">출석체크</li>
 			<li class="menu_li" id="management">사역관리</li>
 			<li class="menu_li" id="statistics">통계</li>
-			<li class="menu_li" id="table">출결표</li>
+			<li class="menu_li" id="table_view">출결표</li>
 		</nav>	
 	</div>
 	<!-- 셀 설명 섹션 -->
@@ -102,9 +102,13 @@
 <script>
 	
 	$(document).ready(function(){
-		$("#check").trigger("click");//트리거로 강제 클릭
+		$("#attend").trigger("click");//트리거로 강제 클릭
 		calculateDay();
 	});
+	
+	let churchCode = $('#church_code').val();
+	let partName = $('#part_name').val();
+	let sell_name = $('#sell_comment').children('h4').text();
 	
 	//출석요일 계산
 	function calculateDay(){
@@ -134,12 +138,12 @@
 		console.log(id);
 		//선택한 카테고리에 활성화 밑줄 효과 주기 
 		$("#"+id).css('border-bottom', '2px solid #404040').css('color', '#404040');
+		if(id != 'attend'){ // 출석페이지(현페이지) 제외
+			//페이지이동
+			location.href = '${pageContext.request.contextPath }/user/' + id + '.do?church_code=' + churchCode + '&part_name=' + partName + '&sell_name=' + sell_name;	
+		}
+		
 	});
-	
-	$('#sbt').on('click',function(){
-		showUserSearchDiv();
-	});
-	
 	
 	//교인검색폼 보이기
 	function showUserSearchDiv(){
@@ -172,10 +176,6 @@
 		}
 	}
 	
-	
-	let churchCode = $('#church_code').val();
-	let partName = $('#part_name').val();
-	
 	//교인 검색
 	$('#userSearchDataList').on('keyup',function(){
 		
@@ -202,8 +202,6 @@
 			}
 		});
 	});
-	
-	let sell_name = $('#sell_comment').children('h4').text();
 	
 	//셀원추가하기
 	$('#userAddBtn').on('click',function(){

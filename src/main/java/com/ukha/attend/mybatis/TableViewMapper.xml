@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tableViewDao">
+
+	<!-- 셀 기간별 출석기록 조회 -->
+	<select id="getSellAttendHist" parameterType="AttendHistDto" resultType="AttendHistDto">
+		SELECT
+			*
+		FROM
+			ATTEND_HIST
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+			AND WORSHIP_DATE BETWEEN #{start_date} AND #{end_date}
+	</select>
+</mapper>

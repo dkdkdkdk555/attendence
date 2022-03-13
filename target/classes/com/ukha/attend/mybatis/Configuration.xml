@@ -13,6 +13,7 @@
 	<mappers>
 		<mapper resource="com/ukha/attend/mybatis/MainMapper.xml"/>
 		<mapper resource="com/ukha/attend/mybatis/UserMapper.xml"/>
+		<mapper resource="com/ukha/attend/mybatis/TableViewMapper.xml"/>
 		<mapper resource="com/ukha/attend/mybatis/UserPrivateMapper.xml"/>
 	</mappers>
 </configuration>

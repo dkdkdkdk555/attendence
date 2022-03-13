@@ -23,9 +23,22 @@ public class AttendHistDto { // 출석기록 테이블 dto
 	// db칼럼에는 존재하지 않지만 출석수정시 출석정보 값 구분위해 추가 1 
 	private String recent_attend_value;
 	
+	// 출석표페이지에서 출석기록 가져오는 기간 
+	private String start_date;
+	private String end_date;	
 	
-	
-	
+	public String getStart_date() {
+		return start_date;
+	}
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
+	}
+	public String getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
+	}
 	public String getRecent_attend_value() {
 		return recent_attend_value;
 	}

@@ -14,4 +14,29 @@
 			AND SELL_NAME = #{sell_name}
 			AND WORSHIP_DATE BETWEEN #{start_date} AND #{end_date}
 	</select>
+	
+	<!-- 셀 출석요일 가져오기 -->
+	<select id="getSellAttendDate"  parameterType="AttendHistDto" resultType="String">
+		SELECT
+			ATT_DAY_OF_WEEK
+		FROM
+			SELL_INFO
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+	</select>
+	
+	<!-- 셀원목록 -->
+	<select id="getSellPPList" parameterType="AttendHistDto" resultType="String">
+		SELECT
+			GOD_PEOPLE_NAME
+		FROM
+			GOD_PEOPLE_INFO
+		WHERE
+			CHURCH_CODE = #{church_code}
+			AND PART_NAME = #{part_name}
+			AND SELL_NAME = #{sell_name}
+	</select>
+	
 </mapper>

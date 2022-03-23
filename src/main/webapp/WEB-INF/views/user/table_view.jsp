@@ -33,10 +33,10 @@
 			-moz-apparance:none; apparance:none;
 			background:url(../) no-repeat 80% 50%; padding-right:0;
 			margin-left:7px;">
-		  <option>2022</option>
-		  <option>2023</option>
-		  <option>2024</option>
-		  <option>2025</option>
+		  <option value="2022">2022</option>
+		  <option value="2023">2023</option>
+		  <option value="2024">2024</option>
+		  <option value="2025">2025</option>
 		</select>
 		<p class="labl">년</p>
 		<!-- 월 -->
@@ -46,24 +46,41 @@
 			-moz-apparance:none; apparance:none;
 			background:url(../) no-repeat 80% 50%; padding-right:0;
 			margin-left:7px;">
-		  <option>1</option>
-		  <option>2</option>
-		  <option>3</option>
-		  <option>4</option>
-		  <option>5</option>
-		  <option>6</option>
-		  <option>7</option>
-		  <option>8</option>
-		  <option>9</option>
-		  <option>10</option>
-		  <option>11</option>
-		  <option>12</option>
+		  <option value="01">1</option>
+		  <option value="02">2</option>
+		  <option value="03">3</option>
+		  <option value="04">4</option>
+		  <option value="05">5</option>
+		  <option value="06">6</option>
+		  <option value="07">7</option>
+		  <option value="08">8</option>
+		  <option value="09">9</option>
+		  <option value="10">10</option>
+		  <option value="11">11</option>
+		  <option value="12">12</option>
 		</select>
 		<p class="labl">월</p>
 	</div>
+	<input type="hidden" value="${AttDay }" id="attDay">
+	<input type="hidden" value="${month.start_date }" id="start_date">
+	<input type="hidden" value="${month.end_date }" id="end_date">
+	
 	<!-- 출결표 -->
 	<div class="view_table">
-		
+		<table class="table">
+		  <thead>
+		    <tr id="table_head">
+		      <th scope="col">셀원</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  <c:forEach var="name" items="${nameList }">
+		  	<tr>
+		      <th scope="row">${name }</th>
+		    </tr>
+		  </c:forEach>
+		  </tbody>
+		</table>
 	</div>
 	
 <!-- 	<ul> -->
@@ -77,7 +94,13 @@
 	
 	$(document).ready(function(){
 		$("#table_view").trigger("click");//트리거로 강제 클릭
-
+		// 조회조건에 처음 화면 로드시 조회조건이 들어가도록
+		let currDate = getCurrentDate();
+		let year = currDate.substr(0, 4);
+		let month = currDate.substr(4, 2);
+		$("#year_select").val(year).prop("selected", true);
+		$("#month_select").val(month).prop("selected", true);
+		getAttendHistDate();
 	});
 	
 	//상단탭선택
@@ -94,6 +117,47 @@
 	$('#sbt').on('click',function(){
 		showUserSearchDiv();
 	});
+	
+	function getAttendHistDate(){
+		
+		let week = ['일', '월', '화', '수', '목', '금', '토'];
+		
+		// 월의 시작과 끝날짜 가져오기
+		let start = $('#start_date').val();
+		let year_s = start.substr(0,4); // 시작일 년
+		let mon_s = start.substr(4,2); // 시작일 월
+		let day_s = start.substr(6,2); // 시작일 일
+		let end = $('#end_date').val(); 
+		let year_e = end.substr(0,4); // 마지막일 년
+		let mon_e = end.substr(4,2); // 마지막일 월
+		let day_e = end.substr(6,2); // 마지막일 일
+		
+		// 출석일 
+		let attDay =  $('#attDay').val();
+		
+		let startDate = year_s + '-' + mon_s + '-' + day_s;
+		let endDate = year_e + '-' + mon_e + '-' + day_e;
+		
+		let start_date = new Date(startDate);
+		let end_date = new Date(endDate);
+		// 날짜 차이 구하기
+		let cnt = end_date.getDate() - start_date.getDate();
+		let dayCnt = cnt + 1;
+		
+		// 월의 시작날짜 부터 끝날짜 까지 반복문 돌며 조회요일과 일치하는 날짜들 가져오기
+		for(let i=1;i<=dayCnt;i++){
+			let date = new Date(year_s + '-' + mon_s + '-' + i).getDay();
+			let dayOfWeek = week[date];
+			if(dayOfWeek == attDay){ // 출석일과 같은 날짜는 칼럼으로 추가해준다.
+				console.log(new Date(year_s + '-' + mon_s + '-' + i));
+				$('#table_head').append($('<th scope="col" id="'+ date + '">' + 
+						 mon_s + '.' + i + '</th>'));
+			}
+		}
+		
+		
+		
+	}
 	
 	
 	

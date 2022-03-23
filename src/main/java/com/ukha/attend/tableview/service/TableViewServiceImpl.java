@@ -40,7 +40,8 @@ public class TableViewServiceImpl implements TableViewService {
 		return list;
 	}
 	
-	private AttendHistDto calTodayMonth(){
+	@Override
+	public AttendHistDto calTodayMonth(){
 		
 		SimpleDateFormat yearFmt = new SimpleDateFormat("yyyy");
 		SimpleDateFormat monthFmt = new SimpleDateFormat("MM");
@@ -63,6 +64,34 @@ public class TableViewServiceImpl implements TableViewService {
 		val.setEnd_date(end_date);
 		
 		return val;
+	}
+
+	@Override
+	public String getAttendDay(AttendHistDto dto) {
+		
+		String result = "";
+		try {
+			result = tableViewDao.selectSellAttendDate(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	@Override
+	public List<String> getSellPPNameList(AttendHistDto dto) {
+
+		List<String> list = new ArrayList<String>();
+		
+		try {
+			list = tableViewDao.selectSellPPNameList(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 }

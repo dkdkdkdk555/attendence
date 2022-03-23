@@ -27,9 +27,19 @@ public class TabelViewController {
 		
 		// 서비스에서 교회코드, 부서이름, 셀이름으로 ATTEND_HIST의 기록 가져오기 - 해당월의 기록 가져오기
 		List<AttendHistDto> list = tableViewService.getAttendHist(parameter);
-		
 		mView.addObject("HistList", list);
 		
+		// 셀 이름으로 출석요일 가져오기
+		String attDay = tableViewService.getAttendDay(parameter);
+		mView.addObject("AttDay", attDay);
+		
+		// 조회 월의 시작과 끝
+		AttendHistDto month = tableViewService.calTodayMonth();
+		mView.addObject("month", month);
+		
+		// 셀원들 이름 가져오기
+		List<String> nameList = tableViewService.getSellPPNameList(parameter);
+		mView.addObject("nameList", nameList);
 		
 		mView.setViewName("user/table_view");
 		

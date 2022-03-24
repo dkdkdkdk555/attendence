@@ -75,19 +75,27 @@
 		  </thead>
 		  <tbody>
 		  <c:forEach var="name" items="${nameList }">
-		  	<tr>
+		  	<tr id="${name }">
 		      <th scope="row">${name }</th>
+		      <td style="display:none" id="${name }_1"></td>
+		      <td style="display:none" id="${name }_2"></td>
+		      <td style="display:none" id="${name }_3"></td>
+		      <td style="display:none" id="${name }_4"></td>
+		      <td style="display:none" id="${name }_5"></td>
+		      <td style="display:none" id="${name }_6"></td>
 		    </tr>
 		  </c:forEach>
 		  </tbody>
 		</table>
 	</div>
 	
-<!-- 	<ul> -->
-<%-- 	<c:forEach var="dto" items="${HistList }"> --%>
-<%-- 		<lil>${dto }</p> --%>
-<%-- 	</c:forEach> --%>
-<!-- 	</ul> -->
+	<!-- 출석데이터 -->
+	<c:forEach var="hist"  varStatus="status" items="${HistList }">
+		<input type="hidden" class="hist" id="hist_${status.index + 1 }" 
+			value="${hist.god_people_name }-${hist.worship_date}${hist.late_yn eq "Y"?"-Y":""}">
+	</c:forEach>
+	
+
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 <script>
@@ -144,19 +152,31 @@
 		let cnt = end_date.getDate() - start_date.getDate();
 		let dayCnt = cnt + 1;
 		
+		let index = 0;
 		// 월의 시작날짜 부터 끝날짜 까지 반복문 돌며 조회요일과 일치하는 날짜들 가져오기
 		for(let i=1;i<=dayCnt;i++){
 			let date = new Date(year_s + '-' + mon_s + '-' + i).getDay();
 			let dayOfWeek = week[date];
 			if(dayOfWeek == attDay){ // 출석일과 같은 날짜는 칼럼으로 추가해준다.
-				console.log(new Date(year_s + '-' + mon_s + '-' + i));
-				$('#table_head').append($('<th scope="col" id="'+ date + '">' + 
-						 mon_s + '.' + i + '</th>'));
-			}
+				index += 1;
+				let j = '';
+				if(i<10){
+					j = '0' + i;
+				} else {
+					j = i;
+				}
+				$('#table_head').append($('<th scope="col" id="'+ index + '">' + 
+						 mon_s + '.' + j + '</th>'));
+			} 
 		}
 		
-		
-		
+		setAttData();
+	}
+	
+	// 출석 기록을 세팅해주는 메소드
+	function setAttData(){
+		let histList =
+		console.log(histList);
 	}
 	
 	

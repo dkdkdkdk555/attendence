@@ -4,8 +4,9 @@
 <html>
 <head>
 <jsp:include page="../include/resource.jsp"></jsp:include>
-<meta content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=0.07, maximum-scale=5.0, user-scalable=0" />
+<!-- <meta name="viewport" content="width=device-width, initial-scale=0.07, maximum-scale=5.0, user-scalable=0" /> -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/userCommon.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/attend.css">
 <title>attend.do</title>

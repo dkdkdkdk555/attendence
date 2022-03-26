@@ -5,7 +5,8 @@
 <head>
 <jsp:include page="../include/resource.jsp"></jsp:include>
 <link rel="stylesheet" href="../../resources/css/carousel.css"/>
-<meta content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>main.do</title>
 <style>
 	body{

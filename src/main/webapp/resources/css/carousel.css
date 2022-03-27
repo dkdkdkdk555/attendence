@@ -17,24 +17,12 @@
     align-items: center;
 }
 
-.button {
-    margin-left: 0 3%;
-    width: 2rem;
-    cursor: pointer;
-}
-
-.button--inactive {
-    opacity: 0.2;
-}
-
-.button img {
-    width: 60%;
-}
-
 .cards-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right:20px;
+    margin-left:20px;
 }
 
 .cards__container {
@@ -43,6 +31,8 @@
     justify-content: center;
     height: 16rem;
     padding-right:32px;
+    margin-right:20px;
+    margin-left:20px;
 }
 
 .box {

@@ -9,10 +9,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>main.do</title>
 <style>
-	body{
+	html, body{
 		background-color: #F0F5F5; 		
 		font-family: 'Spoqa Han Sans Neo', 'sans-serif';	
 		overflow-x: hidden;
+		overflow-y: auto;
 	}
 	
 	/* 드래그시 영역선택되는거 색 안보이게*/
@@ -108,8 +109,28 @@
 	
 	.sellList{
 		background-color: #FFFFFF;
+		display:flex;
+		flex-direction:column;
+		
 	}
 	
+	.listMoveBtn{
+		background-color: #FFFFFF;
+		display:flex;
+		flex-direction:row;
+		justify-content:space-around;
+		padding-bottom:3px;
+		border-top:2px solid #F0F5F5;
+	}
+	
+	#left_move{
+		padding-right:5px;
+	}
+
+	#right_move{
+		padding-left:5px;
+	}
+		
 </style>
 </head>
 <body>
@@ -150,7 +171,6 @@
 				<img src="" alt="" /> <!-- 아직 파일 올리는 경로 모름-->
 			</c:when>
 			<c:otherwise>
-				<img alt="" src="../../resources/svg/church.png">
 			</c:otherwise>
 		</c:choose>
 		<div id="church_comment">
@@ -169,6 +189,10 @@
 		</nav>
 		<div class="sellList">
 			<jsp:include page="../include/carousel.jsp"></jsp:include>
+		   	<div class="listMoveBtn">
+		   		<i class="material-icons" id="left_move" onclick="javascript:leftScroll();" >navigate_before</i>
+		   		<i class="material-icons" id="right_move" onclick="javascript:rightScroll();">keyboard_arrow_right</i>
+		   	</div>
 		</div>
 	</div>
 	
@@ -246,23 +270,23 @@
 	}
 	
 	
-	//캐러셀 넘기기 리스너
-	let mouseX = '';
+	//캐러셀 넘기기 리스너  --> 실제로 웹뷰에서는 리스너가 동작하지 않아 일단 주석처리한다.
+// 	let mouseX = '';
 		
-	$('.cards__container').on('mousedown',function(event){
-		eventObj = event;
-// 		console.log('x좌표 :' + event.clientX + ',  y좌표 :' + event.clientY);
-		mouseX = event.clientX;
-	});
+// 	$('.cards__container').on('mousedown',function(event){
+// 		eventObj = event;
+// // 		console.log('x좌표 :' + event.clientX + ',  y좌표 :' + event.clientY);
+// 		mouseX = event.clientX;
+// 	});
 	
-	$('.cards__container').on('drag',function(event){
-		if(mouseX < 200){
-			rightScroll();
-		} else if (mouseX > 325){
-			leftScroll();
-		}
+// 	$('.cards__container').on('drag',function(event){
+// 		if(mouseX < 200){
+// 			rightScroll();
+// 		} else if (mouseX > 325){
+// 			leftScroll();
+// 		}
 		
-	});
+// 	});
 	
 	
 	// 케러셀

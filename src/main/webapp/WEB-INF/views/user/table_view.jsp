@@ -28,7 +28,7 @@
 	<div class="date_picker_form">
 		<!-- 년도 -->
 		<select class="form-select" id="year_select" 
-			style="width:20%; font-size: 30px; border:none; 
+			style="width:20%; font-size: 27px; border:none; 
 			border-radius:none; -webkit-apparance:none;
 			-moz-apparance:none; apparance:none;
 			background:url(../) no-repeat 80% 50%; padding-right:0;
@@ -41,7 +41,7 @@
 		<p class="labl">년</p>
 		<!-- 월 -->
 		<select class="form-select" id="month_select" 
-			style="width:8%; font-size: 30px; border:none; 
+			style="width:8%; font-size: 27px; border:none; 
 			border-radius:none; -webkit-apparance:none;
 			-moz-apparance:none; apparance:none;
 			background:url(../) no-repeat 80% 50%; padding-right:0;
@@ -66,8 +66,8 @@
 	<input type="hidden" value="${month.end_date }" id="end_date">
 	
 	<!-- 출결표 -->
-	<div class="view_table">
-		<table class="table">
+	<div class="view_table" style="background-color:#ffffff;border-top:5px solid #F0F5F5;">
+		<table class="table" style="color:#606060;">
 		  <thead>
 		    <tr id="table_head">
 		      <th scope="col">셀원</th>
@@ -77,10 +77,10 @@
 		  <c:forEach var="name" items="${nameList }">
 		  	<tr id="${name }">
 		      <th scope="row">${name }</th>
-		      <td style="display:none" id="${name }_1"></td>
-		      <td style="display:none" id="${name }_2"></td>
-		      <td style="display:none" id="${name }_3"></td>
-		      <td style="display:none" id="${name }_4"></td>
+		      <td id="${name }_1"></td>
+		      <td id="${name }_2"></td>
+		      <td id="${name }_3"></td>
+		      <td id="${name }_4"></td>
 		      <td style="display:none" id="${name }_5"></td>
 		      <td style="display:none" id="${name }_6"></td>
 		    </tr>
@@ -92,7 +92,7 @@
 	<!-- 출석데이터 -->
 	<c:forEach var="hist"  varStatus="status" items="${HistList }">
 		<input type="hidden" class="hist" id="hist_${status.index + 1 }" 
-			value="${hist.god_people_name }-${hist.worship_date}${hist.late_yn eq "Y"?"-Y":""}">
+			value="${hist.god_people_name }-${hist.worship_date}${hist.late_yn eq 'Y'?'-Y':''}">
 	</c:forEach>
 	
 
@@ -126,6 +126,7 @@
 		showUserSearchDiv();
 	});
 	
+	// 표 세
 	function getAttendHistDate(){
 		
 		let week = ['일', '월', '화', '수', '목', '금', '토'];
@@ -165,34 +166,57 @@
 				} else {
 					j = i;
 				}
-				$('#table_head').append($('<th scope="col" id="'+ index + '">' + 
-						 mon_s + '.' + j + '</th>'));
+				$('#table_head').append($('<th scope="col" id="'+ index + '" class="'
+						 + mon_s + '-' + j +'">'
+						 + mon_s + '.' + j + '</th>'));
 			} 
 		}
 		
 		setAttData();
 	}
 	
-	// 출석 기록을 세팅해주는 메소드
+	// 출석기록 세팅
 	function setAttData(){
-		let histList =
-		console.log(histList);
+		
+		let len = $('.hist').length; // 출석기록의 갯수
+		
+		for(let i=1;i<=len;i++){ // 반복문을 돌면서 가져옴
+			let hist = $('#hist_'+i).val();
+			let histArr = hist.split('-');
+			// 셀원이름으로는 row를 찾고, 출석일자로는 col을 찾는다.
+			let date = histArr[2] + '-' + histArr[3]; // 날짜
+			let col_no = $('.' + date).attr('id'); // 몇번째 칼럼인지 알아낸다.
+			// 출석표
+			if(histArr[4] != 'Y'){
+				$('#' + histArr[0] + '_' + col_no).css('display', 'table-cell');
+				$('#' + histArr[0] + '_' + col_no).append(
+						$('<span class="badge bg-success">출석</span>')		
+					);
+			} else {
+				$('#' + histArr[0] + '_' + col_no).css('display', 'table-cell');
+				$('#' + histArr[0] + '_' + col_no).append(
+						$('<span class="badge bg-warning text-dark">지각</span>')
+					);
+			}
+			
+			
+			
+			
+			
+		}
 	}
-	
-	
-	
-    function getCurrentDate()
-    {
-        var date = new Date();
-        var year = date.getFullYear().toString();
 
-        var month = date.getMonth() + 1;
-        month = month < 10 ? '0' + month.toString() : month.toString();
+	function getCurrentDate() {
+		var date = new Date();
+		var year = date.getFullYear().toString();
 
-        var day = date.getDate();
-        day = day < 10 ? '0' + day.toString() : day.toString();
+		var month = date.getMonth() + 1;
+		month = month < 10 ? '0' + month.toString() : month.toString();
 
-        return year + month + day ;
-    }
+		var day = date.getDate();
+		day = day < 10 ? '0' + day.toString() : day.toString();
+
+		return year + month + day;
+	}
 </script>
 </html>

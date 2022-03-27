@@ -25,6 +25,9 @@ public class TabelViewController {
 	@RequestMapping("/user/table_view.do")
 	public ModelAndView doPage(@ModelAttribute("dto") AttendHistDto parameter, ModelAndView mView){
 		
+		// 조회파라미터
+		mView.addObject("dto", parameter);
+		
 		// 서비스에서 교회코드, 부서이름, 셀이름으로 ATTEND_HIST의 기록 가져오기 - 해당월의 기록 가져오기
 		List<AttendHistDto> list = tableViewService.getAttendHist(parameter);
 		mView.addObject("HistList", list);

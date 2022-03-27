@@ -28,6 +28,9 @@ public class TableViewServiceImpl implements TableViewService {
 			AttendHistDto ahd = calTodayMonth();
 			dto.setStart_date(ahd.getStart_date());
 			dto.setEnd_date(ahd.getEnd_date());
+		} else {
+			dto.setStart_date(dto.getStart_date());
+			dto.setEnd_date(dto.getEnd_date());
 		}
 		
 		List<AttendHistDto> list = new ArrayList<AttendHistDto>();
@@ -42,7 +45,7 @@ public class TableViewServiceImpl implements TableViewService {
 	
 	@Override
 	public AttendHistDto calTodayMonth(){
-		
+				
 		SimpleDateFormat yearFmt = new SimpleDateFormat("yyyy");
 		SimpleDateFormat monthFmt = new SimpleDateFormat("MM");
 		
@@ -58,7 +61,7 @@ public class TableViewServiceImpl implements TableViewService {
 		
 		String start_date = year + month + "01";
 		String end_date = year + month + d;
-		
+
 		AttendHistDto val = new AttendHistDto();
 		val.setStart_date(start_date);
 		val.setEnd_date(end_date);

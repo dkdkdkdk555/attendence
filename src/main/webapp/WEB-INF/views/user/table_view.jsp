@@ -24,10 +24,15 @@
 		</nav>	
 	</div>
 	
+	<!-- hidden -->
+	<input type="hidden" value="${dto.church_code }" id="church_code"/>
+	<input type="hidden" value="${dto.part_name }" id="part_name"/>
+	<input type="hidden" value="${dto.sell_name }" id="sell_name" />
+	
 	<!-- 검색폼 -->
 	<div class="date_picker_form">
 		<!-- 년도 -->
-		<select class="form-select" id="year_select" 
+		<select class="form-select" name="year" id="year_select" 
 			style="width:20%; font-size: 27px; border:none; 
 			border-radius:none; -webkit-apparance:none;
 			-moz-apparance:none; apparance:none;
@@ -40,12 +45,12 @@
 		</select>
 		<p class="labl">년</p>
 		<!-- 월 -->
-		<select class="form-select" id="month_select" 
+		<select class="form-select" name="month" id="month_select" 
 			style="width:8%; font-size: 27px; border:none; 
 			border-radius:none; -webkit-apparance:none;
 			-moz-apparance:none; apparance:none;
 			background:url(../) no-repeat 80% 50%; padding-right:0;
-			margin-left:7px;">
+			margin-left:7px;" onchange="javascript:research();">
 		  <option value="01">1</option>
 		  <option value="02">2</option>
 		  <option value="03">3</option>
@@ -126,7 +131,7 @@
 		showUserSearchDiv();
 	});
 	
-	// 표 세
+	// 표 세팅 
 	function getAttendHistDate(){
 		
 		let week = ['일', '월', '화', '수', '목', '금', '토'];
@@ -198,12 +203,22 @@
 						$('<span class="badge bg-warning text-dark">지각</span>')
 					);
 			}
-			
-			
-			
-			
-			
 		}
+	}
+	
+	// 날짜 조건으로 조회
+	function research(){
+		// 조회조건 가져오기
+		let year = $('select[name=year] option:selected').val();
+		let month = $('select[name=month] option:selected').val();
+		let churchCode = $('#church_code').val();
+		let partName = $('#part_name').val();
+		let sell_name = $('#sell_name').val();
+		
+		let start_date = year + month + '01';		
+		let end_date = new Date(year, month, 0).getDate();
+				
+		
 	}
 
 	function getCurrentDate() {

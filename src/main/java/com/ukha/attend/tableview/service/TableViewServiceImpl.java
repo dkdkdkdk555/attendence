@@ -23,7 +23,7 @@ public class TableViewServiceImpl implements TableViewService {
 		
 		// 기간 조건 전달
 		String sd = dto.getStart_date();
-		System.out.println("@#@##@ : " + sd);
+		
 		if(sd == null || sd == ""){ // 전달된 기간이 없다면 이번달을 계산
 			AttendHistDto ahd = calTodayMonth();
 			dto.setStart_date(ahd.getStart_date());

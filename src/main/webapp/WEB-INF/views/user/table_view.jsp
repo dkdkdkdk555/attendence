@@ -75,7 +75,6 @@
 		<table class="table" style="color:#606060;">
 		  <thead>
 		    <tr id="table_head">
-		      <th scope="col">셀원</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -146,7 +145,7 @@
 		let mon_e = end.substr(4,2); // 마지막일 월
 		let day_e = end.substr(6,2); // 마지막일 일
 		
-		// 출석일 
+		// 출석요일 
 		let attDay =  $('#attDay').val();
 		
 		let startDate = year_s + '-' + mon_s + '-' + day_s;
@@ -159,6 +158,7 @@
 		let dayCnt = cnt + 1;
 		
 		let index = 0;
+		$('#table_head').append($('<th scope="col">셀원</th>'));
 		// 월의 시작날짜 부터 끝날짜 까지 반복문 돌며 조회요일과 일치하는 날짜들 가져오기
 		for(let i=1;i<=dayCnt;i++){
 			let date = new Date(year_s + '-' + mon_s + '-' + i).getDay();
@@ -213,11 +213,62 @@
 		let month = $('select[name=month] option:selected').val();
 		let churchCode = $('#church_code').val();
 		let partName = $('#part_name').val();
-		let sell_name = $('#sell_name').val();
+		let sellName = $('#sell_name').val();
 		
-		let start_date = year + month + '01';		
-		let end_date = new Date(year, month, 0).getDate();
+		let startDate = year + month + '01';		
+		let endDate = year + month + new Date(year, month, 0).getDate();
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath }/user/histResearch.do",
+			method:"POST",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		    dataType : "json",
+			data:{
+				church_code : churchCode,
+				part_name : partName,
+				sell_name : sellName,
+				start_date : startDate,
+				end_date : endDate
+			}, 
+			success:function(response) {
+				/*
+				 * 1. 날짜 세팅
+				*/
+				// 출석요일 #attDay는 바꿀 필요가 없고 start_date와 end_date는 값 안 받고 바로 바꿔주면됨
+				$('#start_date').val(startDate);
+				$('#end_date').val(endDate);
+				// .prop으로 셀렉터 선택  
+				let year = startDate.substr(0, 4);
+				let month = startDate.substr(4, 2);
+				$("#year_select").val(year).prop("selected", true);
+				$("#month_select").val(month).prop("selected", true);
 				
+				/*
+				 * 2. 출석기록 데이터 세팅
+				*/
+				// .hist 지우고
+				$('.hist').remove();
+				// 기존 출석기록 .badge 지우기
+				$('.badge').remove();
+				// 날짜 세팅된거 지우기
+				$('th[scope="col"]').remove();
+				// 출석기록 데이터 세팅
+				let size = response.length;
+				for(let i=0;i<size;i++){
+					$('body').append($('<input type="hidden" class="hist" id="hist_' + (i+1)  + 
+							'" value="' + response[i].god_people_name + 
+							'-' + response[i].worship_date 
+							+ (response[i].late_yn == "Y"?"-Y":"") + '">'));
+				}
+				
+				/*
+				 * 3. 출석표 세팅 -> 출석기록 매핑
+				*/
+				getAttendHistDate();
+				
+			}
+		});
+		
 		
 	}
 

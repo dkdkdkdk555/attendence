@@ -52,8 +52,11 @@ public class TabelViewController {
 	@RequestMapping(value = "/user/histResearch.do", method = {RequestMethod.POST})
 	@ResponseBody
 	public List<AttendHistDto> doResearch(@ModelAttribute("dto") AttendHistDto parameter){
+	
+		// 출석기록 가져오기
+		List<AttendHistDto> list = tableViewService.getAttendHist(parameter);
 		
-		return null;
+		return list;
 	}
 	
 }

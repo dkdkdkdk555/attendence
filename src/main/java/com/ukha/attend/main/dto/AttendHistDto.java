@@ -23,6 +23,24 @@ public class AttendHistDto { // 출석기록 테이블 dto
 	// db칼럼에는 존재하지 않지만 출석수정시 출석정보 값 구분위해 추가 1 
 	private String recent_attend_value;
 	
+	// 해당 테이블에는 없지만 데이터 운반 위해서 
+	private String id;
+	private String access_level;
+	
+	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getAccess_level() {
+		return access_level;
+	}
+	public void setAccess_level(String access_level) {
+		this.access_level = access_level;
+	}
 	// 출석표페이지에서 출석기록 가져오는 기간 
 	private String start_date;
 	private String end_date;	

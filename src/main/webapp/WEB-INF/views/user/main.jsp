@@ -262,10 +262,10 @@
 		if(auth == null || auth == ""){ // 권한이 없으면  자신의 소속셀 또는 봉사셀만 접근할 수 있다.
 			if(clickSellName == $('#user_sell').val() || clickSellName == $('#user_volun_sell').val()){
 				// 셀이름, 아이디, 권한 던져서 출석 페이지 접근
-				location.href = "${pageContext.request.contextPath }/user/attend.do?id=" + userId + "&auth=" + auth + "&sell=" + clickSellName + "&part=" + partnm;
+				location.href = "${pageContext.request.contextPath }/user/attend.do?id=" + userId + "&access_level=" + auth + "&sell_name=" + clickSellName + "&part_name=" + partnm;
 			}
 		} else { // 셀장 권한 이나 임원권한이면 모든 출석부에 접근이 가능하다.
-			location.href = "${pageContext.request.contextPath }/user/attend.do?id=" + userId + "&auth=" + auth + "&sell=" + clickSellName + "&part=" + partnm;
+			location.href = "${pageContext.request.contextPath }/user/attend.do?id=" + userId + "&access_level=" + auth + "&sell_name=" + clickSellName + "&part_name=" + partnm;
 		}
 	}
 	

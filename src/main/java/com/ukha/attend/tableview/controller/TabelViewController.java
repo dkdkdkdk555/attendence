@@ -25,6 +25,14 @@ public class TabelViewController {
 	@RequestMapping("/user/table_view.do")
 	public ModelAndView doPage(@ModelAttribute("dto") AttendHistDto parameter, ModelAndView mView){
 		
+		String auth = parameter.getAccess_level();
+		String login_id = parameter.getId();
+		String login_user_name = parameter.getGod_people_name();
+		
+		mView.addObject("auth", auth);
+		mView.addObject("login_id", login_id);
+		mView.addObject("login_user_name", login_user_name);
+		
 		// 조회파라미터
 		mView.addObject("dto", parameter);
 		

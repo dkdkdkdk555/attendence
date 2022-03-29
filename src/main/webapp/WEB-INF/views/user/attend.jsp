@@ -19,6 +19,7 @@
 	<input type="hidden" value="${auth }" id="login_user_auth"/>
 	<input type="hidden" value="${login_user_name }" id="login_user_name"/>
 	<input type="hidden" value="${sellInfo.att_day_of_week }" id="att_day"/><!-- 셀의 출석 요일 -->
+	<input type="hidden" value="${login_id }" id="login_id"/>
 	
 	<div class="main_header">
 		<h5 id="main_text">셀 관리</h5>
@@ -132,6 +133,11 @@
 	
 	//상단탭선택
 	$(".menu_nav").children("li").on("click", function(){
+		
+		let login_user_auth = $('#login_user_auth').val();
+		let login_id = $('#login_id').val();
+		let login_user_name = $('#login_user_name').val();
+		
 		//우선 모든 카테고리에 적용된 활성화 효과 지우기
 		$('li').css('border-bottom', 'none').css('color', '#808080');
 		//클릭한 자식요소 li의 아이디 가져오기
@@ -141,7 +147,12 @@
 		$("#"+id).css('border-bottom', '2px solid #404040').css('color', '#404040');
 		if(id != 'attend'){ // 출석페이지(현페이지) 제외
 			//페이지이동
-			location.href = '${pageContext.request.contextPath }/user/' + id + '.do?church_code=' + churchCode + '&part_name=' + partName + '&sell_name=' + sell_name;	
+			location.href = '${pageContext.request.contextPath }/user/' + id + '.do?church_code=' + churchCode 
+					+ '&part_name=' + partName 
+					+ '&sell_name=' + sell_name
+					+ '&access_level=' + login_user_auth
+					+ '&id=' + login_id
+					+ '&god_people_name=' + login_user_name;	
 		}
 		
 	});

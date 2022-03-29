@@ -61,11 +61,12 @@ public class MainController { // 메인화면(출석부목록화면) 및 출석�
 	public ModelAndView attendInit(HttpServletRequest request, ModelAndView mView){
 		
 		String id = request.getParameter("id");
-		String sell = request.getParameter("sell");
-		String part = request.getParameter("part");
+		String sell = request.getParameter("sell_name");
+		String part = request.getParameter("part_name");
 		
 		// 로그인 유저의 아이디 
 		mView.addObject("login_user_name", mainService.loginUserInfo(id));
+		mView.addObject("login_id", id);
 		
 		// 셀정보 가져오기 
 		SellDto sellInfo = mainService.getSellInfo(id, sell, part);
@@ -73,7 +74,7 @@ public class MainController { // 메인화면(출석부목록화면) 및 출석�
 		// 셀원목록 가져오기
 		List<GPIDto> sellPeopleList = mainService.getSellPeopleList(id, sell, part);
 		mView.addObject("peopleList", sellPeopleList);
-		mView.addObject("auth", request.getParameter("auth"));
+		mView.addObject("auth", request.getParameter("access_level"));
 		
 		mView.setViewName("user/attend");
 		

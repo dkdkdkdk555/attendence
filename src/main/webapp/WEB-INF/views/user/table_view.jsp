@@ -28,6 +28,9 @@
 	<input type="hidden" value="${dto.church_code }" id="church_code"/>
 	<input type="hidden" value="${dto.part_name }" id="part_name"/>
 	<input type="hidden" value="${dto.sell_name }" id="sell_name" />
+	<input type="hidden" value="${auth}" id="auth" />
+	<input type="hidden" value="${login_id }" id="login_id" />
+	<input type="hidden" value="${login_user_name }" id="login_user_name" />
 	
 	<!-- 검색폼 -->
 	<div class="date_picker_form">
@@ -117,6 +120,14 @@
 	
 	//상단탭선택
 	$(".menu_nav").children("li").on("click", function(){
+		
+		let churchCode = $('#church_code').val();
+		let partName = $('#part_name').val();
+		let sellName = $('#sell_name').val();
+		let login_user_auth = $('#auth').val();
+		let login_id = $('#login_id').val();
+		let login_user_name = $('#login_user_name').val();
+		
 		//우선 모든 카테고리에 적용된 활성화 효과 지우기
 		$('li').css('border-bottom', 'none').css('color', '#808080');
 		//클릭한 자식요소 li의 아이디 가져오기
@@ -124,6 +135,15 @@
 		console.log(id);
 		//선택한 카테고리에 활성화 밑줄 효과 주기 
 		$("#"+id).css('border-bottom', '2px solid #404040').css('color', '#404040');
+		if(id != 'table_view'){ // 출석페이지(현페이지) 제외
+			//페이지이동
+			location.href = '${pageContext.request.contextPath }/user/' + id + '.do?church_code=' + churchCode 
+					+ '&part_name=' + partName 
+					+ '&sell_name=' + sellName
+					+ '&access_level=' + login_user_auth
+					+ '&id=' + login_id
+					+ '&god_people_name=' + login_user_name;	
+		}
 	});
 	
 	$('#sbt').on('click',function(){

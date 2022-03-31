@@ -29,6 +29,8 @@ public class LoginUserController {
 	@RequestMapping("/home.do")
 	public ModelAndView login(HttpServletRequest request, ModelAndView mView){
 		
+		
+		
 		mView.setViewName("login");
 		
 		return mView;

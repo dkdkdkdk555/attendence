@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/user/*") // Web.xml 에 정의해둔 filter를 어노테이션으로 매핑
-public class LoginFilter implements Filter {
+@WebFilter(value={"/home.do", "/"}) // Web.xml 에 정의해둔 filter를 어노테이션으로 매핑
+public class ToLoginPageMovePreventFilter implements Filter {
 
 	private String path;// init파람	
 	
@@ -26,24 +26,19 @@ public class LoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session =  req.getSession();
 		String id = (String) session.getAttribute("id");
-		System.out.println(id);
-		if(id!=null){
-			System.out.println(req.getRequestURI());
-			if("home.do".equals(req.getRequestURI())){
-				String cPath = req.getContextPath();
-				HttpServletResponse resq = (HttpServletResponse) response;
-				resq.sendRedirect(cPath + "/user/main.do");
-			}
-			System.out.println("트루");
-			chain.doFilter(request, response); // 로그인된 아이디가 있으면 요청,응답을 가로채지않고 진행시킨다.
-		} else {
-			System.out.println("거짓");
+
+		if(id!=null){ // 로그인을 한 상태면 
+			System.out.println("로그인을 한 상태");
 			String cPath = req.getContextPath();
 			HttpServletResponse resq = (HttpServletResponse) response;
-			resq.sendRedirect(cPath + path); // /loginform.jsp 로 이동
+			resq.sendRedirect(cPath + "/user/main.do?id=" + id);
+		} else {
+			System.out.println("로그인을 안한 상태");
+			chain.doFilter(request, response); 
 		}
 		
 	}

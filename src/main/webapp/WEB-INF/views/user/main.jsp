@@ -197,6 +197,7 @@
 	</div>
 	
 	<jsp:include page="../include/info_modal.jsp"></jsp:include>
+	<jsp:include page="../include/personal_btn_modal.jsp"></jsp:include>
 </body>
 <script>
 
@@ -309,24 +310,33 @@
 	}
 	
 	function rightScroll() {
-	const boxes = document.querySelectorAll(".box");
-	boxes[4].className = "box move-out-from-right";
-	setTimeout(function() {
-	    const noOfCards = boxes.length;
-	    if (noOfCards > 4) {
-	        boxes[4].className = "box box--hide";
-	    }
-	    const tmpNode = boxes[noOfCards - 1];
-	    tmpNode.classList.remove("box--hide");
-	    boxes[noOfCards - 1].remove();
-	    let parentObj = document.querySelector(".cards__container");
-	    parentObj.insertBefore(tmpNode, parentObj.firstChild);
-	    tmpNode.className = "box move-to-position1-from-right";
-	    boxes[0].className = "box move-to-position2-from-right";
-	    boxes[1].className = "box move-to-position3-from-right";
-	    boxes[2].className = "box move-to-position4-from-right";
-	    boxes[3].className = "box move-to-position5-from-right";
-	}, 500);
+		const boxes = document.querySelectorAll(".box");
+		boxes[4].className = "box move-out-from-right";
+		setTimeout(function() {
+		    const noOfCards = boxes.length;
+		    if (noOfCards > 4) {
+		        boxes[4].className = "box box--hide";
+		    }
+		    const tmpNode = boxes[noOfCards - 1];
+		    tmpNode.classList.remove("box--hide");
+		    boxes[noOfCards - 1].remove();
+		    let parentObj = document.querySelector(".cards__container");
+		    parentObj.insertBefore(tmpNode, parentObj.firstChild);
+		    tmpNode.className = "box move-to-position1-from-right";
+		    boxes[0].className = "box move-to-position2-from-right";
+		    boxes[1].className = "box move-to-position3-from-right";
+		    boxes[2].className = "box move-to-position4-from-right";
+		    boxes[3].className = "box move-to-position5-from-right";
+		}, 500);
 	}
+	
+	$('#personal_btn').on('click', function(){
+		showP();
+	});
+	
+	function logout(){
+		location.href = "${pageContext.request.contextPath }/login/userLogout.do";
+	}
+	
 </script>
 </html>

@@ -21,6 +21,7 @@
 	<input type="hidden" value="${param.god_people_name }" id="login_user_name" />
 	
 	<div class="main_header">
+		<i class="material-icons" id="back_btn" onclick="javascript:goToMain();">arrow_back_ios</i>
 		<h5 id="main_text">셀 관리</h5>
 		<i class="material-icons" id="personal_btn">more_horiz</i><!-- 개인메뉴 버튼 -->
 	</div>
@@ -69,5 +70,12 @@
 		}
 	});
 	
+	function goToMain(){ // 헤더에 백버튼 눌렀을때
+    	
+    	let id = $('#login_id').val();
+    
+    	location.href = "${pageContext.request.contextPath }/user/main.do?id=" + id ;
+    	
+    }
 </script>
 </html>

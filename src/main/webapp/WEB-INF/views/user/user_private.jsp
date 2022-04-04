@@ -17,6 +17,7 @@
 </head>
 <body>	
 	<div class="main_header">
+		<i class="material-icons" id="back_btn" onclick="javascript:history.back();">arrow_back_ios</i>
 		<h5 id="main_text">셀원 정보</h5>
 		<i class="material-icons" id="personal_btn">more_horiz</i><!-- 개인메뉴 버튼 -->
 	</div>
@@ -56,6 +57,9 @@
 	<input type="hidden" id="sell_name" value="${dto.sell_name }">
 	<input type="hidden" id="prayer_topic" value="${dto.prayer_topic }">
 	<input type="hidden" id="address" value="${dto.address }">
+	
+	<!-- hidden 로그인 유저 정보 -->
+	
 	
 	<!-- 나머지 개인정보가 들어가는 영역 -->
 	<div class="private_section">
@@ -227,5 +231,6 @@
 		}
 		
 	});
+	
 </script>
 </html>

@@ -128,3 +128,31 @@
 		width:70%;
 	}
 	
+	.back-drop{
+		/* 일단 숨겨 놓는다 */
+		display: none;
+		/* 화면 전체를 투명도가 있는 회색으로 덮기*/
+		text-align: center;
+		top:0;
+		right:0;
+		bottom:0;
+		left:0;
+		height:100%;
+/* 		background-color: #cecece; */
+		padding-top: 300px;
+		opacity:0.5;/*투명도*/
+		
+		padding-top : 200px;
+	}
+	
+	.back-drop img{
+		width: 80px;
+		animation: rotateAnimation 2s ease-out infinite;
+	}
+	
+	@keyframes rotateAnimation{
+		
+		100% {
+					transform: rotate(360deg);
+				}
+	}

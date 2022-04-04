@@ -34,6 +34,12 @@
 			<li class="menu_li" id="table_view">출결표</li>
 		</nav>	
 	</div>
+	
+	<!-- 출석기능시 사용하는 스피너  -->
+	<div class="back-drop">
+		<img src="../../resources/svg/spinner.png" />
+	</div>
+	
 	<!-- 셀 설명 섹션 -->
 	<div class="sell_info_container">
 		<c:choose>
@@ -286,6 +292,11 @@
 	// 출석하기 ㄱㄱ
 	function attend(){
 		
+		// 스피너 보이기
+		$('.back-drop').show();
+		
+		debug();
+		
 		let list = new Array();
 		
 		let worship_date = getCurrentDate().toString();
@@ -325,6 +336,8 @@
 			},
 			success:function(response) {
 				if(response != size){ // 모든 셀인원의 최근출석일이 업데이트 됬으면
+					// 스피너 닫기
+					$('.back-drop').hide();
 					show('오류가 발생했습니다. [error:not match GPIDto updated count with front row count.]');
 					return;
 				} 
@@ -332,6 +345,8 @@
 		});
 		
 		if(list == null){ // 모두 결석인 경우
+			// 스피너 닫기
+			$('.back-drop').hide();
 			show('출석한 인원이 없습니다.');
 			return;
 		}
@@ -344,17 +359,24 @@
 			success:function(response) {
 				switch(response){
 					case "DUPLI":
+						// 스피너 닫기
+						$('.back-drop').hide();
 						show('이미 출석 하였습니다.');
 						break;
 					case "SUCCESS":
+						// 스피너 닫기
+						$('.back-drop').hide();
 						show('출석을 완료하였습니다.');
 						break;
 					case "FAIL":
+						// 스피너 닫기
+						$('.back-drop').hide();
 						show('출석을 실패하였습니다. 관리자에게 문의하세요.');
 						break;
 				}
 			}
 		});
+		
 	}
 	
 	

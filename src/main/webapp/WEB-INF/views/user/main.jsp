@@ -334,8 +334,16 @@
 		showP();
 	});
 	
+	/*
+		개인메뉴 버튼들 Js
+	*/
+	
 	function logout(){
 		location.href = "${pageContext.request.contextPath }/login/userLogout.do";
+	}
+	
+	function systemOut(){
+		webkit.messageHandlers.callbackHandler.postMessage("MessageBody");
 	}
 	
 </script>

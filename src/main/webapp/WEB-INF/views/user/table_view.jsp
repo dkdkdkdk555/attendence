@@ -171,9 +171,10 @@
 		
 		let startDate = year_s + '-' + mon_s + '-' + day_s;
 		let endDate = year_e + '-' + mon_e + '-' + day_e;
-		
+				
 		let start_date = new Date(startDate);
 		let end_date = new Date(endDate);
+		
 		// 날짜 차이 구하기
 		let cnt = end_date.getDate() - start_date.getDate();
 		let dayCnt = cnt + 1;
@@ -182,7 +183,14 @@
 		$('#table_head').append($('<th scope="col">셀원</th>'));
 		// 월의 시작날짜 부터 끝날짜 까지 반복문 돌며 조회요일과 일치하는 날짜들 가져오기
 		for(let i=1;i<=dayCnt;i++){
-			let date = new Date(year_s + '-' + mon_s + '-' + i).getDay();
+			
+			let date;
+			
+			if(i<10){
+				date = new Date(year_s + '-' + mon_s + '-' + '0' + i).getDay();
+			}else{
+				date = new Date(year_s + '-' + mon_s + '-' + i).getDay();	
+			}
 			let dayOfWeek = week[date];
 			if(dayOfWeek == attDay){ // 출석일과 같은 날짜는 칼럼으로 추가해준다.
 				index += 1;

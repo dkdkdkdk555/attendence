@@ -171,11 +171,12 @@
 				<img src="" alt="" /> <!-- 아직 파일 올리는 경로 모름-->
 			</c:when>
 			<c:otherwise>
+				<img src="../../resources/svg/church.png" alt="" />	
 			</c:otherwise>
 		</c:choose>
 		<div id="church_comment">
 			<h4>${churchDto.church_name }</h4>
-			<p>건강한 성도, 행복한 교회 환영합니다!</p>
+			<p>${churchDto.church_comment }</p>
 		</div>
 	</div>
 	<div class="part_info">

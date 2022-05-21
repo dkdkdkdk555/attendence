@@ -23,7 +23,8 @@
 	<select id="getChurchInfo" resultType="ChurchDto" parameterType="String">
 		SELECT /* 교회정보 셀렉트 */
 			CHURCH_NAME,
-			CHURCH_IMG_PATH
+			CHURCH_IMG_PATH,
+			CHURCH_COMMENT
 		FROM
 			CHURCH_INFO
 		WHERE 

@@ -15,11 +15,21 @@ public class ChurchDto {
 	private int newpp_term_standard;
 //	`church_img_path` VARCHAR(20) NULL DEFAULT NULL,
 	private String church_img_path;
+	// church_comment CHAR(50) 
+	private String church_comment;
 	
 	//권한
 	private String auth_name;
 	private String auth_code;
 	
+	
+	
+	public String getChurch_comment() {
+		return church_comment;
+	}
+	public void setChurch_comment(String church_comment) {
+		this.church_comment = church_comment;
+	}
 	public String getAuth_name() {
 		return auth_name;
 	}

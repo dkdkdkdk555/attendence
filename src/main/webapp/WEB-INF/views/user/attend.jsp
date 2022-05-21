@@ -294,9 +294,7 @@
 		
 		// 스피너 보이기
 		$('.back-drop').show();
-		
-		debug();
-		
+				
 		let list = new Array();
 		
 		let worship_date = getCurrentDate().toString();

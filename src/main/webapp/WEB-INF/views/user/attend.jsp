@@ -82,9 +82,9 @@
 				<p>${tmp.god_people_name }</p>
 				<input type="hidden" value="${tmp.birthday }"/>
 				<div class="buttons">
-					<button type="button" class="btn btn-outline-secondary">✔</button><!-- 결석 -->
-					<button type="button" class="btn btn-outline-warning">✔</button><!-- 지각 -->
-					<button type="button" class="btn btn-outline-success">✔</button><!-- 출석 -->
+					<button type="button" class="btn btn-outline-secondary">✖ ️</button><!-- 결석 -->
+					<button type="button" class="btn btn-outline-warning">△</button><!-- 지각 -->
+					<button type="button" class="btn btn-outline-success">✔ </button><!-- 출석 -->
 				</div>
 			</div>	
 		</c:forEach>

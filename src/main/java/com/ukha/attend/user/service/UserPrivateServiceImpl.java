@@ -72,29 +72,42 @@ public class UserPrivateServiceImpl implements UserPrivateSerivce{
 		// 셀원의 데이터와 현재날짜 비교하여 새신자 등록일로 부터 몇주가 지났는지, 마지막 출석일로 부터 몇주가 지났는지 int값 계산
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-        if(regDate != null && lastDate != null){
+        	
+        if(regDate != null){
         	Date today = new Date();
 			Date regDay = new Date(sdf.parse(regDate).getTime());
-			Date lastDay = new Date(sdf.parse(lastDate).getTime());
 			
 			long diff = today.getTime() - regDay.getTime();
-			long diff2 = today.getTime() - lastDay.getTime();
 
 	        TimeUnit time = TimeUnit.DAYS; 
 	        
 	        long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
-	        long diffrence2 = time.convert(diff2, TimeUnit.MILLISECONDS);
 	        
 	        nc = (int) diffrence / 7;
-	        ac = (int) diffrence2 / 7;
 	        
 	        System.out.println("교회등록한지 : "+ nc);
+        }
+        
+        if(lastDate != null){
+        	Date today = new Date();
+			Date lastDay = new Date(sdf.parse(lastDate).getTime());
+			
+			long diff2 = today.getTime() - lastDay.getTime();
+
+	        TimeUnit time = TimeUnit.DAYS; 
+	        
+	        long diffrence2 = time.convert(diff2, TimeUnit.MILLISECONDS);
+	        
+	        ac = (int) diffrence2 / 7;
+	        
 	        System.out.println("출석안한지 : " + ac);
         }
 	        
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+        
+        
 		// 계산한 값과 교회별 기준 비교
 		if((nc < ns)&& regDate != null){
 			isNewPeople = "Y";

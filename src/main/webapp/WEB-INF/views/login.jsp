@@ -57,33 +57,149 @@
 		margin:0px;
 	}
 	
+	.intro{
+		display:none;
+		text-align:center;
+		top:0;
+		right:0;
+		bottom:0;
+		left:0;
+		height:100%;
+		animation: fadein 2.5s;
+	  -moz-animation: fadein 2.5s; /* Firefox */
+	  -webkit-animation: fadein 2.5s; /* Safari and Chrome */
+	  -o-animation: fadein 2.5s; /* Opera */
+	}
+	
+	.intro img{
+		width: 100%;
+		height: 100%;
+	}
+	
+	/*
+		fade in
+	*/
+	@keyframes fadein {
+	    from {
+	        opacity: 0;
+	    }
+	    to {
+	        opacity: 1;
+	    }
+	}
+	@-moz-keyframes fadein { /* Firefox */
+	    from {
+	        opacity: 0;
+	    }
+	    to {
+	        opacity: 1;
+	    }
+	}
+	@-webkit-keyframes fadein { /* Safari and Chrome */
+	    from {
+	        opacity: 0;
+	    }
+	    to {
+	        opacity: 1;
+	    }
+	}
+	@-o-keyframes fadein { /* Opera */
+	    from {
+	        opacity: 0;
+	    }
+	    to {
+	        opacity: 1;
+	    }
+	}
+	
+	/*
+		fade out
+	*/
+	@keyframes fadeout {
+	    from {
+	        opacity: 1;
+	    }
+	    to {
+	        opacity: 0;
+	    }
+	}
+	@-moz-keyframes fadeout { /* Firefox */
+	    from {
+	        opacity: 1;
+	    }
+	    to {
+	        opacity: 0;
+	    }
+	}
+	@-webkit-keyframes fadeout { /* Safari and Chrome */
+	    from {
+	        opacity: 1;
+	    }
+	    to {
+	        opacity: 0;
+	    }
+	}
+	@-o-keyframes fadeout { /* Opera */
+	    from {
+	        opacity: 1;
+	    }
+	    to {
+	        opacity: 0;
+	    }
+	}
+	
 </style>
 </head>
 <body>
-	<div class="container">
-		<h4>로그인</h4>
-		<form class="innerForm">
-		  <div class="inputdiv" style="margin-top:20px;">
-		    <label class="form-label">아이디</label>
-		    <input type="text" class="form-control" id="idInput">
-		  </div>
-		  <div class="inputdiv">
-		    <label class="form-label">비밀번호</label>
-		    <input type="password" class="form-control" id="pwInput">
-		  </div>
-		  <div class="mb-3 form-check">
-		    <input type="checkbox" class="form-check-input" id="autoLoginCheck">
-		    <label class="form-check-label">로그인 정보 저장</label>
-		  </div>
-		  <button type="button" id="submitBtn" class="btn btn-primary">로그인</button>
-		</form>
+	<div class="intro">
+		<img src="../../resources/svg/intro.svg" alt="" />
 	</div>
-	<div class="container" id="signUp" style="margin-top:15px;">
-		<h4>회원가입</h4>
+	<div class="body">
+		<div class="container">
+			<h4>로그인</h4>
+			<form class="innerForm">
+			  <div class="inputdiv" style="margin-top:20px;">
+			    <label class="form-label">아이디</label>
+			    <input type="text" class="form-control" id="idInput">
+			  </div>
+			  <div class="inputdiv">
+			    <label class="form-label">비밀번호</label>
+			    <input type="password" class="form-control" id="pwInput">
+			  </div>
+			  <div class="mb-3 form-check">
+			    <input type="checkbox" class="form-check-input" id="autoLoginCheck">
+			    <label class="form-check-label">로그인 정보 저장</label>
+			  </div>
+			  <button type="button" id="submitBtn" class="btn btn-primary">로그인</button>
+			</form>
+		</div>
+		<div class="container" id="signUp" style="margin-top:15px;">
+			<h4>회원가입</h4>
+		</div>
 	</div>
 	<jsp:include page="include/info_modal.jsp"></jsp:include>
 </body>
 <script>
+
+	$(document).ready(function(){
+		
+		$('.body').css('display', 'none');
+		$('.intro').show();
+		
+		setTimeout(function(){
+			$('.intro').css('animation', 'fadeout 6s');
+		  	$('.intro').css('-moz-animation', 'fadeout 6s');
+			$('.intro').css('-webkit-animation', 'fadeout 6s');
+		  	$('.intro').css('-o-animation','fadeout 6s'); 
+		    $('.intro').css('animation-fill-mode', 'forwards');
+		   	setTimeout(function(){
+		   		$('.intro').hide();
+		   		$('.body').css('display','');
+		   	},1000);
+		}, 3000);
+		
+	});
+	
 	
 	// 쿠키에 로그인정보 저장되어있으면 가져오기
 	$('#idInput').val(getCookie('savedId'));

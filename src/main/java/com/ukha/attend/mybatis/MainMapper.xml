@@ -107,8 +107,7 @@
 			GOD_PEOPLE_INFO
 		WHERE 
 			CHURCH_CODE = #{church_code}
-			AND GOD_PEOPLE_NAME 
-				= #{god_people_name}
+			AND GOD_PEOPLE_NAME LIKE CONCAT('%',#{god_people_name},'%')
 			AND PART_NAME = #{part_name}
 			AND SELL_NAME IS NULL
 	</select>

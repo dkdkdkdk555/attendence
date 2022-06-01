@@ -32,10 +32,7 @@
 			GOD_PEOPLE_INFO
 		WHERE
 			CHURCH_CODE = #{church_code}
-			AND GOD_PEOPLE_NAME = 
-<!-- 			<![CDATA['%]]> -->
-				#{god_people_name}
-<!-- 			<![CDATA[%']]> -->
+			AND GOD_PEOPLE_NAME LIKE CONCAT('%',#{god_people_name},'%')
 			AND ID IS NULL
 			AND PW IS NULL
 	</select>

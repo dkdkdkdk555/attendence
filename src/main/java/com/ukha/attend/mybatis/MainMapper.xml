@@ -158,7 +158,8 @@
 			 SELL_NAME,
 			 WORSHIP_DATE,
 			 GOD_PEOPLE_NAME,
-			 GOD_PEOPLE_BIRTHDAY
+			 GOD_PEOPLE_BIRTHDAY,
+			 LATE_YN
 			)
 		VALUES
 			(
@@ -167,7 +168,8 @@
 			 #{sell_name},
 			 #{worship_date},
 			 #{god_people_name},
-			 #{god_people_birthday}
+			 #{god_people_birthday},
+			 #{late_yn}
 			)			
 	</insert>
 	

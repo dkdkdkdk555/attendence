@@ -82,7 +82,7 @@
 				<p>${tmp.god_people_name }</p>
 				<input type="hidden" value="${tmp.birthday }"/>
 				<div class="buttons">
-					<button type="button" class="btn btn-outline-secondary">✖ ️</button><!-- 결석 -->
+					<button type="button" class="btn btn-outline-secondary">✖️</button><!-- 결석 -->
 					<button type="button" class="btn btn-outline-warning">△</button><!-- 지각 -->
 					<button type="button" class="btn btn-outline-success">✔ </button><!-- 출석 -->
 				</div>
@@ -317,6 +317,11 @@
 				data.part_name = partName;
 				data.sell_name = sell_name;
 				data.worship_date = worship_date;
+				if(btnType[1]=='warning'){
+					data.late_yn = 'Y';
+				}else{
+					data.late_yn = 'N';
+				}
 				
 				list.push(data);
 			}

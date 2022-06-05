@@ -102,10 +102,9 @@
 	  		<button type="button" id="userAddBtn" class="btn btn-success">추가</button>
 		</div>
 		<div class="confirm">
-			<button type="button" onclick="javascript:attend();" id="confirm_btn" class="btn">저장하기</button>
+			<button type="button" id="confirm_btn" class="btn">저장하기</button>
 		</div>
 	</div>
-	
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
 </body>
 <script>
@@ -286,6 +285,7 @@
 			$('#confirm_btn').css('color', '#ffffff');
 			$('#confirm_btn').css('background-color', '#0f87ff');
 			$('#confirm_btn').css('disabled', 'false');
+			$('#confirm_btn').attr('onclick','javascript:attend()');
 		} 
 	});
 	

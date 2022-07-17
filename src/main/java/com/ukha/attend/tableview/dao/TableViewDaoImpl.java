@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ukha.attend.login.dto.GPIDto;
 import com.ukha.attend.main.dto.AttendHistDto;
 
 @Repository
@@ -27,7 +28,7 @@ public class TableViewDaoImpl implements TableViewDao {
 	}
 
 	@Override
-	public List<String> selectSellPPNameList(AttendHistDto dto) {
+	public List<GPIDto> selectSellPPNameList(AttendHistDto dto) {
 		return session.selectList("tableViewDao.getSellPPList", dto);
 	}
 	

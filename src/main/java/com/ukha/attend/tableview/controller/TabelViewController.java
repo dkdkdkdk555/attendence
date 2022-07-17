@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ukha.attend.login.dto.GPIDto;
 import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.tableview.service.TableViewService;
 
@@ -49,7 +50,7 @@ public class TabelViewController {
 		mView.addObject("month", month);
 		
 		// 셀원들 이름 가져오기
-		List<String> nameList = tableViewService.getSellPPNameList(parameter);
+		List<GPIDto> nameList = tableViewService.getSellPPNameList(parameter);
 		mView.addObject("nameList", nameList);
 		
 		mView.setViewName("user/table_view");

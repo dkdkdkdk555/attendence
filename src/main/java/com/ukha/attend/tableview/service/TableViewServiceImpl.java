@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ukha.attend.login.dto.GPIDto;
 import com.ukha.attend.main.dto.AttendHistDto;
 import com.ukha.attend.tableview.dao.TableViewDao;
 
@@ -84,9 +85,9 @@ public class TableViewServiceImpl implements TableViewService {
 	
 	
 	@Override
-	public List<String> getSellPPNameList(AttendHistDto dto) {
+	public List<GPIDto> getSellPPNameList(AttendHistDto dto) {
 
-		List<String> list = new ArrayList<String>();
+		List<GPIDto> list = new ArrayList<GPIDto>();
 		
 		try {
 			list = tableViewDao.selectSellPPNameList(dto);

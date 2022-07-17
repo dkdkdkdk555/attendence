@@ -28,9 +28,10 @@
 	</select>
 	
 	<!-- 셀원목록 -->
-	<select id="getSellPPList" parameterType="AttendHistDto" resultType="String">
+	<select id="getSellPPList" parameterType="AttendHistDto" resultType="GPIDto">
 		SELECT
-			GOD_PEOPLE_NAME
+			GOD_PEOPLE_NAME,
+			BIRTHDAY
 		FROM
 			GOD_PEOPLE_INFO
 		WHERE

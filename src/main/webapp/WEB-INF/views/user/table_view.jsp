@@ -83,14 +83,14 @@
 		  </thead>
 		  <tbody>
 		  <c:forEach var="name" items="${nameList }">
-		  	<tr id="${name }">
-		      <th scope="row">${name }</th>
-		      <td id="${name }_1"></td>
-		      <td id="${name }_2"></td>
-		      <td id="${name }_3"></td>
-		      <td id="${name }_4"></td>
-		      <td style="display:none" id="${name }_5"></td>
-		      <td style="display:none" id="${name }_6"></td>
+		  	<tr id="${name.god_people_name }" name="${name.birthday }">
+		      <th scope="row">${name.god_people_name }</th>
+		      <td id="${name.god_people_name }_1" onmousedown="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_2" onmousedown="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_3" onmousedown="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_4" onmousedown="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_5" onmousedown="updateAttend(this.id);"></td>
+		      <td style="display:none" id="${name.god_people_name }_6" onmousedown="updateAttend(this.id);"></td>
 		    </tr>
 		  </c:forEach>
 		  </tbody>
@@ -102,9 +102,9 @@
 		<input type="hidden" class="hist" id="hist_${status.index + 1 }" 
 			value="${hist.god_people_name }-${hist.worship_date}${hist.late_yn eq 'Y'?'-Y':''}">
 	</c:forEach>
-	
 
 <jsp:include page="../include/info_modal.jsp"></jsp:include>
+<jsp:include page="../include/tableviewpage_update_attend_modal.jsp"></jsp:include>
 </body>
 <script>
 	
@@ -119,12 +119,13 @@
 		getAttendHistDate();
 	});
 	
+	let churchCode = $('#church_code').val();
+	let partName = $('#part_name').val();
+	let sellName = $('#sell_name').val();
+	
 	//상단탭선택
 	$(".menu_nav").children("li").on("click", function(){
 		
-		let churchCode = $('#church_code').val();
-		let partName = $('#part_name').val();
-		let sellName = $('#sell_name').val();
 		let login_user_auth = $('#auth').val();
 		let login_id = $('#login_id').val();
 		let login_user_name = $('#login_user_name').val();
@@ -203,6 +204,7 @@
 				$('#table_head').append($('<th scope="col" id="'+ index + '" class="'
 						 + mon_s + '-' + j +'">'
 						 + mon_s + '.' + j + '</th>'));
+				$('')
 			} 
 		}
 		
@@ -240,9 +242,6 @@
 		// 조회조건 가져오기
 		let year = $('select[name=year] option:selected').val();
 		let month = $('select[name=month] option:selected').val();
-		let churchCode = $('#church_code').val();
-		let partName = $('#part_name').val();
-		let sellName = $('#sell_name').val();
 		
 		let startDate = year + month + '01';		
 		let endDate = year + month + new Date(year, month, 0).getDate();
@@ -296,10 +295,113 @@
 				getAttendHistDate();
 				
 			}
-		});
-		
-		
+		});	
 	}
+	
+	
+	/*
+		
+		출석 수정 기능 .
+	
+		- 수정하기 모달이 뜬다. 	
+			
+			(결석) (지각) (출석)
+			
+			    [수정하기] 
+
+		- 수정하기를 누르면 헤당 교인이름, 교회, 부서, 셀, 생년월일, 해당일자, 출석여부를 백으로 넘겨 수정한다.
+	*/
+	function updateAttend(obj){
+		
+		let clicktime = 0;
+		let curr = Date.now();
+				
+		$('#' + obj).mouseup(function(){
+			clicktime = Date.now() - curr;
+			console.log('클릭시간 : ' + clicktime);
+			
+			if(Number(clicktime) > 1500){
+				// 출석일 및 출석대상자 이름 얻어내기
+				let nameAndDay = obj.split('_');
+				let updateDate = $('#' + nameAndDay[1]).text();
+				// 모달창 띄우기 
+				$('#messageU').text('' + nameAndDay[0] + '의 ' + updateDate + ' 출석을 수정합니다.');
+				showU();
+				// 수정하기 버튼 클릭시
+				$('#submit').on('click',function(){
+					// 출석여부 버튼 눌렀는지 검사
+					let choicebtn = $('.buttons').children('button[name=clicked]').attr('class');
+					if(choicebtn == undefined){ // 아무것도 선택하지 않았을시
+						return;
+					}			
+					
+					let btnType = choicebtn.split('-');
+					let monthAndDay = updateDate.split('.');
+					
+					let worshipDate = $('select[name=year] option:selected').val() + '-' + monthAndDay[0] + '-' + monthAndDay[1];
+					let birthday = $('#' + nameAndDay[0]).attr('name');
+					
+					// 수정하기
+					$.ajax({
+						url:"${pageContext.request.contextPath }/user/updateRecentAttend.do",
+						method:"POST",
+						data : {
+							recent_attend_value : 'secondary',
+							attend_value : btnType[1],
+							church_code : churchCode,
+							part_name : partName,
+							sell_name : sellName,
+							worship_date : worshipDate,
+							god_people_name : nameAndDay[0],
+							god_people_birthday : birthday
+						},
+						success:function(response) {
+							switch(response){
+								case "SUCCESS":
+			 						window.location.reload();
+									break;
+								case "FAIL":
+									show('출석 수정에 실패하였습니다. 다시 시도하여 주세요.');
+									break;
+								case "ERROR":
+									show('시스템 오류입니다. 관리자에게 문의하세요.');
+									break;
+							}
+						}
+					});
+					
+				});
+					
+			}
+		});
+	}
+	
+	// 누르면 누른버튼 확정표시
+	$('.buttons').children('.btn').on('click',function(){
+		// 이미 선택된거는 또 선택 안되게
+		if($(this).attr('class').split('-').length == 2){
+			return;
+		}
+				
+		// 나머지 것들은 다 색 돌려놓기
+		let thisEle = $(this).siblings(); // 형제요소를 배열로 리턴
+		for(let i=0; i<thisEle.length; i++){
+			let siblebtn = $(thisEle[i]).attr('class').split('-');
+			if(siblebtn.length == 2){ // 이미 눌린 버튼이라면
+				let btnType = siblebtn[1];
+				$(thisEle[i]).attr('class', 'btn btn-outline-'+ btnType);
+				$(thisEle[i]).attr('name', '');
+			}
+		}
+		
+		// 버튼색깔바뀐
+		let eleClass = $(this).attr('class').split('-');
+		let btnType = eleClass[2];
+		$(this).attr('class', 'btn btn-' + btnType);
+		$(this).attr('name', 'clicked');
+		
+	});
+	
 
 	function getCurrentDate() {
 		var date = new Date();
@@ -321,5 +423,20 @@
     	location.href = "${pageContext.request.contextPath }/user/main.do?id=" + id ;
     	
     }
+	
+	// 모달열기
+	function showU() {
+	  $('.background').attr('class', 'background show');
+	}
+	
+	// 모달이 켜졌을때 다른 부분을 누르면 모달이 닫아진다.
+// 	$('div').not('div.popup').on('click', function(){
+// 		closerU();
+// 	});
+
+	//모달닫기
+	function closerU() {
+	  $('.background').attr('class', 'background');
+	}
 </script>
 </html>

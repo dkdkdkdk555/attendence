@@ -52,7 +52,7 @@ public class UserController {
 	@RequestMapping(value = "/user/updateRecentAttend.do", method = {RequestMethod.POST})
 	@ResponseBody
 	public String updateRecentAttend(@ModelAttribute("dto") AttendHistDto parameter){
-		
+				
 		String result = "";
 		
 		// 출석유형에 따른 분기

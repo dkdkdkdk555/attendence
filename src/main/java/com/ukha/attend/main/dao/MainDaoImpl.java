@@ -99,4 +99,9 @@ public class MainDaoImpl implements MainDao{
 	public int updateLastAttend(GPIDto dto) {
 		return session.update("mainDao.updateLastAttend", dto);
 	}
+
+	@Override
+	public int insertNewPeople(GPIDto dto) {
+		return session.insert("mainDao.insertNewPeople", dto);
+	}
 }

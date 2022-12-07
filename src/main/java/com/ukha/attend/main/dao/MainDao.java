@@ -33,4 +33,6 @@ public interface MainDao {
 	public int insertAttendHist(AttendHistDto dto);
 	//출석페이지 - 최근출석일 업데이트
 	public int updateLastAttend(GPIDto dto);
+	//메인페이지 - 재적 등록
+	public int insertNewPeople(GPIDto dto);
 }

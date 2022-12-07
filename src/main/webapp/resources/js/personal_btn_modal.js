@@ -1,9 +1,9 @@
 // 모달열기
 function showP() {
-  $('.background').attr('class', 'background show');
+  $('.backgroundP').attr('class', 'backgroundP show');
 }
 
 //모달닫기
 function closerP() {
-  $('.background').attr('class', 'background');
+  $('.backgroundP').attr('class', 'backgroundP');
 }

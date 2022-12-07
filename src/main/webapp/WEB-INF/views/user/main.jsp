@@ -130,6 +130,37 @@
 	#right_move{
 		padding-left:5px;
 	}
+	
+	/* 재적등록 div */
+	.add_people{
+		display: flex;
+		background-color: #FFFFFF;
+		margin-top: 2%;
+		align-items: center;
+	}
+	
+	.add_people img{
+		width: 60px;
+		height: 60px;
+		margin:1% 2%;
+	}
+	
+	.add_people p{
+		margin: 0px;
+		/* font-weight: bold; */	
+	}
+	
+	/* 재적등록form div */
+	.peopleInsertForm{
+		display: none;
+		flex-direction: column;
+		width: 96%;
+		margin-top: 1%;
+		background-color: #FFFFFF;
+		border-radius: 25px;
+		padding: 25px;
+	}
+	
 		
 </style>
 </head>
@@ -141,6 +172,7 @@
 	<input type="hidden" value="${gpiDto.sell_name }" id="user_sell"  />
 	<input type="hidden" value="${gpiDto.volun_part_sell }" id="user_volun_sell"  />
 	<input type="hidden" value="${gpiDto.id }" id="user_id"  />
+	<input type="hidden" value="${churchDto.church_code }" id="church_code" />
 		
 	<!-- 셀리스트 -->
 	<c:if test="${not empty sellList }">
@@ -195,6 +227,35 @@
 		   		<i class="material-icons" id="right_move" onclick="javascript:rightScroll();">keyboard_arrow_right</i>
 		   	</div>
 		</div>
+	</div>
+	<div class="add_people"> <!-- 재적 등록 버튼 잇는곳 -->
+		<img src="../../resources/svg/add.png" onclick="javascript:showUserInsertDiv();" alt="" />
+		<p>재적 등록</p>
+	</div>
+	<div class="peopleInsertForm"><!-- 재적 등록 form -->
+		<!-- 이름* -->
+		<div>
+			<label for="name_input" class="form-label">이름</label>
+			<input type="text" id="name_input" />
+		</div>
+		<!-- 생년월일* -->
+		<div>	
+			<label for="birthDay_input" class="form-label">생년월일</label>
+			<input type="date" id="birthDay_input"/>
+		</div>
+		<!-- 소속될 셀 -->
+		<div>
+			<label for="sell_name">소속될 셀</label>
+			<select name="" id="">
+				
+			</select>
+		</div>
+		<!-- 연락처 -->
+		<div>
+			<label for="tel_input" class="form-label">연락처</label>
+			<input type="text" id="tel_input"/>
+		</div>
+		<button type="button" id="peopleInsert" class="btn btn-primary">등록</button>
 	</div>
 	
 	<jsp:include page="../include/info_modal.jsp"></jsp:include>
@@ -346,6 +407,71 @@
 	function systemOut(){
 		webkit.messageHandlers.callbackHandler.postMessage("MessageBody");
 	}
+		
+	function showUserInsertDiv(){
+	// 재적등록폼 보이기
+
+		let isAllow = false;
+		
+		// 권한검증
+		let login_user_auth = $('#user_authority').val();
+				
+		// 00(임원)이거나  01(셀장)이면서 자신의 셀일 경우 
+		if(login_user_auth == '00'){
+			isAllow = true;
+		} else { // 권한이 없는 경우
+			show('권한이 없습니다.');
+		}
+		
+		if(isAllow){
+			// 보이는 상태 -> 감추기, 감춰진 상태 -> 보이기
+			let attr = $('.peopleInsertForm').css('display');
+			
+			if(attr == 'none'){
+				$('.peopleInsertForm').css('display', 'flex');
+			} else if(attr == 'flex'){
+				$('.peopleInsertForm').css('display', 'none');
+			}	
+		} else {
+			
+		}
+	}
+	
+	// 재적등록 확인
+	$('#peopleInsert').on('click',function(){
+		// 이름, 생년월일 필수값 입력 여부 확인
+		let name = $('#name_input').val();
+		let birthDay = $('#birthDay_input').val();
+		let partName = $('#belong_part').val();
+		let churchCode = $('#church_code').val();
+		
+		if(name == '' || birthday == ''){
+			show('이름과 생년월일을 입력하여 주십시오.');
+			return;
+		}
+		
+		// TODO:기존에 존재하는 재적인원인지 검증하고 알려주는 로
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath }/main/insertPeople.do",
+			method:"POST",
+			data:{
+				church_code : churchCode,
+				part_name : partName,
+				god_people_name : name,
+				birthday : birthDay,
+				sell_name : sellName
+			},
+			success:function(response){
+				
+			}
+		});
+		
+	});
+	
+	
+	
+	
 	
 </script>
 </html>

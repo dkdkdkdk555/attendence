@@ -32,4 +32,6 @@ public interface MainService {
 	public int insertAttendHist(List<AttendHistDto> list);
 	//출석페이지 - 최근출석일 업데이트 (모든 셀원 일괄)
 	public int updateLastAttend(GPIDto dto);
+	//메인페이지 - 재적등록
+	public String insertNewPeople(GPIDto dto);
 }

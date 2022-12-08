@@ -22,6 +22,7 @@
 	<!-- 교회정보겟 -->
 	<select id="getChurchInfo" resultType="ChurchDto" parameterType="String">
 		SELECT /* 교회정보 셀렉트 */
+		 	CHURCH_CODE,
 			CHURCH_NAME,
 			CHURCH_IMG_PATH,
 			CHURCH_COMMENT
@@ -184,4 +185,31 @@
 			AND PART_NAME = #{part_name}
 			AND SELL_NAME = #{sell_name}
 	</update>
+	
+	<!-- 재적 등록 -->
+	<insert id="insertNewPeople" parameterType="GPIDto">
+		INSERT INTO
+		GOD_PEOPLE_INFO
+			( 
+			 CHURCH_CODE,
+			 PART_NAME, 
+			 GOD_PEOPLE_NAME, 
+			 BIRTHDAY, 
+			 SELL_NAME, 
+			 CELL_NO, 
+			 CREATE_NM, 
+			 CREATE_DATE 
+			 )
+		VALUES
+			( 
+			 #{church_code}, 
+			 #{part_name}, 
+			 #{god_people_name}, 
+			 #{birthday}, 
+			 #{sell_name}, 
+			 #{cell_no}, 
+			 #{create_nm}, 
+			 SYSDATE()
+			 )
+	</insert>
 </mapper>

@@ -130,4 +130,12 @@ public class MainController { // 메인화면(출석부목록화면) 및 출석�
 		
 		return n;
 	}
+	
+	// 재적 등록 
+	@RequestMapping(value = "/main/insertPeople.do", method = {RequestMethod.POST})
+	@ResponseBody
+	public String insertNewPeople(@ModelAttribute("dto") GPIDto dto){ 
+		
+		return mainService.insertNewPeople(dto);
+	}
 }

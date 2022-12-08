@@ -119,4 +119,21 @@ public class MainServiceImpl implements MainService {
 		
 		return result;
 	}
+
+	@Override
+	public String insertNewPeople(GPIDto dto) {
+		String result = "";
+
+		int n = maindao.insertNewPeople(dto);
+		
+		if(n > 0){
+			result = "SUCCESS"; 
+		} else {
+			result = "FAIL";
+		}
+		
+		System.out.println(result);
+		
+		return result;
+	}
 }

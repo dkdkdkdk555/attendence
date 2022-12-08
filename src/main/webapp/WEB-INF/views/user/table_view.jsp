@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/table_view.css">
 <title>table_view.do</title>
 </head>
-<body>	
+<body oncontextmenu='return false' onselectstart='return false' ondragstart='return false'>	
 	<div class="main_header">
 		<i class="material-icons" id="back_btn" onclick="javascript:goToMain();">arrow_back_ios</i>
 		<h5 id="main_text">셀 관리</h5>
@@ -85,12 +85,12 @@
 		  <c:forEach var="name" items="${nameList }">
 		  	<tr id="${name.god_people_name }" name="${name.birthday }">
 		      <th scope="row">${name.god_people_name }</th>
-		      <td id="${name.god_people_name }_1" onmousedown="updateAttend(this.id);"></td>
-		      <td id="${name.god_people_name }_2" onmousedown="updateAttend(this.id);"></td>
-		      <td id="${name.god_people_name }_3" onmousedown="updateAttend(this.id);"></td>
-		      <td id="${name.god_people_name }_4" onmousedown="updateAttend(this.id);"></td>
-		      <td id="${name.god_people_name }_5" onmousedown="updateAttend(this.id);"></td>
-		      <td style="display:none" id="${name.god_people_name }_6" onmousedown="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_1" ondblclick="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_2" ondblclick="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_3" ondblclick="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_4" ondblclick="updateAttend(this.id);"></td>
+		      <td id="${name.god_people_name }_5" ondblclick="updateAttend(this.id);"></td>
+		      <td style="display:none" id="${name.god_people_name }_6" ondblclick="updateAttend(this.id);"></td>
 		    </tr>
 		  </c:forEach>
 		  </tbody>
@@ -313,14 +313,14 @@
 	*/
 	function updateAttend(obj){
 		
-		let clicktime = 0;
-		let curr = Date.now();
+// 		let clicktime = 0;
+// 		let curr = Date.now();
 				
-		$('#' + obj).mouseup(function(){
-			clicktime = Date.now() - curr;
-			console.log('클릭시간 : ' + clicktime);
+// 		$('#' + obj).mouseup(function(){
+// 			clicktime = Date.now() - curr;
+// 			console.log('클릭시간 : ' + clicktime);
 			
-			if(Number(clicktime) > 1500){
+// 			if(Number(clicktime) > 1500){
 				// 출석일 및 출석대상자 이름 얻어내기
 				let nameAndDay = obj.split('_');
 				let updateDate = $('#' + nameAndDay[1]).text();
@@ -331,7 +331,9 @@
 				$('#submit').on('click',function(){
 					// 출석여부 버튼 눌렀는지 검사
 					let choicebtn = $('.buttons').children('button[name=clicked]').attr('class');
+					
 					if(choicebtn == undefined){ // 아무것도 선택하지 않았을시
+						console.log('여기야?');
 						return;
 					}			
 					
@@ -340,6 +342,19 @@
 					
 					let worshipDate = $('select[name=year] option:selected').val() + '-' + monthAndDay[0] + '-' + monthAndDay[1];
 					let birthday = $('#' + nameAndDay[0]).attr('name');
+					
+					let sdata = {
+						recent_attend_value : 'secondary',
+						attend_value : btnType[1],
+						church_code : churchCode,
+						part_name : partName,
+						sell_name : sellName,
+						worship_date : worshipDate,
+						god_people_name : nameAndDay[0],
+						god_people_birthday : birthday
+					};
+					
+					console.log(sdata);
 					
 					// 수정하기
 					$.ajax({
@@ -372,8 +387,8 @@
 					
 				});
 					
-			}
-		});
+// 			}
+// 		});
 	}
 	
 	// 누르면 누른버튼 확정표시

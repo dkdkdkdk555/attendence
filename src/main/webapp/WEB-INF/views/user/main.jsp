@@ -7,162 +7,8 @@
 <link rel="stylesheet" href="../../resources/css/carousel.css"/>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/main.css">
 <title>main.do</title>
-<style>
-	html, body{
-		background-color: #F0F5F5; 		
-		font-family: 'Spoqa Han Sans Neo', 'sans-serif';	
-		overflow-x: hidden;
-		overflow-y: auto;
-	}
-	
-	/* 드래그시 영역선택되는거 색 안보이게*/
-	::selection {
-
-		color:none;
-		background:none;
-		
-	}
-	
-	
-	/* 헤더 */
-	.main_header{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: #FFFFFF;
-		height: 8%;
-		display:sticy;
-	}
-	
-	#main_text{
-		position:absolute;
-		flex-grow:1;
-		text-align:center;
-		margin-top:auto;
-		margin-bottom:auto;	
-
-	}
-	
-	#personal_btn{
-		position:absolute;
-		right:5%;
-		font-size:30px;
-		color: #808080;
-		
-	}
-	
-	/* 교회정보 div */
-	.church_info{
-		display: flex;
-		background-color: #FFFFFF;
-		margin-top: 2%;
-		align-items: center;
-	}
-	
-	.church_info img{
-		width:90px;
-		height: 90px;
-		margin:4% 4%;
-	}
-	
-	#church_comment{
-		margin-top: 4%;
-		margin-left: 10px;
-	}
-	
-	/* 출석부 목록 */
-	
-	.part_info{
-		display:flex;
-		background-color: #FFFFFF;
-		margin-top: 2%;
-		flex-direction: column;
-	}
-	
-	.part_nav{
-		display:flex;
-		width: 100%;
-		height: 40px;
-		overflow-x:auto; /*기본 스크롤 상태*/
-		padding-left:0px;
-		padding-right:0px;
-/* 		border-bottom: 5.5px solid #e6e6e6; */
-		background-color:white;
-		margin-color:white;
-		text-align:center;
-		
-	}
-
-	.part_nav::-webkit-scrollbar{ /*스크롤 기능은 유지하면서 스크를바는 없애기*/
-		display:none;
-	}
-	
-	/*각각의 카테고리 메뉴 */
-	.part_li{
-		display:inline-block;
-		flex-grow:1;
-		list-style:none;
-		margin:5 auto 0 auto;
-		
-	}
-	
-	.sellList{
-		background-color: #FFFFFF;
-		display:flex;
-		flex-direction:column;
-		
-	}
-	
-	.listMoveBtn{
-		background-color: #FFFFFF;
-		display:flex;
-		flex-direction:row;
-		justify-content:space-around;
-		padding-bottom:3px;
-		border-top:2px solid #F0F5F5;
-	}
-	
-	#left_move{
-		padding-right:5px;
-	}
-
-	#right_move{
-		padding-left:5px;
-	}
-	
-	/* 재적등록 div */
-	.add_people{
-		display: flex;
-		background-color: #FFFFFF;
-		margin-top: 2%;
-		align-items: center;
-	}
-	
-	.add_people img{
-		width: 60px;
-		height: 60px;
-		margin:1% 2%;
-	}
-	
-	.add_people p{
-		margin: 0px;
-		/* font-weight: bold; */	
-	}
-	
-	/* 재적등록form div */
-	.peopleInsertForm{
-		display: none;
-		flex-direction: column;
-		width: 96%;
-		margin-top: 1%;
-		background-color: #FFFFFF;
-		border-radius: 25px;
-		padding: 25px;
-	}
-	
-		
-</style>
 </head>
 <body>
 	
@@ -244,12 +90,16 @@
 			<input type="date" id="birthDay_input"/>
 		</div>
 		<!-- 소속될 셀 -->
-		<div>
-			<label for="sell_name">소속될 셀</label>
-			<select name="" id="">
-				
-			</select>
-		</div>
+		<c:if test="${not empty sellList }">
+			<div>
+				<label for="sell_name" class="form-label">소속될 셀</label>			
+				<select name="" id="selectSell">
+					<c:forEach items="${sellList }" varStatus="status" var="tmp">
+						<option value="${tmp.sell_name }">${tmp.sell_name }</option>
+					</c:forEach>
+				</select>
+			</div>
+		</c:if>
 		<!-- 연락처 -->
 		<div>
 			<label for="tel_input" class="form-label">연락처</label>
@@ -408,8 +258,8 @@
 		webkit.messageHandlers.callbackHandler.postMessage("MessageBody");
 	}
 		
-	function showUserInsertDiv(){
 	// 재적등록폼 보이기
+	function showUserInsertDiv(){
 
 		let isAllow = false;
 		
@@ -442,10 +292,13 @@
 		// 이름, 생년월일 필수값 입력 여부 확인
 		let name = $('#name_input').val();
 		let birthDay = $('#birthDay_input').val();
-		let partName = $('#belong_part').val();
+		let partName = $('#belong_part').text();
 		let churchCode = $('#church_code').val();
+		let sellName = $('#selectSell').val();
+		let telno = $('#tel_input').val();
+		let createName = $('#user_name').val();
 		
-		if(name == '' || birthday == ''){
+		if(name == '' || birthDay == ''){
 			show('이름과 생년월일을 입력하여 주십시오.');
 			return;
 		}
@@ -460,10 +313,16 @@
 				part_name : partName,
 				god_people_name : name,
 				birthday : birthDay,
-				sell_name : sellName
+				sell_name : sellName,
+				cell_no : telno,
+				create_nm : createName
 			},
 			success:function(response){
-				
+				if(response == 'SUCCESS'){
+					show('재적 등록을 \n 완료하였습니다.');
+				} else {
+					show('실패하였습니다. \n 관리자에게 문의하시길 바랍니다.');
+				}
 			}
 		});
 		

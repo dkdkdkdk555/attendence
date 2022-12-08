@@ -189,9 +189,27 @@
 	<!-- 재적 등록 -->
 	<insert id="insertNewPeople" parameterType="GPIDto">
 		INSERT INTO
-			GOD_PEOPLE_INFO
-		( CHURCH_CODE, PART_NAME, GOD_PEOPLE_NAME, BIRTHDAY, SELL_NAME, CELL_NO )
+		GOD_PEOPLE_INFO
+			( 
+			 CHURCH_CODE,
+			 PART_NAME, 
+			 GOD_PEOPLE_NAME, 
+			 BIRTHDAY, 
+			 SELL_NAME, 
+			 CELL_NO, 
+			 CREATE_NM, 
+			 CREATE_DATE 
+			 )
 		VALUES
-		( #{church_code}, #{part_name}, #{god_people_name}, #{birthday}, #{sell_name}, #{cell_no} )
+			( 
+			 #{church_code}, 
+			 #{part_name}, 
+			 #{god_people_name}, 
+			 #{birthday}, 
+			 #{sell_name}, 
+			 #{cell_no}, 
+			 #{create_nm}, 
+			 SYSDATE()
+			 )
 	</insert>
 </mapper>

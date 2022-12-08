@@ -1,0 +1,156 @@
+@charset "UTF-8";
+	html, body{
+		background-color: #F0F5F5; 		
+		font-family: 'Spoqa Han Sans Neo', 'sans-serif';	
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+	
+	/* 드래그시 영역선택되는거 색 안보이게*/
+	::selection {
+
+		color:none;
+		background:none;
+		
+	}
+	
+	
+	/* 헤더 */
+	.main_header{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #FFFFFF;
+		height: 8%;
+		display:sticy;
+	}
+	
+	#main_text{
+		position:absolute;
+		flex-grow:1;
+		text-align:center;
+		margin-top:auto;
+		margin-bottom:auto;	
+
+	}
+	
+	#personal_btn{
+		position:absolute;
+		right:5%;
+		font-size:30px;
+		color: #808080;
+		
+	}
+	
+	/* 교회정보 div */
+	.church_info{
+		display: flex;
+		background-color: #FFFFFF;
+		margin-top: 2%;
+		align-items: center;
+	}
+	
+	.church_info img{
+		width:90px;
+		height: 90px;
+		margin:4% 4%;
+	}
+	
+	#church_comment{
+		margin-top: 4%;
+		margin-left: 10px;
+	}
+	
+	/* 출석부 목록 */
+	
+	.part_info{
+		display:flex;
+		background-color: #FFFFFF;
+		margin-top: 2%;
+		flex-direction: column;
+	}
+	
+	.part_nav{
+		display:flex;
+		width: 100%;
+		height: 40px;
+		overflow-x:auto; /*기본 스크롤 상태*/
+		padding-left:0px;
+		padding-right:0px;
+/* 		border-bottom: 5.5px solid #e6e6e6; */
+		background-color:white;
+		margin-color:white;
+		text-align:center;
+		
+	}
+
+	.part_nav::-webkit-scrollbar{ /*스크롤 기능은 유지하면서 스크를바는 없애기*/
+		display:none;
+	}
+	
+	/*각각의 카테고리 메뉴 */
+	.part_li{
+		display:inline-block;
+		flex-grow:1;
+		list-style:none;
+		margin:5 auto 0 auto;
+		
+	}
+	
+	.sellList{
+		background-color: #FFFFFF;
+		display:flex;
+		flex-direction:column;
+		
+	}
+	
+	.listMoveBtn{
+		background-color: #FFFFFF;
+		display:flex;
+		flex-direction:row;
+		justify-content:space-around;
+		padding-bottom:3px;
+		border-top:2px solid #F0F5F5;
+	}
+	
+	#left_move{
+		padding-right:5px;
+	}
+
+	#right_move{
+		padding-left:5px;
+	}
+	
+	/* 재적등록 div */
+	.add_people{
+		display: flex;
+		background-color: #FFFFFF;
+		margin-top: 2%;
+		align-items: center;
+	}
+	
+	.add_people img{
+		width: 60px;
+		height: 60px;
+		margin:1% 2%;
+	}
+	
+	.add_people p{
+		margin: 0px;
+		/* font-weight: bold; */	
+	}
+	
+	/* 재적등록form div */
+	.peopleInsertForm{
+		display: none;
+		flex-direction: column;
+		width: 96%;
+		margin-top: 1%;
+		background-color: #FFFFFF;
+		border-radius: 25px;
+		padding: 25px;
+	}
+	
+	
+	
+	

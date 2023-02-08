@@ -313,82 +313,70 @@
 	*/
 	function updateAttend(obj){
 		
-// 		let clicktime = 0;
-// 		let curr = Date.now();
-				
-// 		$('#' + obj).mouseup(function(){
-// 			clicktime = Date.now() - curr;
-// 			console.log('클릭시간 : ' + clicktime);
+		let nameAndDay = obj.split('_');
+		let updateDate = $('#' + nameAndDay[1]).text();
+		// 모달창 띄우기 
+		$('#messageU').text('' + nameAndDay[0] + '의 ' + updateDate + ' 출석을 수정합니다.');
+		showU();
+		// 수정하기 버튼 클릭시
+		$('#submit').on('click',function(){
+			// 출석여부 버튼 눌렀는지 검사
+			let choicebtn = $('.buttons').children('button[name=clicked]').attr('class');
 			
-// 			if(Number(clicktime) > 1500){
-				// 출석일 및 출석대상자 이름 얻어내기
-				let nameAndDay = obj.split('_');
-				let updateDate = $('#' + nameAndDay[1]).text();
-				// 모달창 띄우기 
-				$('#messageU').text('' + nameAndDay[0] + '의 ' + updateDate + ' 출석을 수정합니다.');
-				showU();
-				// 수정하기 버튼 클릭시
-				$('#submit').on('click',function(){
-					// 출석여부 버튼 눌렀는지 검사
-					let choicebtn = $('.buttons').children('button[name=clicked]').attr('class');
-					
-					if(choicebtn == undefined){ // 아무것도 선택하지 않았을시
-						console.log('여기야?');
-						return;
-					}			
-					
-					let btnType = choicebtn.split('-');
-					let monthAndDay = updateDate.split('.');
-					
-					let worshipDate = $('select[name=year] option:selected').val() + '-' + monthAndDay[0] + '-' + monthAndDay[1];
-					let birthday = $('#' + nameAndDay[0]).attr('name');
-					
-					let sdata = {
-						recent_attend_value : 'secondary',
-						attend_value : btnType[1],
-						church_code : churchCode,
-						part_name : partName,
-						sell_name : sellName,
-						worship_date : worshipDate,
-						god_people_name : nameAndDay[0],
-						god_people_birthday : birthday
-					};
-					
-					console.log(sdata);
-					
-					// 수정하기
-					$.ajax({
-						url:"${pageContext.request.contextPath }/user/updateRecentAttend.do",
-						method:"POST",
-						data : {
-							recent_attend_value : 'secondary',
-							attend_value : btnType[1],
-							church_code : churchCode,
-							part_name : partName,
-							sell_name : sellName,
-							worship_date : worshipDate,
-							god_people_name : nameAndDay[0],
-							god_people_birthday : birthday
-						},
-						success:function(response) {
-							switch(response){
-								case "SUCCESS":
-			 						window.location.reload();
-									break;
-								case "FAIL":
-									show('출석 수정에 실패하였습니다. 다시 시도하여 주세요.');
-									break;
-								case "ERROR":
-									show('시스템 오류입니다. 관리자에게 문의하세요.');
-									break;
-							}
-						}
-					});
-					
-				});
-					
-// 			}
-// 		});
+			if(choicebtn == undefined){ // 아무것도 선택하지 않았을시
+				console.log('여기야?');
+				return;
+			}			
+			
+			let btnType = choicebtn.split('-');
+			let monthAndDay = updateDate.split('.');
+			
+			let worshipDate = $('select[name=year] option:selected').val() + '-' + monthAndDay[0] + '-' + monthAndDay[1];
+			let birthday = $('#' + nameAndDay[0]).attr('name');
+			
+			let sdata = {
+				recent_attend_value : 'secondary',
+				attend_value : btnType[1],
+				church_code : churchCode,
+				part_name : partName,
+				sell_name : sellName,
+				worship_date : worshipDate,
+				god_people_name : nameAndDay[0],
+				god_people_birthday : birthday
+			};
+			
+			console.log(sdata);
+			
+			// 수정하기
+			$.ajax({
+				url:"${pageContext.request.contextPath }/user/updateRecentAttend.do",
+				method:"POST",
+				data : {
+					recent_attend_value : 'secondary',
+					attend_value : btnType[1],
+					church_code : churchCode,
+					part_name : partName,
+					sell_name : sellName,
+					worship_date : worshipDate,
+					god_people_name : nameAndDay[0],
+					god_people_birthday : birthday
+				},
+				success:function(response) {
+					switch(response){
+						case "SUCCESS":
+	 						window.location.reload();
+							break;
+						case "FAIL":
+							show('출석 수정에 실패하였습니다. 다시 시도하여 주세요.');
+							break;
+						case "ERROR":
+							show('시스템 오류입니다. 관리자에게 문의하세요.');
+							break;
+					}
+				}
+			});
+			
+		});
 	}
 	
 	// 누르면 누른버튼 확정표시
